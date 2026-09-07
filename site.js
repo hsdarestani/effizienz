@@ -8,6 +8,21 @@ nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classL
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.faq-item')?.classList.toggle('open')));
 document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()));
+const footerLinks=document.querySelector('.footer-links');
+if(footerLinks){
+  const additions=[
+    ['tel:+491622150164','0162 / 2150164'],
+    ['mailto:info@es-effizienz.de','E-Mail'],
+    ['https://www.instagram.com/es_effizienz_services/','Instagram']
+  ];
+  additions.forEach(([href,label])=>{
+    if(!footerLinks.querySelector(`a[href="${href}"]`)){
+      const a=document.createElement('a');a.href=href;a.textContent=label;
+      if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+      footerLinks.prepend(a);
+    }
+  });
+}
 const form=document.querySelector('#contactForm');
 form?.addEventListener('submit',e=>{
   e.preventDefault();
