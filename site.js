@@ -1,6 +1,6 @@
 const ensureCss=(href,id)=>{if(!document.getElementById(id)){const l=document.createElement('link');l.id=id;l.rel='stylesheet';l.href=href;document.head.appendChild(l)}};
 ensureCss('/editorial.css?v=20260907e','editorial-css');
-ensureCss('/signature.css?v=20260907c','signature-css');
+ensureCss('/signature.css?v=20260907d','signature-css');
 ensureCss('/velocity.css?v=20260907a','velocity-css');
 
 const path=location.pathname.replace(/^\/+|\/+$/g,'');
