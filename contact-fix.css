@@ -1,0 +1,210 @@
+/* ES Effizienz Services — contact page contrast & layout fix */
+
+html body[data-page="kontakt"] main section.content{
+  padding-top:clamp(64px,6vw,96px)!important;
+  padding-bottom:clamp(72px,7vw,112px)!important;
+}
+
+html body[data-page="kontakt"] .contact-layout{
+  display:grid!important;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;
+  gap:0!important;
+  align-items:stretch!important;
+  border-top:1px solid var(--v-rule,rgba(10,16,17,.16))!important;
+  border-bottom:1px solid var(--v-rule,rgba(10,16,17,.16))!important;
+  background:#f0ebe3!important;
+}
+
+/* Dark editorial information panel — fixes white-on-cream regression */
+html body[data-page="kontakt"] .contact-layout .contact-panel{
+  position:relative!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  min-height:640px!important;
+  padding:clamp(42px,5vw,76px)!important;
+  background:linear-gradient(145deg,#0b1112 0%,#111a1c 100%)!important;
+  color:#fff!important;
+  border:0!important;
+  border-right:1px solid rgba(255,255,255,.12)!important;
+}
+html body[data-page="kontakt"] .contact-layout .contact-panel:after{
+  content:"ES";
+  position:absolute;
+  right:-.08em;
+  top:-.08em;
+  font-size:clamp(10rem,18vw,18rem);
+  line-height:.8;
+  font-weight:700;
+  letter-spacing:-.12em;
+  color:rgba(255,255,255,.028);
+  pointer-events:none;
+}
+html body[data-page="kontakt"] .contact-panel .eyebrow{
+  color:#c6a88f!important;
+}
+html body[data-page="kontakt"] .contact-panel h2{
+  position:relative!important;
+  z-index:1!important;
+  margin:14px 0 22px!important;
+  color:#fff!important;
+  font-size:clamp(3.4rem,5vw,5.7rem)!important;
+  line-height:.88!important;
+  letter-spacing:-.06em!important;
+  font-weight:500!important;
+}
+html body[data-page="kontakt"] .contact-panel h2 .serif{
+  color:#d2b39e!important;
+}
+html body[data-page="kontakt"] .contact-panel p{
+  position:relative!important;
+  z-index:1!important;
+  max-width:520px!important;
+  color:#c6cecf!important;
+  font-size:.96rem!important;
+  line-height:1.68!important;
+}
+html body[data-page="kontakt"] .contact-methods{
+  position:relative!important;
+  z-index:1!important;
+  margin-top:46px!important;
+  border-top:1px solid rgba(255,255,255,.15)!important;
+}
+html body[data-page="kontakt"] .contact-method{
+  display:grid!important;
+  grid-template-columns:minmax(110px,.72fr) minmax(0,1.28fr)!important;
+  gap:22px!important;
+  align-items:start!important;
+  padding:16px 0!important;
+  border-bottom:1px solid rgba(255,255,255,.14)!important;
+}
+html body[data-page="kontakt"] .contact-method span{
+  color:#91a0a2!important;
+  font-size:.76rem!important;
+}
+html body[data-page="kontakt"] .contact-method strong,
+html body[data-page="kontakt"] .contact-method strong a{
+  color:#fff!important;
+  font-size:.82rem!important;
+  font-weight:500!important;
+  text-align:right!important;
+}
+html body[data-page="kontakt"] .contact-method a:hover{
+  color:#d2b39e!important;
+}
+
+/* Form side */
+html body[data-page="kontakt"] .contact-layout .contact-form{
+  min-height:640px!important;
+  padding:clamp(42px,5vw,76px)!important;
+  background:#f4f0e9!important;
+  color:#111819!important;
+  border:0!important;
+}
+html body[data-page="kontakt"] .contact-form h3{
+  margin:0 0 34px!important;
+  color:#111819!important;
+  font-size:1.25rem!important;
+  letter-spacing:-.02em!important;
+}
+html body[data-page="kontakt"] .form-grid{
+  gap:24px 18px!important;
+}
+html body[data-page="kontakt"] .field label{
+  color:#5d6769!important;
+  font-size:.62rem!important;
+  letter-spacing:.16em!important;
+  text-transform:uppercase!important;
+}
+html body[data-page="kontakt"] .field input,
+html body[data-page="kontakt"] .field textarea,
+html body[data-page="kontakt"] .field select{
+  color:#111819!important;
+  background:transparent!important;
+  border:0!important;
+  border-bottom:1px solid rgba(17,24,25,.22)!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html body[data-page="kontakt"] .field input:focus,
+html body[data-page="kontakt"] .field textarea:focus,
+html body[data-page="kontakt"] .field select:focus{
+  border-bottom-color:#9b6c4f!important;
+  outline:none!important;
+}
+html body[data-page="kontakt"] .field textarea{
+  min-height:130px!important;
+}
+html body[data-page="kontakt"] .field textarea::placeholder{
+  color:#70797a!important;
+  opacity:1!important;
+}
+html body[data-page="kontakt"] .form-bottom{
+  gap:28px!important;
+  align-items:end!important;
+  margin-top:28px!important;
+}
+html body[data-page="kontakt"] .form-note{
+  color:#5b6567!important;
+  line-height:1.55!important;
+}
+html body[data-page="kontakt"] .contact-form .btn.dark{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:180px!important;
+  min-height:50px!important;
+  padding:0 22px!important;
+  background:#0b1112!important;
+  border-color:#0b1112!important;
+  color:#fff!important;
+}
+html body[data-page="kontakt"] .contact-form .btn.dark:hover{
+  background:#9b6c4f!important;
+  border-color:#9b6c4f!important;
+}
+
+@media(max-width:900px){
+  html body[data-page="kontakt"] .contact-layout{
+    grid-template-columns:1fr!important;
+  }
+  html body[data-page="kontakt"] .contact-layout .contact-panel,
+  html body[data-page="kontakt"] .contact-layout .contact-form{
+    min-height:auto!important;
+  }
+  html body[data-page="kontakt"] .contact-layout .contact-panel{
+    border-right:0!important;
+    border-bottom:1px solid rgba(255,255,255,.12)!important;
+  }
+}
+
+@media(max-width:600px){
+  html body[data-page="kontakt"] main section.content{
+    padding-top:54px!important;
+    padding-bottom:76px!important;
+  }
+  html body[data-page="kontakt"] .contact-layout .contact-panel,
+  html body[data-page="kontakt"] .contact-layout .contact-form{
+    padding:34px 18px!important;
+  }
+  html body[data-page="kontakt"] .contact-panel h2{
+    font-size:clamp(3rem,14vw,4.4rem)!important;
+  }
+  html body[data-page="kontakt"] .contact-method{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  html body[data-page="kontakt"] .contact-method strong,
+  html body[data-page="kontakt"] .contact-method strong a{
+    text-align:left!important;
+  }
+  html body[data-page="kontakt"] .form-bottom{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:18px!important;
+  }
+  html body[data-page="kontakt"] .contact-form .btn.dark{
+    width:100%!important;
+  }
+}
