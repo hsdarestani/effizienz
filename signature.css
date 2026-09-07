@@ -1,5 +1,6 @@
 @import url('/signature-base.css?v=20260907a');
 @import url('/precision.css?v=20260907a');
+@import url('/hero-fix.css?v=20260907a');
 
 /* Use the original client-supplied high-resolution image instead of the compressed preview. */
 .detail-story__media{
