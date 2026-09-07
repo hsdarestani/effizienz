@@ -1,0 +1,192 @@
+/* ES Effizienz Services — cross-page hero / spacing hotfix */
+
+/* Header CTA: true visual centering */
+html body header .nav nav a.nav-cta{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  line-height:1!important;
+  min-height:50px!important;
+  height:50px!important;
+  padding:0 22px!important;
+}
+
+@media (min-width:1001px){
+  /* Dense first screen: no hidden copy, no giant blank image field */
+  html body main .page-hero .hero-shell{
+    min-height:clamp(620px,72svh,720px)!important;
+    grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr)!important;
+  }
+  html body main .page-hero .hero-copy{
+    justify-content:center!important;
+    overflow:visible!important;
+    padding-top:54px!important;
+    padding-bottom:54px!important;
+  }
+  html body main .page-hero .hero-copy h1{
+    font-size:clamp(3.65rem,5.05vw,6.25rem)!important;
+    line-height:.9!important;
+    max-width:760px!important;
+  }
+  html body main .page-hero .hero-copy>p{
+    margin-top:20px!important;
+    max-width:610px!important;
+  }
+  html body main .page-hero .hero-actions{margin-top:24px!important}
+  html body main .page-hero .hero-aside{
+    min-height:clamp(620px,72svh,720px)!important;
+    position:relative!important;
+    overflow:hidden!important;
+  }
+
+  /* Critical fix: keep the black information card fully inside the image. */
+  html body main .page-hero .hero-aside .info-card.floating-spec{
+    position:absolute!important;
+    top:auto!important;
+    right:auto!important;
+    bottom:28px!important;
+    left:28px!important;
+    width:min(360px,calc(100% - 56px))!important;
+    max-width:360px!important;
+    min-width:0!important;
+    height:auto!important;
+    max-height:calc(100% - 56px)!important;
+    margin:0!important;
+    padding:18px 20px!important;
+    transform:none!important;
+    translate:none!important;
+    clip-path:none!important;
+    overflow:auto!important;
+    box-sizing:border-box!important;
+    z-index:8!important;
+  }
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list,
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list span,
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list b,
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list em{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list span{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:12px!important;
+  }
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list b,
+  html body main .page-hero .hero-aside .info-card.floating-spec .info-list em{
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+  }
+
+  /* Keep credit away from the black panel. */
+  html body main .page-hero .hero-aside .cinematic-media figcaption{
+    top:16px!important;
+    right:18px!important;
+    bottom:auto!important;
+    left:auto!important;
+    width:auto!important;
+    max-width:58%!important;
+    text-align:right!important;
+  }
+
+  /* Remove the oversized white/black dead fields throughout service pages. */
+  html body main .cards.service-editorial .card,
+  html body main .cards.service-editorial .card:nth-child(even),
+  html body main .cards.service-editorial .service-media,
+  html body main .cards.service-editorial .card:nth-child(even) .service-media{
+    min-height:410px!important;
+  }
+  html body main .cards.service-editorial .card>.service-copy,
+  html body main .cards.service-editorial .card:nth-child(even)>.service-copy{
+    justify-content:center!important;
+    gap:22px!important;
+    padding:clamp(34px,4vw,60px)!important;
+  }
+  html body main .cards.service-editorial .card h3{
+    margin:0!important;
+    font-size:clamp(2.45rem,3.45vw,4.4rem)!important;
+  }
+  html body main .visual-mosaic__grid{min-height:620px!important}
+  html body main .detail-story__grid{min-height:620px!important}
+  html body main .velocity-poster{
+    min-height:480px!important;
+    grid-template-columns:minmax(0,1.04fr) minmax(380px,.96fr)!important;
+  }
+  html body main .velocity-poster__media{min-height:480px!important}
+  html body main .velocity-poster__copy{
+    justify-content:center!important;
+    gap:30px!important;
+    padding:clamp(38px,4.4vw,68px)!important;
+  }
+  html body main .velocity-poster__copy h2{
+    margin-top:10px!important;
+    font-size:clamp(3rem,4.25vw,5.15rem)!important;
+  }
+  html body main .velocity-poster__facts{margin-top:0!important}
+  html body main section.content{padding:clamp(66px,5.6vw,90px) 0!important}
+  html body main .cta-shell{min-height:390px!important}
+}
+
+@media (min-width:681px) and (max-width:1000px){
+  html body main .page-hero .hero-copy{
+    min-height:auto!important;
+    padding:54px var(--v-gutter) 48px!important;
+    justify-content:center!important;
+  }
+  html body main .page-hero .hero-aside{
+    min-height:420px!important;
+    position:relative!important;
+    overflow:hidden!important;
+  }
+  html body main .page-hero .hero-aside .info-card.floating-spec{
+    position:absolute!important;
+    top:auto!important;
+    right:auto!important;
+    bottom:20px!important;
+    left:20px!important;
+    width:min(320px,calc(100% - 40px))!important;
+    max-width:320px!important;
+    margin:0!important;
+    padding:16px 18px!important;
+    transform:none!important;
+    clip-path:none!important;
+    overflow:auto!important;
+    z-index:8!important;
+  }
+  html body main .page-hero .hero-aside .cinematic-media figcaption{
+    top:14px!important;
+    right:16px!important;
+    bottom:auto!important;
+    left:auto!important;
+  }
+  html body main .cards.service-editorial .card,
+  html body main .cards.service-editorial .card:nth-child(even),
+  html body main .cards.service-editorial .service-media,
+  html body main .cards.service-editorial .card:nth-child(even) .service-media{
+    min-height:380px!important;
+  }
+  html body main .visual-mosaic__main{min-height:500px!important}
+  html body main .detail-story__media{min-height:500px!important}
+  html body main .velocity-poster__media{min-height:440px!important}
+}
+
+@media (max-width:680px){
+  html body header .nav nav a.nav-cta{
+    width:100%!important;
+    height:46px!important;
+    min-height:46px!important;
+  }
+  html body main .page-hero .hero-aside .info-card.floating-spec{display:none!important}
+  html body main .page-hero .hero-copy{
+    min-height:76svh!important;
+    padding-top:72px!important;
+    padding-bottom:28px!important;
+  }
+  html body main .cards.service-editorial .service-media,
+  html body main .cards.service-editorial .card:nth-child(even) .service-media{min-height:34svh!important}
+  html body main .visual-mosaic__main{min-height:50svh!important}
+  html body main .visual-mosaic__side figure{min-height:30svh!important}
+  html body main .detail-story__media{min-height:52svh!important}
+  html body main .velocity-poster__media{min-height:42svh!important}
+}
