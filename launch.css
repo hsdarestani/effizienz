@@ -1,0 +1,105 @@
+/* ES Effizienz Services — launch QA layer
+   Mobile-first hardening, touch ergonomics, social actions and final responsive polish. */
+
+:root{--launch-safe-bottom:max(10px,env(safe-area-inset-bottom));}
+
+/* All interactive controls: consistent, centered, accessible */
+a,button,input,select,textarea{-webkit-tap-highlight-color:transparent}
+a.btn,.nav-cta,.velocity-dock a,.social-quick a,button.btn{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  text-align:center!important;line-height:1.1!important;min-height:48px!important;
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid #a97958!important;outline-offset:3px!important;
+}
+
+/* Social action group used globally */
+.social-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.social-quick a{min-height:46px;padding:0 16px;border:1px solid rgba(11,17,18,.18);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;background:rgba(255,255,255,.2)}
+.social-quick a:hover{background:#0b1112;color:#fff;border-color:#0b1112}
+.contact-panel .social-quick a{border-color:rgba(255,255,255,.2);color:#fff;background:rgba(255,255,255,.035)}
+.contact-panel .social-quick a:hover{background:#fff;color:#0b1112}
+
+/* Desktop dock: Call / WhatsApp / Instagram / Anfrage */
+.velocity-dock{right:18px!important;bottom:max(18px,env(safe-area-inset-bottom))!important;max-width:calc(100vw - 36px)!important}
+.velocity-dock a{white-space:nowrap!important}
+.velocity-dock a[data-action="whatsapp"]{background:#1d5f45!important}
+.velocity-dock a[data-action="whatsapp"]:hover{background:#fff!important;color:#0b1112!important}
+.velocity-dock a[data-action="instagram"]{background:#262021!important}
+
+/* Fix long URLs / names everywhere */
+.contact-method strong,.footer-links,.legal,.hero-copy,.service-copy,.velocity-poster__copy{min-width:0!important}
+.contact-method a,.footer-links a,.legal a{overflow-wrap:anywhere!important;word-break:break-word!important}
+img{height:auto}
+
+/* Mobile QA */
+@media(max-width:680px){
+  html,body{max-width:100%;overflow-x:hidden!important}
+  body{padding-bottom:calc(68px + var(--launch-safe-bottom))}
+  header{position:sticky!important;top:0!important}
+  .nav{padding-left:0!important;padding-right:0!important}
+  .brand{min-width:0!important;max-width:calc(100% - 56px)!important}
+  .brand-copy{min-width:0!important}.brand-copy strong{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  nav.open{max-height:calc(100svh - 88px)!important;overflow:auto!important;overscroll-behavior:contain!important}
+  nav a{min-height:48px!important;display:flex!important;align-items:center!important}
+  nav a.nav-cta{justify-content:center!important}
+
+  /* Keep hero copy inside viewport but don't force excessive height */
+  .page-hero .hero-shell{min-height:auto!important}
+  .hero-copy{min-height:72svh!important;padding:78px 18px 34px!important}
+  .hero-copy h1{font-size:clamp(2.85rem,13vw,4.25rem)!important;line-height:.91!important;letter-spacing:-.055em!important;max-width:100%!important}
+  .hero-copy>p{font-size:.93rem!important;line-height:1.58!important}
+  .hero-actions{gap:8px!important}
+  .hero-actions .btn{min-height:50px!important;width:100%!important;white-space:normal!important}
+
+  /* Compact trust bar */
+  .lux-strip__inner{grid-template-columns:1fr 1fr!important}
+  .lux-strip__item{min-height:76px!important;padding:13px!important}
+  .lux-strip__item strong{font-size:.86rem!important;line-height:1.25!important}
+  .lux-strip__item small{font-size:.46rem!important}
+
+  /* Image-led sections without dead space */
+  .cards.service-editorial .service-media,.cards.service-editorial .card:nth-child(even) .service-media{min-height:34svh!important;max-height:420px!important}
+  .cards.service-editorial .service-media img{object-position:center!important}
+  .cards.service-editorial .card>.service-copy,.cards.service-editorial .card:nth-child(even)>.service-copy{min-height:auto!important;padding:24px 18px 30px!important}
+  .cards.service-editorial .card h3{font-size:clamp(2rem,9.4vw,3.15rem)!important;line-height:.94!important}
+  .visual-mosaic__main{min-height:50svh!important}.visual-mosaic__side figure{min-height:30svh!important}
+  .detail-story__media{min-height:52svh!important}.detail-story__copy{padding:38px 18px 42px!important}
+  .velocity-poster__media{min-height:42svh!important}.velocity-poster__copy{padding:36px 18px 42px!important}
+  section.content{padding:58px 0!important}.section-head{margin-bottom:30px!important}
+  .section-head h2{font-size:clamp(2.45rem,11.2vw,3.85rem)!important}
+
+  /* Contact page */
+  body[data-page="kontakt"] .contact-layout{display:block!important}
+  body[data-page="kontakt"] .contact-panel,body[data-page="kontakt"] .contact-form{padding:34px 18px!important}
+  body[data-page="kontakt"] .contact-panel h2{font-size:clamp(2.9rem,13vw,4.4rem)!important;line-height:.9!important}
+  body[data-page="kontakt"] .contact-method{grid-template-columns:88px minmax(0,1fr)!important;gap:14px!important;padding:15px 0!important}
+  body[data-page="kontakt"] .contact-method strong{text-align:right!important;font-size:.82rem!important}
+  body[data-page="kontakt"] .form-grid{grid-template-columns:1fr!important}
+  body[data-page="kontakt"] .form-bottom{display:grid!important;grid-template-columns:1fr!important;gap:18px!important}
+  body[data-page="kontakt"] .form-bottom .btn{width:100%!important}
+
+  /* Bottom action bar: 3 most useful actions on phones */
+  .velocity-dock{left:8px!important;right:8px!important;bottom:var(--launch-safe-bottom)!important;width:auto!important;display:grid!important;grid-template-columns:.8fr 1fr 1.25fr!important;background:rgba(9,13,14,.96)!important}
+  .velocity-dock a{min-width:0!important;padding:0 7px!important;font-size:.5rem!important;letter-spacing:.055em!important;min-height:52px!important;white-space:normal!important;line-height:1.15!important}
+  .velocity-dock a[data-action="instagram"]{display:none!important}
+  footer{padding-bottom:18px!important}
+}
+
+@media(max-width:390px){
+  :root{--v-gutter:15px;--lux-gutter:15px;--gutter:15px}
+  .wrap{width:calc(100% - 30px)!important}
+  .hero-copy{padding-left:15px!important;padding-right:15px!important}
+  .hero-copy h1{font-size:clamp(2.7rem,13.6vw,3.65rem)!important}
+  .lux-strip__item{padding:12px 10px!important}
+  .velocity-dock{left:6px!important;right:6px!important}
+  .velocity-dock a{font-size:.47rem!important;padding-inline:5px!important}
+}
+
+@media(max-width:340px){
+  .brand-copy strong{font-size:.56rem!important}
+  .hero-copy h1{font-size:2.55rem!important}
+  .velocity-dock a{font-size:.44rem!important}
+}
+
+@media(prefers-reduced-motion:reduce){.velocity-ticker__track{animation:none!important}.cinematic-media img,.service-media img{transition:none!important}}
