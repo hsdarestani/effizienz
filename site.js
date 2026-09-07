@@ -1,0 +1,10 @@
+const header=document.querySelector('header');
+const menuBtn=document.querySelector('.menu-btn');
+const nav=document.querySelector('nav');
+window.addEventListener('scroll',()=>header?.classList.toggle('scrolled',window.scrollY>10),{passive:true});
+menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.classList.toggle('open',open);menuBtn.setAttribute('aria-expanded',String(open));});
+nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menuBtn?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false')}));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.faq-item')?.classList.toggle('open')));
+document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()));
+const form=document.querySelector('#contactForm');form?.addEventListener('submit',e=>{e.preventDefault();const status=document.querySelector('#formStatus');if(status)status.textContent='Demo: Formular ist gestaltet. Live-Versand wird mit der finalen E-Mail-Adresse verbunden.';});
