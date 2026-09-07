@@ -1,1 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://effizienz.pages.dev/</loc></url><url><loc>https://effizienz.pages.dev/leistungen/</loc></url><url><loc>https://effizienz.pages.dev/hausmeisterservice/</loc></url><url><loc>https://effizienz.pages.dev/abriss-entruempelung/</loc></url><url><loc>https://effizienz.pages.dev/winterdienst/</loc></url><url><loc>https://effizienz.pages.dev/umzug/</loc></url><url><loc>https://effizienz.pages.dev/ueber-uns/</loc></url><url><loc>https://effizienz.pages.dev/referenzen/</loc></url><url><loc>https://effizienz.pages.dev/faq/</loc></url><url><loc>https://effizienz.pages.dev/kontakt/</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://effizienz.pages.dev/</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://effizienz.pages.dev/leistungen/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://effizienz.pages.dev/hausmeisterservice/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://effizienz.pages.dev/abriss-entruempelung/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://effizienz.pages.dev/winterdienst/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://effizienz.pages.dev/umzug/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://effizienz.pages.dev/garten-landschaftsbau/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://effizienz.pages.dev/ueber-uns/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://effizienz.pages.dev/referenzen/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://effizienz.pages.dev/faq/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://effizienz.pages.dev/kontakt/</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>
