@@ -8,4 +8,24 @@ nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classL
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.faq-item')?.classList.toggle('open')));
 document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()));
-const form=document.querySelector('#contactForm');form?.addEventListener('submit',e=>{e.preventDefault();const status=document.querySelector('#formStatus');if(status)status.textContent='Demo: Formular ist gestaltet. Live-Versand wird mit der finalen E-Mail-Adresse verbunden.';});
+const form=document.querySelector('#contactForm');
+form?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const data=new FormData(form);
+  const get=k=>(data.get(k)||'').toString().trim();
+  const subject=`Projektanfrage – ${get('service')||'Effizienz Services'}`;
+  const body=[
+    `Name: ${get('name')}`,
+    `Firma / Objekt: ${get('company')}`,
+    `E-Mail: ${get('email')}`,
+    `Telefon: ${get('phone')}`,
+    `Leistung: ${get('service')}`,
+    `Ort / PLZ: ${get('location')}`,
+    '',
+    'Nachricht:',
+    get('message')
+  ].join('\n');
+  const status=document.querySelector('#formStatus');
+  if(status) status.textContent='Ihr E-Mail-Programm wird geöffnet. Die Nachricht wird an info@es-effizienz.de vorbereitet.';
+  window.location.href=`mailto:info@es-effizienz.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
