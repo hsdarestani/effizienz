@@ -1,3 +1,4 @@
+const editorialCss=document.createElement('link');editorialCss.rel='stylesheet';editorialCss.href='/editorial.css?v=20260907b';document.head.appendChild(editorialCss);
 const header=document.querySelector('header');
 const menuBtn=document.querySelector('.menu-btn');
 const nav=document.querySelector('nav');
