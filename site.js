@@ -18,6 +18,7 @@ const SITE='https://effizienz.pages.dev';
 
 const IMG={
   signature:'/SAVE_20260907_190136.jpg',
+  frankfurt:'/IMG_6830.JPG',
   architecture:'https://images.unsplash.com/photo-1776655890108-b8b0a8f3b5cf?auto=format&fit=crop&q=88&w=2200',
   property:'https://images.unsplash.com/photo-1759355787286-f1c5fd456a0d?auto=format&fit=crop&q=88&w=2200',
   garden:'https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&q=88&w=2200',
@@ -36,7 +37,7 @@ const SOURCES={
 };
 
 const pageVisual={
-  home:{hero:'architecture',alt:'Modernes Objekt als Symbolbild'},
+  home:{hero:'frankfurt',alt:'Frankfurt Skyline'},
   leistungen:{hero:'property',alt:'Gepflegtes modernes Objekt als Symbolbild'},
   hausmeisterservice:{hero:'property',alt:'Modernes gepflegtes Wohnobjekt als Symbolbild'},
   'abriss-entruempelung':{hero:'renovation',alt:'Innenraum während einer Renovierung als Symbolbild'},
