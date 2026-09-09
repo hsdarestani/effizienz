@@ -6,6 +6,7 @@
 @import url('/mosaic-refresh.css?v=20260909a');
 @import url('/leistungen-compact.css?v=20260909a');
 @import url('/density-fix.css?v=20260909a');
+@import url('/about-refresh.css?v=20260909a');
 
 /* Use the original client-supplied high-resolution image instead of the compressed preview. */
 .detail-story__media{
