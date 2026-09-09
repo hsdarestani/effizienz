@@ -137,6 +137,7 @@ section.content{padding:clamp(78px,7.7vw,124px) 0!important}
 .visual-mosaic__side figure+figure{border-top:1px solid var(--v-rule-dark)!important}
 .visual-mosaic__copy{left:clamp(24px,4.5vw,72px)!important;right:clamp(24px,4.5vw,72px)!important;bottom:clamp(26px,4.5vw,70px)!important;max-width:880px!important}
 .visual-mosaic__copy h2{font-size:clamp(3.6rem,7vw,8rem)!important;line-height:.84!important;letter-spacing:-.065em!important}
+.visual-mosaic__copy h2.long-claim{font-size:clamp(2.55rem,4.8vw,5.6rem)!important;line-height:.92!important;max-width:1080px!important;letter-spacing:-.05em!important}
 .visual-mosaic__copy h2 em{color:var(--v-bronze2)!important}
 .visual-mosaic__label{font-size:.58rem!important;letter-spacing:.18em!important}
 
@@ -200,8 +201,9 @@ input,textarea,select{border-radius:0!important;background:rgba(255,255,255,.32)
 
 /* premium contact dock */
 .velocity-dock{position:fixed;z-index:120;right:18px;bottom:18px;display:flex;align-items:center;background:rgba(9,13,14,.92);color:#fff;border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(14px)}
-.velocity-dock a{display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 17px;color:#fff;text-decoration:none;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;border-right:1px solid rgba(255,255,255,.14)}
-.velocity-dock a:last-child{border-right:0;background:var(--v-bronze)}
+.velocity-dock a{display:flex;align-items:center;justify-content:center;width:52px;min-width:52px;min-height:52px;padding:0;color:#fff;text-decoration:none;border-right:1px solid rgba(255,255,255,.14)}
+.velocity-dock a:last-child{border-right:0;background:transparent}
+.velocity-dock a svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .velocity-dock a:hover{background:#fff;color:var(--v-black)}
 
 /* footer */
@@ -286,6 +288,7 @@ footer{background:var(--v-black)!important;color:#fff!important;border:0!importa
  .visual-mosaic__main{min-height:65svh!important}
  .visual-mosaic__copy{left:18px!important;right:18px!important;bottom:22px!important}
  .visual-mosaic__copy h2{font-size:clamp(3rem,13.5vw,4.8rem)!important;line-height:.86!important}
+ .visual-mosaic__copy h2.long-claim{font-size:clamp(2.25rem,10vw,3.75rem)!important;line-height:.94!important}
  .visual-mosaic__side{grid-template-columns:1fr!important;min-height:auto!important}
  .visual-mosaic__side figure{min-height:40svh!important}.visual-mosaic__side figure+figure{border-left:0!important;border-top:1px solid var(--v-rule-dark)!important}
  .detail-story__media{min-height:75svh!important;background-position:center!important}
