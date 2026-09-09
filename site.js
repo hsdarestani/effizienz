@@ -19,6 +19,10 @@ const SITE='https://effizienz.pages.dev';
 const IMG={
   signature:'/SAVE_20260907_190136.jpg',
   frankfurt:'/IMG_6830.JPG',
+  workExterior:'/IMG_6831.JPG',
+  workInterior:'/IMG_6835.JPG',
+  workDemolition:'/IMG_6837.JPG',
+  workGarden:'/IMG_6845.PNG',
   architecture:'https://images.unsplash.com/photo-1776655890108-b8b0a8f3b5cf?auto=format&fit=crop&q=88&w=2200',
   property:'https://images.unsplash.com/photo-1759355787286-f1c5fd456a0d?auto=format&fit=crop&q=88&w=2200',
   garden:'https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&q=88&w=2200',
@@ -38,24 +42,24 @@ const SOURCES={
 
 const pageVisual={
   home:{hero:'frankfurt',alt:'Frankfurt Skyline'},
-  leistungen:{hero:'property',alt:'Gepflegtes modernes Objekt als Symbolbild'},
-  hausmeisterservice:{hero:'property',alt:'Modernes gepflegtes Wohnobjekt als Symbolbild'},
-  'abriss-entruempelung':{hero:'renovation',alt:'Innenraum während einer Renovierung als Symbolbild'},
+  leistungen:{hero:'workInterior',alt:'Innenausbau aus einem Projekt von ES Effizienz Services'},
+  hausmeisterservice:{hero:'workExterior',alt:'Objekt und Außenbereich aus einem Projekt von ES Effizienz Services'},
+  'abriss-entruempelung':{hero:'workDemolition',alt:'Rückbauarbeiten aus einem Projekt von ES Effizienz Services'},
   winterdienst:{hero:'winter',alt:'Winterdienst und Schneeräumung als Symbolbild'},
   umzug:{hero:'move',alt:'Umzug und Transport als Symbolbild'},
-  'garten-landschaftsbau':{hero:'garden',alt:'Gepflegte Außenanlage als Symbolbild'},
-  'ueber-uns':{hero:'architecture',alt:'Moderne Architektur als Symbolbild'},
-  referenzen:{hero:'property',alt:'Modernes Objekt als Symbolbild'},
+  'garten-landschaftsbau':{hero:'workGarden',alt:'Außenanlage aus einem Projekt von ES Effizienz Services'},
+  'ueber-uns':{hero:'workExterior',alt:'Projektaufnahme von ES Effizienz Services'},
+  referenzen:{hero:'workInterior',alt:'Projektaufnahme von ES Effizienz Services'},
   faq:{hero:'architecture',alt:'Modernes Objekt als Symbolbild'},
   kontakt:{hero:'garden',alt:'Gepflegtes Objekt als Symbolbild'}
 };
 
 const serviceImageByHref={
-  '/hausmeisterservice/':'property',
-  '/abriss-entruempelung/':'renovation',
+  '/hausmeisterservice/':'workExterior',
+  '/abriss-entruempelung/':'workDemolition',
   '/winterdienst/':'winter',
   '/umzug/':'move',
-  '/garten-landschaftsbau/':'garden'
+  '/garten-landschaftsbau/':'workGarden'
 };
 const servicePoster={
   hausmeisterservice:{image:'property',eyebrow:'Hausmeister- & Gebäudeservice',title:'Präsenz, die <em>man merkt.</em>',facts:['Regelmäßige Objektkontrolle','Direkte Abstimmung','Kleinleistungen nach Bedarf','Außenbereiche optional']},
@@ -252,6 +256,8 @@ if('IntersectionObserver' in window){
   observed.forEach(el=>io.observe(el));
 }else observed.forEach(el=>el.classList.add('in'));
 requestAnimationFrame(()=>document.body.classList.add('site-ready'));
+
+document.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{const fallback=img.dataset.fallback;if(fallback&&img.src!==new URL(fallback,location.href).href)img.src=fallback},{once:true}));
 
 document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.faq-item')?.classList.toggle('open')));
 document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()));
