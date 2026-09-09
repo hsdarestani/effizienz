@@ -116,7 +116,7 @@ section.content{padding:clamp(78px,7.7vw,124px) 0!important}
 /* manifesto: client high-res image, cinematic not empty */
 .detail-story{background:var(--v-black)!important;color:#fff!important;position:relative;overflow:hidden}
 .detail-story__grid{display:grid!important;grid-template-columns:minmax(0,1.18fr) minmax(360px,.82fr)!important;min-height:min(900px,92svh)!important}
-.detail-story__media{margin:0!important;position:relative!important;overflow:hidden!important;background:#2d2723!important;background-image:url('/SAVE_20260907_190136.jpg')!important;background-size:cover!important;background-position:center!important}
+.detail-story__media{margin:0!important;position:relative!important;overflow:hidden!important;background:#2d2723!important;background-image:url('/IMG_6838.JPG')!important;background-size:cover!important;background-position:center!important}
 .detail-story__media img{opacity:0!important}
 .detail-story__media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,rgba(9,13,14,.18)),linear-gradient(0deg,rgba(8,11,12,.28),transparent 55%)}
 .detail-story__copy{padding:clamp(42px,6vw,96px)!important;background:#d9c9ba!important;color:var(--v-ink)!important;display:flex!important;flex-direction:column;justify-content:space-between}
