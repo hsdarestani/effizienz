@@ -9,6 +9,8 @@ document.body.dataset.page=page;
 
 const PHONE='+491622150164';
 const PHONE_LABEL='0162 / 2150164';
+const LANDLINE='+4961815039675';
+const LANDLINE_LABEL='06181 / 503 96 75';
 const EMAIL='info@es-effizienz.de';
 const INSTAGRAM='https://www.instagram.com/es_effizienz_services/';
 const WHATSAPP='https://wa.me/491622150164?text=Hallo%20ES%20Effizienz%20Services%2C%20ich%20m%C3%B6chte%20eine%20Anfrage%20stellen.';
@@ -88,11 +90,11 @@ function enhanceSeo(){
     schema.textContent=JSON.stringify({
       '@context':'https://schema.org','@type':['LocalBusiness','HomeAndConstructionBusiness'],
       name:'ES Effizienz Services UG (haftungsbeschränkt)',url:SITE+'/',image:SITE+'/SAVE_20260907_190136.jpg',logo:SITE+'/Picture2.png',
-      telephone:PHONE,email:EMAIL,priceRange:'€€',
+      telephone:[LANDLINE,PHONE],email:EMAIL,priceRange:'€€',
       address:{'@type':'PostalAddress',streetAddress:'In der Aue 22',postalCode:'63486',addressLocality:'Bruchköbel',addressCountry:'DE'},
       areaServed:[{'@type':'Place',name:'Rhein-Main-Gebiet'},{'@type':'Country',name:'Deutschland'}],
       sameAs:[INSTAGRAM],
-      contactPoint:[{'@type':'ContactPoint',telephone:PHONE,contactType:'customer service',availableLanguage:['de']},{'@type':'ContactPoint',url:WHATSAPP,contactType:'customer service',availableLanguage:['de']}],
+      contactPoint:[{'@type':'ContactPoint',telephone:LANDLINE,contactType:'customer service',availableLanguage:['de']},{'@type':'ContactPoint',telephone:PHONE,contactType:'mobile',availableLanguage:['de']},{'@type':'ContactPoint',url:WHATSAPP,contactType:'customer service',availableLanguage:['de']}],
       hasOfferCatalog:{'@type':'OfferCatalog',name:'Leistungen',itemListElement:['Umzug','Entrümpelung und Haushaltsauflösung','Hausmeister- und Gebäudeservice','Gartenpflege und Außenanlagen','Winterdienst','Abbrucharbeiten'].map(name=>({'@type':'Offer',itemOffered:{'@type':'Service',name}}))}
     });
     document.head.appendChild(schema);
@@ -135,7 +137,7 @@ function addTrustStrip(){
   const hero=document.querySelector('.page-hero');
   if(!hero||document.querySelector('.lux-strip')||['impressum','datenschutz'].includes(page))return;
   const strip=document.createElement('section');strip.className='lux-strip';
-  strip.innerHTML=`<div class="lux-strip__inner"><div class="lux-strip__item"><small>Einsatzgebiet</small><strong>Rhein-Main</strong></div><div class="lux-strip__item"><small>Aufträge</small><strong>Deutschlandweit</strong></div><div class="lux-strip__item"><small>Direktkontakt</small><strong>${PHONE_LABEL}</strong></div><div class="lux-strip__item"><small>Prinzip</small><strong>Alles aus einer Hand</strong></div></div>`;
+  strip.innerHTML=`<div class="lux-strip__inner"><div class="lux-strip__item"><small>Einsatzgebiet</small><strong>Rhein-Main</strong></div><div class="lux-strip__item"><small>Aufträge</small><strong>Deutschlandweit</strong></div><div class="lux-strip__item"><small>Festnetz · Mobil</small><strong>${LANDLINE_LABEL}<br>${PHONE_LABEL}</strong></div><div class="lux-strip__item"><small>Prinzip</small><strong>Alles aus einer Hand</strong></div></div>`;
   hero.after(strip);
 }
 addTrustStrip();
@@ -222,7 +224,8 @@ function addDock(){
 addDock();
 
 function normalizeActions(){
-  document.querySelectorAll(`a[href="tel:${PHONE}"],a[href="tel:+491622150164"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services anrufen')});
+  document.querySelectorAll(`a[href="tel:${PHONE}"],a[href="tel:+491622150164"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services mobil anrufen')});
+  document.querySelectorAll(`a[href="tel:${LANDLINE}"],a[href="tel:+4961815039675"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services Festnetz anrufen')});
   document.querySelectorAll(`a[href="mailto:${EMAIL}"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','E-Mail an ES Effizienz Services senden')});
   document.querySelectorAll('a[target="_blank"]').forEach(a=>{const rel=new Set((a.getAttribute('rel')||'').split(/\s+/).filter(Boolean));rel.add('noopener');a.setAttribute('rel',[...rel].join(' '))});
 }
@@ -252,7 +255,7 @@ document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()
 
 const footerLinks=document.querySelector('.footer-links');
 if(footerLinks){
-  [[`tel:${PHONE}`,PHONE_LABEL],[`mailto:${EMAIL}`,'E-Mail'],[WHATSAPP,'WhatsApp'],[INSTAGRAM,'Instagram']].forEach(([href,label])=>{
+  [[`tel:${LANDLINE}`,`Festnetz ${LANDLINE_LABEL}`],[`tel:${PHONE}`,`Mobil ${PHONE_LABEL}`],[`mailto:${EMAIL}`,'E-Mail'],[WHATSAPP,'WhatsApp'],[INSTAGRAM,'Instagram']].forEach(([href,label])=>{
     if(!footerLinks.querySelector(`a[href="${href}"]`)){const a=document.createElement('a');a.href=href;a.textContent=label;if(href.startsWith('http')){a.target='_blank';a.rel='noopener'}footerLinks.prepend(a)}
   });
 }
