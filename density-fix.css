@@ -1,0 +1,272 @@
+/* Site-wide density pass — keep the premium editorial look without turning every section into a hero. */
+
+/* General vertical rhythm */
+section.content{
+  padding:clamp(62px,5.8vw,92px) 0!important;
+}
+.section-head{
+  margin-bottom:clamp(34px,4vw,54px)!important;
+}
+
+/* Inner-page heroes were nearly full-screen on every page. Keep the homepage hero special,
+   but make service/about/reference/contact/FAQ heroes more compact. */
+body:not([data-page="home"]) .page-hero .hero-shell{
+  min-height:clamp(500px,60svh,680px)!important;
+}
+body:not([data-page="home"]) .hero-copy{
+  padding-top:clamp(54px,6vw,84px)!important;
+  padding-bottom:clamp(46px,5vw,72px)!important;
+}
+body:not([data-page="home"]) .hero-copy h1{
+  font-size:clamp(3.35rem,5.8vw,6.5rem)!important;
+}
+body:not([data-page="home"]) .hero-copy>p{
+  margin-top:22px!important;
+}
+
+/* Service portfolio rows: still cinematic, but not 540px+ five times in a row. */
+.cards.service-editorial .card,
+.cards.service-editorial .service-media{
+  min-height:clamp(390px,31vw,460px)!important;
+}
+.cards.service-editorial .card h3{
+  font-size:clamp(2.15rem,3.7vw,4.6rem)!important;
+}
+.cards.service-editorial .card>.service-copy{
+  padding:clamp(30px,4.2vw,58px)!important;
+}
+
+/* Benefit grids */
+.dark-section .cards:not(.service-editorial) .card{
+  min-height:240px!important;
+  padding:24px!important;
+}
+.dark-section .card h3{
+  margin:52px 0 10px!important;
+  font-size:clamp(1.65rem,2.5vw,2.85rem)!important;
+}
+
+/* Manifesto / editorial split blocks on pages other than the already-tuned home + Leistungen. */
+body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__grid{
+  min-height:clamp(430px,35vw,540px)!important;
+  max-height:540px!important;
+}
+body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__media{
+  min-height:clamp(430px,35vw,540px)!important;
+  max-height:540px!important;
+}
+body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__copy{
+  padding:clamp(36px,4vw,58px)!important;
+}
+body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__copy h2{
+  font-size:clamp(2.6rem,3.7vw,4.3rem)!important;
+  line-height:.92!important;
+}
+body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__copy p{
+  margin-top:18px!important;
+  font-size:.9rem!important;
+  line-height:1.62!important;
+}
+
+/* Service-page poster inserted near the end of each service page. */
+.velocity-poster{
+  min-height:clamp(420px,34vw,520px)!important;
+}
+.velocity-poster__media{
+  min-height:clamp(420px,34vw,520px)!important;
+}
+.velocity-poster__copy{
+  padding:clamp(36px,4.5vw,62px)!important;
+}
+.velocity-poster__copy h2{
+  font-size:clamp(2.8rem,4.2vw,4.9rem)!important;
+  line-height:.9!important;
+}
+.velocity-poster__facts{
+  margin-top:26px!important;
+}
+
+/* Company/about split blocks */
+.abstract-panel{
+  min-height:460px!important;
+}
+.split{
+  gap:clamp(38px,5.5vw,78px)!important;
+}
+.split-copy h2{
+  font-size:clamp(2.7rem,4.3vw,4.7rem)!important;
+}
+
+/* Process rows */
+.process-card{
+  min-height:230px!important;
+  padding:22px!important;
+}
+.process-card h3{
+  margin:46px 0 9px!important;
+}
+
+/* Reference gallery: large enough to feel photographic, not full-screen tiles. */
+.reference-shot{
+  min-height:390px!important;
+}
+.reference-shot img{
+  min-height:390px!important;
+}
+
+/* CTA should finish a page, not become another hero. */
+.cta-shell{
+  min-height:360px!important;
+  padding-top:clamp(54px,6vw,82px)!important;
+  padding-bottom:clamp(54px,6vw,82px)!important;
+}
+.cta h2{
+  font-size:clamp(3.15rem,5vw,5.6rem)!important;
+}
+
+@media(max-width:1000px){
+  body:not([data-page="home"]) .page-hero .hero-shell{
+    min-height:0!important;
+  }
+  body:not([data-page="home"]) .hero-copy{
+    min-height:auto!important;
+    padding:54px var(--v-gutter) 46px!important;
+  }
+  body:not([data-page="home"]) .hero-aside{
+    min-height:400px!important;
+  }
+  .cards.service-editorial .card,
+  .cards.service-editorial .card:nth-child(even),
+  .cards.service-editorial .service-media,
+  .cards.service-editorial .card:nth-child(even) .service-media{
+    min-height:390px!important;
+  }
+  .velocity-poster__media{
+    min-height:400px!important;
+  }
+  .reference-shot,
+  .reference-shot:nth-child(3n),
+  .reference-shot:nth-child(3n+1),
+  .reference-shot img{
+    min-height:340px!important;
+  }
+  .cta-shell{
+    min-height:0!important;
+  }
+}
+
+@media(max-width:680px){
+  section.content{
+    padding:52px 0!important;
+  }
+  .section-head{
+    margin-bottom:28px!important;
+  }
+
+  /* Compact inner-page mobile hero while retaining the image-overlay treatment. */
+  body:not([data-page="home"]) .page-hero .hero-shell{
+    min-height:0!important;
+  }
+  body:not([data-page="home"]) .hero-copy{
+    min-height:clamp(500px,72svh,620px)!important;
+    padding:70px 18px 28px!important;
+  }
+  body:not([data-page="home"]) .hero-copy h1{
+    font-size:clamp(3rem,13vw,4.5rem)!important;
+  }
+
+  .cards.service-editorial .card,
+  .cards.service-editorial .card:nth-child(even){
+    min-height:0!important;
+  }
+  .cards.service-editorial .service-media,
+  .cards.service-editorial .card:nth-child(even) .service-media{
+    min-height:300px!important;
+    height:38svh!important;
+    max-height:390px!important;
+  }
+  .cards.service-editorial .card>.service-copy,
+  .cards.service-editorial .card:nth-child(even)>.service-copy{
+    min-height:215px!important;
+    padding:22px 18px 26px!important;
+  }
+  .cards.service-editorial .card h3{
+    font-size:clamp(2rem,9vw,2.9rem)!important;
+  }
+
+  .dark-section .cards:not(.service-editorial) .card{
+    min-height:190px!important;
+    padding:20px 0 22px!important;
+  }
+  .dark-section .card h3{
+    margin:38px 40px 8px 0!important;
+  }
+
+  body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__grid{
+    display:flex!important;
+    flex-direction:column!important;
+    min-height:0!important;
+    max-height:none!important;
+  }
+  body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__media{
+    min-height:290px!important;
+    height:36svh!important;
+    max-height:380px!important;
+  }
+  body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__copy{
+    padding:32px 18px 36px!important;
+  }
+  body:not([data-page="home"]):not([data-page="leistungen"]) .detail-story__copy h2{
+    font-size:clamp(2.2rem,9.8vw,3.15rem)!important;
+  }
+
+  .velocity-poster{
+    min-height:0!important;
+  }
+  .velocity-poster__media{
+    min-height:290px!important;
+    height:36svh!important;
+    max-height:380px!important;
+  }
+  .velocity-poster__copy{
+    padding:32px 18px 36px!important;
+  }
+  .velocity-poster__copy h2{
+    font-size:clamp(2.35rem,10vw,3.35rem)!important;
+  }
+
+  .abstract-panel{
+    min-height:340px!important;
+  }
+  .process-card{
+    min-height:0!important;
+    padding:18px 0 22px!important;
+  }
+  .process-card h3{
+    margin:2px 0 7px!important;
+  }
+
+  .reference-gallery{
+    gap:10px!important;
+  }
+  .reference-shot,
+  .reference-shot:nth-child(3n),
+  .reference-shot:nth-child(3n+1){
+    min-height:300px!important;
+    height:42svh!important;
+    max-height:390px!important;
+  }
+  .reference-shot img{
+    min-height:300px!important;
+    height:100%!important;
+  }
+
+  .cta-shell{
+    min-height:0!important;
+    padding:48px 18px 56px!important;
+    gap:28px!important;
+  }
+  .cta h2{
+    font-size:clamp(2.85rem,12vw,4rem)!important;
+  }
+}
