@@ -1,0 +1,41 @@
+name: Convert team portraits
+
+on:
+  push:
+    paths:
+      - '.github/workflows/convert-team-portraits.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install HEIC converter
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libheif-examples
+
+      - name: Convert portraits to JPEG
+        run: |
+          heif-convert -q 92 IMG_6826.HEIC IMG_6826.jpg
+          heif-convert -q 92 IMG_6827.HEIC IMG_6827.jpg
+          heif-convert -q 92 IMG_6828.HEIC IMG_6828.jpg
+
+      - name: Update About page portrait references
+        run: |
+          sed -i 's#/IMG_6826\.HEIC#/IMG_6826.jpg#g; s#/IMG_6827\.HEIC#/IMG_6827.jpg#g; s#/IMG_6828\.HEIC#/IMG_6828.jpg#g' ueber-uns/index.html
+
+      - name: Commit converted portraits
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add IMG_6826.jpg IMG_6827.jpg IMG_6828.jpg ueber-uns/index.html
+          git commit -m 'Convert team portraits to JPEG for browser support'
+          git push
