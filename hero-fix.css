@@ -90,12 +90,23 @@ html body header .nav nav a.nav-cta{
     text-align:right!important;
   }
 
-  /* Remove the oversized white/black dead fields throughout service pages. */
+  /* Service portfolio: keep every image/row compact and exactly the same height. */
   html body main .cards.service-editorial .card,
-  html body main .cards.service-editorial .card:nth-child(even),
+  html body main .cards.service-editorial .card:nth-child(even){
+    height:400px!important;
+    min-height:400px!important;
+    max-height:400px!important;
+  }
   html body main .cards.service-editorial .service-media,
   html body main .cards.service-editorial .card:nth-child(even) .service-media{
-    min-height:410px!important;
+    height:400px!important;
+    min-height:400px!important;
+    max-height:400px!important;
+  }
+  html body main .cards.service-editorial .service-media img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
   }
   html body main .cards.service-editorial .card>.service-copy,
   html body main .cards.service-editorial .card:nth-child(even)>.service-copy{
@@ -161,10 +172,21 @@ html body header .nav nav a.nav-cta{
     left:auto!important;
   }
   html body main .cards.service-editorial .card,
-  html body main .cards.service-editorial .card:nth-child(even),
+  html body main .cards.service-editorial .card:nth-child(even){
+    height:340px!important;
+    min-height:340px!important;
+    max-height:340px!important;
+  }
   html body main .cards.service-editorial .service-media,
   html body main .cards.service-editorial .card:nth-child(even) .service-media{
-    min-height:380px!important;
+    height:340px!important;
+    min-height:340px!important;
+    max-height:340px!important;
+  }
+  html body main .cards.service-editorial .service-media img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
   }
   html body main .visual-mosaic__main{min-height:500px!important}
   html body main .detail-story__media{min-height:500px!important}
@@ -184,7 +206,16 @@ html body header .nav nav a.nav-cta{
     padding-bottom:28px!important;
   }
   html body main .cards.service-editorial .service-media,
-  html body main .cards.service-editorial .card:nth-child(even) .service-media{min-height:34svh!important}
+  html body main .cards.service-editorial .card:nth-child(even) .service-media{
+    height:280px!important;
+    min-height:280px!important;
+    max-height:280px!important;
+  }
+  html body main .cards.service-editorial .service-media img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+  }
   html body main .visual-mosaic__main{min-height:50svh!important}
   html body main .visual-mosaic__side figure{min-height:30svh!important}
   html body main .detail-story__media{min-height:52svh!important}
