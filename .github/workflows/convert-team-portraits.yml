@@ -17,16 +17,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install HEIC converter
+      - name: Install HEIC converter and codecs
         run: |
           sudo apt-get update
-          sudo apt-get install -y libheif-examples
+          sudo apt-get install -y libheif-examples libheif-plugin-libde265 libheif-plugin-aomdec
+          heif-convert --list-decoders || true
 
       - name: Convert portraits to JPEG
         run: |
+          set -euxo pipefail
           heif-convert -q 92 IMG_6826.HEIC IMG_6826.jpg
           heif-convert -q 92 IMG_6827.HEIC IMG_6827.jpg
           heif-convert -q 92 IMG_6828.HEIC IMG_6828.jpg
+          test -s IMG_6826.jpg
+          test -s IMG_6827.jpg
+          test -s IMG_6828.jpg
 
       - name: Update About page portrait references
         run: |
