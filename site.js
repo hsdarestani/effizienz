@@ -189,7 +189,9 @@ function makeManifesto(){
   const target=document.querySelector('.dark-section')||document.querySelector('.cta');if(!target)return;
   const copy=page==='leistungen'
     ?{eye:'Unser Anspruch',title:'Qualität entsteht,<br><em>wenn Details stimmen.</em>',p:'Klare Kommunikation, direkte Wege und ein Ergebnis, das ordentlich übergeben werden kann. Nicht kompliziert. Sondern konsequent.'}
-    :{eye:'Wo Details Form annehmen',title:'Ordnung ist kein Extra.<br><em>Sie ist der Standard.</em>',p:'Von der ersten Abstimmung bis zum letzten Handgriff soll sich Zusammenarbeit einfach anfühlen. Dafür steht ES Effizienz Services: anpacken, sauber arbeiten, zuverlässig abschließen.'};
+    :page==='home'
+      ?{eye:'Wo Details Form annehmen',title:'Vom ersten Handgriff bis zum letzten.<br><em>Wir machen, was gemacht werden muss.</em>',p:'Von der ersten Abstimmung bis zum letzten Handgriff soll sich Zusammenarbeit einfach anfühlen. Dafür steht ES Effizienz Services: anpacken, sauber arbeiten, zuverlässig abschließen.'}
+      :{eye:'Wo Details Form annehmen',title:'Ordnung ist kein Extra.<br><em>Sie ist der Standard.</em>',p:'Von der ersten Abstimmung bis zum letzten Handgriff soll sich Zusammenarbeit einfach anfühlen. Dafür steht ES Effizienz Services: anpacken, sauber arbeiten, zuverlässig abschließen.'};
   const sec=document.createElement('section');sec.className='detail-story reveal';
   sec.innerHTML=`<div class="detail-story__grid"><figure class="detail-story__media"><img src="${IMG.signature}" alt="Architektonisches Detail und Materialität als Markenmotiv von ES Effizienz Services"></figure><div class="detail-story__copy"><div><div class="eyebrow">${copy.eye}</div><h2>${copy.title}</h2><p>${copy.p}</p></div><div class="detail-story__footer"><span>Rhein-Main · Deutschlandweit</span><span>Sie haben die Aufgabe. Wir die Lösung.</span></div></div></div>`;
   target.before(sec);
