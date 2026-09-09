@@ -334,7 +334,7 @@ footer{background:var(--v-black)!important;color:#fff!important;border:0!importa
 
 /* Mobile hardening — compact contact dock + About hero integrity */
 @media(max-width:680px){
-  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  body{padding-bottom:0!important}
   .velocity-dock{
     left:auto!important;
     right:14px!important;
