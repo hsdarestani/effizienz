@@ -330,3 +330,68 @@ footer{background:var(--v-black)!important;color:#fff!important;border:0!importa
 .reference-shot figcaption strong{font-size:1.15rem;font-weight:500;letter-spacing:-.02em}.reference-shot figcaption span{font-size:.72rem;color:rgba(255,255,255,.74);text-align:right}
 @media(max-width:980px){.reference-shot,.reference-shot:nth-child(3n),.reference-shot:nth-child(3n+1){grid-column:span 6;min-height:420px}.reference-shot img{min-height:420px}}
 @media(max-width:680px){.reference-gallery{grid-template-columns:1fr}.reference-shot,.reference-shot:nth-child(3n),.reference-shot:nth-child(3n+1){grid-column:auto;min-height:62svh}.reference-shot img{min-height:62svh}.reference-shot figcaption{left:16px;right:16px;bottom:16px;flex-direction:column;align-items:flex-start;gap:4px}.reference-shot figcaption span{text-align:left}}
+
+
+/* Mobile hardening — compact contact dock + About hero integrity */
+@media(max-width:680px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+  .velocity-dock{
+    left:auto!important;
+    right:14px!important;
+    bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;
+    width:auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,48px)!important;
+    gap:8px!important;
+    padding:0!important;
+    background:transparent!important;
+    border:0!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  .velocity-dock a{
+    width:48px!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    flex:none!important;
+    padding:0!important;
+    border:1px solid rgba(255,255,255,.16)!important;
+    border-radius:50%!important;
+    background:rgba(9,13,14,.94)!important;
+    box-shadow:0 10px 28px rgba(0,0,0,.24)!important;
+  }
+  .velocity-dock a[data-action="whatsapp"]{background:#0f6f52!important}
+  .velocity-dock a[data-action="instagram"]{background:#9b6c4f!important}
+  .velocity-dock a svg{width:20px!important;height:20px!important}
+  footer{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}
+
+  /* About page uses a full-bleed photo hero on small screens */
+  body[data-page="ueber-uns"] .page-hero .hero-shell{
+    min-height:auto!important;
+    background:#101617!important;
+  }
+  body[data-page="ueber-uns"] .hero-copy{
+    min-height:auto!important;
+    padding:56px 18px 34px!important;
+    justify-content:flex-start!important;
+  }
+  body[data-page="ueber-uns"] .hero-copy h1{
+    font-size:clamp(3rem,12.6vw,4.35rem)!important;
+    line-height:.9!important;
+    max-width:100%!important;
+  }
+  body[data-page="ueber-uns"] .hero-aside{
+    position:relative!important;
+    inset:auto!important;
+    min-height:54svh!important;
+    z-index:1!important;
+  }
+  body[data-page="ueber-uns"] .hero-aside .about-photo-panel{
+    min-height:54svh!important;
+  }
+  body[data-page="ueber-uns"] .hero-aside .quote{display:none!important}
+
+  .team-card{display:flex!important;flex-direction:column!important;gap:18px!important}
+  .team-photo{margin:-22px -0px 0!important;aspect-ratio:4/5!important;overflow:hidden!important;background:#171b1c!important}
+  .team-photo img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important}
+}
