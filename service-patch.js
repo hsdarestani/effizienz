@@ -5,9 +5,9 @@
     author:'Vitaly Gariev'
   };
   const WINTER={
-    src:'https://images.unsplash.com/photo-1771706815837-d38e08eda083?auto=format&fit=crop&q=84&w=2200',
-    source:'https://unsplash.com/photos/orange-snowplow-clearing-a-snowy-road-in-winter-XSrCzlAX1ZI',
-    author:'German Krupenin'
+    src:'https://images.unsplash.com/photo-1644442222742-b01ad3a8de1e?auto=format&fit=crop&q=84&w=2200',
+    source:'https://unsplash.com/photos/a-snowplow-clearing-the-snow-off-of-a-mountain-EWxgI11vvis',
+    author:'Bernd Dittrich'
   };
 
   if(!document.getElementById('service-compact-v2')){
