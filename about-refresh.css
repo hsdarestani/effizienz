@@ -248,3 +248,35 @@ body[data-page="ueber-uns"] .cta p{
     font-size:clamp(2.8rem,12vw,4rem)!important;
   }
 }
+
+
+/* 2026-09-09: keep the left hero column inside its section at desktop widths. */
+@media (min-width:761px){
+  body[data-page="ueber-uns"] .page-hero .hero-shell{
+    min-height:clamp(700px,45vw,780px)!important;
+    max-height:none!important;
+    align-items:stretch!important;
+  }
+  body[data-page="ueber-uns"] .hero-copy{
+    align-self:stretch!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    padding-top:clamp(44px,4vw,64px)!important;
+    padding-bottom:clamp(44px,4vw,64px)!important;
+  }
+  body[data-page="ueber-uns"] .hero-copy h1{
+    max-width:720px!important;
+    font-size:clamp(3.35rem,4vw,4.8rem)!important;
+    line-height:.92!important;
+  }
+  body[data-page="ueber-uns"] .hero-copy>p{
+    margin-bottom:0!important;
+  }
+  body[data-page="ueber-uns"] .hero-aside,
+  body[data-page="ueber-uns"] .hero-aside .about-photo-panel{
+    min-height:clamp(700px,45vw,780px)!important;
+    max-height:none!important;
+    height:100%!important;
+  }
+}
