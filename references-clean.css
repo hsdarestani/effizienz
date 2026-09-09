@@ -1,0 +1,225 @@
+/* Referenzen — final strict grid. Loaded with !important locks because velocity.css is injected later. */
+body[data-page="referenzen"] .reference-gallery{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  grid-auto-rows:auto!important;
+  align-items:stretch!important;
+  gap:clamp(16px,1.45vw,24px)!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  counter-reset:ref-project;
+}
+body[data-page="referenzen"] .reference-shot,
+body[data-page="referenzen"] .reference-shot:nth-child(n),
+body[data-page="referenzen"] .reference-shot:nth-child(3n),
+body[data-page="referenzen"] .reference-shot:nth-child(3n+1){
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:stretch!important;
+  counter-increment:ref-project;
+  position:relative!important;
+  display:grid!important;
+  grid-template-rows:auto 76px!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:1px solid rgba(9,13,14,.12)!important;
+  border-radius:12px!important;
+  background:#f8f5f0!important;
+  box-shadow:none!important;
+  isolation:isolate;
+  transform:none!important;
+  transition:border-color .35s ease,box-shadow .35s ease!important;
+}
+body[data-page="referenzen"] .reference-shot img{
+  grid-row:1!important;
+  position:relative!important;
+  z-index:1!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:4/3!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  filter:saturate(.83) contrast(1.025)!important;
+  transform:scale(1.001)!important;
+  transition:transform .85s cubic-bezier(.18,.72,.18,1),filter .45s ease!important;
+}
+body[data-page="referenzen"] .reference-shot:before{
+  content:""!important;
+  position:absolute!important;
+  z-index:3!important;
+  left:-35%!important;
+  top:0!important;
+  width:28%!important;
+  height:calc(100% - 76px)!important;
+  min-height:0!important;
+  aspect-ratio:auto!important;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent)!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:skewX(-13deg)!important;
+}
+body[data-page="referenzen"] .reference-shot:after{
+  content:""!important;
+  position:absolute!important;
+  z-index:2!important;
+  inset:0 0 76px 0!important;
+  width:auto!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  background:linear-gradient(180deg,rgba(9,13,14,.015),transparent 68%,rgba(9,13,14,.14))!important;
+  opacity:.6!important;
+  pointer-events:none!important;
+  transition:opacity .35s ease!important;
+}
+body[data-page="referenzen"] .reference-shot figcaption{
+  grid-row:2!important;
+  position:relative!important;
+  z-index:5!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr) 18px!important;
+  grid-template-rows:auto auto!important;
+  align-content:center!important;
+  align-items:center!important;
+  justify-content:stretch!important;
+  gap:2px 11px!important;
+  width:100%!important;
+  min-height:76px!important;
+  margin:0!important;
+  padding:13px 15px!important;
+  border-top:1px solid rgba(9,13,14,.1)!important;
+  background:#f8f5f0!important;
+  color:#111819!important;
+  text-align:left!important;
+  transition:background .35s ease!important;
+}
+body[data-page="referenzen"] .reference-shot figcaption:before{
+  content:counter(ref-project,decimal-leading-zero)!important;
+  grid-column:1!important;
+  grid-row:1/3!important;
+  align-self:center!important;
+  font-size:.58rem!important;
+  line-height:1!important;
+  letter-spacing:.14em!important;
+  color:#9b6c4f!important;
+}
+body[data-page="referenzen"] .reference-shot figcaption:after{
+  content:"↗"!important;
+  grid-column:3!important;
+  grid-row:1/3!important;
+  align-self:center!important;
+  justify-self:end!important;
+  font-size:.9rem!important;
+  color:#9b6c4f!important;
+  opacity:.36!important;
+  transform:translate(-3px,3px)!important;
+  transition:opacity .3s ease,transform .3s cubic-bezier(.18,.72,.18,1)!important;
+}
+body[data-page="referenzen"] .reference-shot figcaption strong{
+  grid-column:2!important;
+  grid-row:1!important;
+  display:block!important;
+  margin:0!important;
+  color:#111819!important;
+  font-size:.9rem!important;
+  line-height:1.08!important;
+  font-weight:550!important;
+  letter-spacing:-.015em!important;
+}
+body[data-page="referenzen"] .reference-shot figcaption span{
+  grid-column:2!important;
+  grid-row:2!important;
+  display:block!important;
+  margin:0!important;
+  color:#6b7374!important;
+  font-size:.56rem!important;
+  line-height:1.25!important;
+  letter-spacing:.105em!important;
+  text-transform:uppercase!important;
+  text-align:left!important;
+}
+body[data-page="referenzen"] .reference-shot.reveal{
+  opacity:0!important;
+  transform:none!important;
+}
+body[data-page="referenzen"] .reference-shot.reveal.in{
+  opacity:1!important;
+  transform:none!important;
+  animation:refCardIn .78s cubic-bezier(.18,.72,.18,1) both!important;
+}
+body[data-page="referenzen"] .reference-shot:nth-child(3n+2).reveal.in{animation-delay:70ms!important}
+body[data-page="referenzen"] .reference-shot:nth-child(3n+3).reveal.in{animation-delay:140ms!important}
+body[data-page="referenzen"] .reference-shot.reveal img{transform:scale(1.045)!important}
+body[data-page="referenzen"] .reference-shot.reveal.in img{transform:scale(1.001)!important}
+@keyframes refCardIn{
+  0%{opacity:0;clip-path:inset(0 0 11% 0 round 12px);translate:0 22px}
+  100%{opacity:1;clip-path:inset(0 0 0 0 round 12px);translate:0 0}
+}
+@media (hover:hover) and (pointer:fine){
+  body[data-page="referenzen"] .reference-shot:hover{
+    border-color:rgba(9,13,14,.24)!important;
+    box-shadow:0 18px 42px rgba(9,13,14,.09)!important;
+  }
+  body[data-page="referenzen"] .reference-shot:hover img{
+    transform:scale(1.045)!important;
+    filter:saturate(.96) contrast(1.035)!important;
+  }
+  body[data-page="referenzen"] .reference-shot:hover:after{opacity:.25!important}
+  body[data-page="referenzen"] .reference-shot:hover:before{
+    opacity:1!important;
+    animation:refSweep .82s cubic-bezier(.2,.7,.2,1) both;
+  }
+  body[data-page="referenzen"] .reference-shot:hover figcaption{background:#fff!important}
+  body[data-page="referenzen"] .reference-shot:hover figcaption:after{opacity:1!important;transform:translate(0,0)!important}
+}
+@keyframes refSweep{from{left:-35%}to{left:115%}}
+@media(max-width:1100px){
+  body[data-page="referenzen"] .reference-gallery{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important}
+  body[data-page="referenzen"] .reference-shot:nth-child(n).reveal.in{animation-delay:0ms!important}
+  body[data-page="referenzen"] .reference-shot:nth-child(2n).reveal.in{animation-delay:70ms!important}
+}
+@media(max-width:680px){
+  body[data-page="referenzen"] .reference-gallery{grid-template-columns:1fr!important;gap:14px!important}
+  body[data-page="referenzen"] .reference-shot,
+  body[data-page="referenzen"] .reference-shot:nth-child(n){
+    grid-template-rows:auto 70px!important;
+    min-height:0!important;
+    border-radius:10px!important;
+  }
+  body[data-page="referenzen"] .reference-shot img{
+    min-height:0!important;
+    aspect-ratio:4/3!important;
+  }
+  body[data-page="referenzen"] .reference-shot:before{display:none!important}
+  body[data-page="referenzen"] .reference-shot:after{inset:0 0 70px 0!important}
+  body[data-page="referenzen"] .reference-shot figcaption{
+    min-height:70px!important;
+    grid-template-columns:31px minmax(0,1fr) 18px!important;
+    padding:11px 13px!important;
+  }
+  body[data-page="referenzen"] .reference-shot figcaption strong{font-size:.88rem!important}
+  body[data-page="referenzen"] .reference-shot figcaption span{font-size:.54rem!important}
+  body[data-page="referenzen"] .reference-shot:nth-child(n).reveal.in{animation-delay:0ms!important;animation-duration:.66s!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="referenzen"] .reference-shot,
+  body[data-page="referenzen"] .reference-shot img,
+  body[data-page="referenzen"] .reference-shot figcaption:after{transition:none!important;animation:none!important}
+  body[data-page="referenzen"] .reference-shot.reveal,
+  body[data-page="referenzen"] .reference-shot.reveal.in{opacity:1!important;clip-path:none!important;translate:0!important;animation:none!important}
+  body[data-page="referenzen"] .reference-shot.reveal img,
+  body[data-page="referenzen"] .reference-shot.reveal.in img{transform:none!important}
+}
