@@ -18,3 +18,9 @@
 .detail-story__media img{
   opacity:0!important;
 }
+
+/* Hide all generated photo-caption labels/credits (e.g. Symbolbild + source text). */
+.site-photo-reveal > figcaption,
+.cinematic-media > figcaption{
+  display:none!important;
+}
