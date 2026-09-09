@@ -177,14 +177,14 @@ upgradeServiceCards();
 function makeVisualMosaic(){
   if(!['home','leistungen'].includes(page)||document.querySelector('.visual-mosaic'))return;
   const first=document.querySelector('section.content');if(!first)return;
-  const types=page==='home'?['property','garden','winter']:['renovation','property','move'];
+  const types=page==='home'?['workInterior','workGarden','workExterior']:['workDemolition','workExterior','workGarden'];
   const sec=document.createElement('section');sec.className='visual-mosaic reveal';
   const grid=document.createElement('div');grid.className='visual-mosaic__grid';
-  const main=document.createElement('figure');main.className='visual-mosaic__main';main.append(imageEl(types[0],'Dienstleistung als Symbolbild'));
+  const main=document.createElement('figure');main.className='visual-mosaic__main';main.append(imageEl(types[0],'Projektaufnahme von ES Effizienz Services'));
   const copy=document.createElement('div');copy.className='visual-mosaic__copy';
   copy.innerHTML=`<div class="eyebrow">ES Effizienz Services</div><h2 class="${page==='home'?'long-claim':''}">${page==='home'?'Ihre Zeit ist zu wertvoll<br>für Nebensachen.<br><em>Gut, dass wir uns darum kümmern.</em>':'Mehr Leistung.<br><em>Weniger Umwege.</em>'}</h2>`;main.append(copy);
   const side=document.createElement('div');side.className='visual-mosaic__side';
-  [[types[1],'Außenbereiche'],[types[2],page==='home'?'Winterdienst':'Umzug & Organisation']].forEach(([type,label])=>{const f=document.createElement('figure');f.append(imageEl(type,`${label} als Symbolbild`));const l=document.createElement('span');l.className='visual-mosaic__label';l.textContent=label;f.append(l);side.append(f)});
+  [[types[1],'Außenanlagen'],[types[2],page==='home'?'Objektservice':'Projektarbeit']].forEach(([type,label])=>{const f=document.createElement('figure');f.append(imageEl(type,`${label} – ES Effizienz Services`));const l=document.createElement('span');l.className='visual-mosaic__label';l.textContent=label;f.append(l);side.append(f)});
   grid.append(main,side);sec.append(grid);first.after(sec);
 }
 makeVisualMosaic();
