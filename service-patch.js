@@ -1,0 +1,114 @@
+(()=>{
+  const MOVE={
+    src:'https://images.unsplash.com/photo-1758523670991-ee93bc48d81d?auto=format&fit=crop&q=84&w=2200',
+    source:'https://unsplash.com/photos/couple-carrying-moving-boxes-into-a-new-home-vV5iOAidkQE',
+    author:'Vitaly Gariev'
+  };
+  const WINTER={
+    src:'https://images.unsplash.com/photo-1771706815837-d38e08eda083?auto=format&fit=crop&q=84&w=2200',
+    source:'https://unsplash.com/photos/orange-snowplow-clearing-a-snowy-road-in-winter-XSrCzlAX1ZI',
+    author:'German Krupenin'
+  };
+
+  if(!document.getElementById('service-compact-v2')){
+    const style=document.createElement('style');
+    style.id='service-compact-v2';
+    style.textContent=`
+      @media (min-width:1001px){
+        html body main .cards.service-editorial .card,
+        html body main .cards.service-editorial .card:nth-child(even){
+          height:290px!important;min-height:290px!important;max-height:290px!important;
+        }
+        html body main .cards.service-editorial .service-media,
+        html body main .cards.service-editorial .card:nth-child(even) .service-media{
+          height:290px!important;min-height:290px!important;max-height:290px!important;
+        }
+        html body main .cards.service-editorial .card>.service-copy,
+        html body main .cards.service-editorial .card:nth-child(even)>.service-copy{
+          height:290px!important;min-height:290px!important;max-height:290px!important;
+          padding:24px 30px!important;justify-content:center!important;gap:12px!important;overflow:hidden!important;
+        }
+        html body main .cards.service-editorial .card h3{
+          margin:0!important;font-size:clamp(2rem,2.6vw,3.25rem)!important;line-height:.95!important;
+        }
+        html body main .cards.service-editorial .card p{
+          margin:0!important;font-size:.86rem!important;line-height:1.42!important;
+        }
+      }
+      @media (min-width:681px) and (max-width:1000px){
+        html body main .cards.service-editorial .card,
+        html body main .cards.service-editorial .card:nth-child(even){
+          height:250px!important;min-height:250px!important;max-height:250px!important;
+        }
+        html body main .cards.service-editorial .service-media,
+        html body main .cards.service-editorial .card:nth-child(even) .service-media{
+          height:250px!important;min-height:250px!important;max-height:250px!important;
+        }
+        html body main .cards.service-editorial .card>.service-copy,
+        html body main .cards.service-editorial .card:nth-child(even)>.service-copy{
+          height:250px!important;min-height:250px!important;max-height:250px!important;
+          padding:20px 24px!important;justify-content:center!important;gap:10px!important;overflow:hidden!important;
+        }
+        html body main .cards.service-editorial .card h3{
+          margin:0!important;font-size:clamp(1.75rem,3.4vw,2.6rem)!important;line-height:.96!important;
+        }
+        html body main .cards.service-editorial .card p{margin:0!important;font-size:.82rem!important;line-height:1.38!important;}
+      }
+      @media (max-width:680px){
+        html body main .cards.service-editorial .card,
+        html body main .cards.service-editorial .card:nth-child(even){
+          height:320px!important;min-height:320px!important;max-height:320px!important;display:flex!important;flex-direction:column!important;
+        }
+        html body main .cards.service-editorial .service-media,
+        html body main .cards.service-editorial .card:nth-child(even) .service-media{
+          width:100%!important;height:150px!important;min-height:150px!important;max-height:150px!important;
+        }
+        html body main .cards.service-editorial .card>.service-copy,
+        html body main .cards.service-editorial .card:nth-child(even)>.service-copy{
+          width:100%!important;height:170px!important;min-height:170px!important;max-height:170px!important;
+          padding:16px 18px!important;justify-content:center!important;gap:8px!important;overflow:hidden!important;
+        }
+        html body main .cards.service-editorial .card h3{
+          margin:0 32px 0 0!important;font-size:clamp(1.55rem,7vw,2.15rem)!important;line-height:.95!important;
+        }
+        html body main .cards.service-editorial .card p{margin:0!important;font-size:.79rem!important;line-height:1.32!important;}
+        html body main .cards.service-editorial .card .arrow{right:16px!important;bottom:18px!important;}
+      }
+      html body main .cards.service-editorial .service-media img{width:100%!important;height:100%!important;object-fit:cover!important;}
+    `;
+    document.head.append(style);
+  }
+
+  const setImg=(img,cfg)=>{
+    if(!img)return;
+    img.src=cfg.src;
+    img.srcset='';
+    img.loading='lazy';
+    img.decoding='async';
+  };
+
+  const swapCard=(href,cfg)=>{
+    document.querySelectorAll(`.cards.service-editorial .card[href="${href}"] .service-media img`).forEach(img=>setImg(img,cfg));
+  };
+
+  const swapServicePage=(page,cfg)=>{
+    if(document.body.dataset.page!==page)return;
+    document.querySelectorAll('.page-hero .cinematic-media img,.velocity-poster__media img').forEach(img=>setImg(img,cfg));
+    const credit=document.querySelector('.page-hero .cinematic-media figcaption');
+    if(credit){
+      let link=credit.querySelector('a');
+      if(!link){link=document.createElement('a');credit.append(link)}
+      link.href=cfg.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=`Foto · ${cfg.author} / Unsplash`;
+    }
+  };
+
+  const apply=()=>{
+    swapCard('/umzug/',MOVE);
+    swapCard('/winterdienst/',WINTER);
+    swapServicePage('umzug',MOVE);
+    swapServicePage('winterdienst',WINTER);
+  };
+
+  apply();
+  requestAnimationFrame(apply);
+})();
