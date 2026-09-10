@@ -2,8 +2,8 @@ const ensureCss=(href,id)=>{if(!document.getElementById(id)){const l=document.cr
 ensureCss('/editorial.css?v=20260907e','editorial-css');
 ensureCss('/signature.css?v=20260907d','signature-css');
 ensureCss('/velocity.css?v=20260907a','velocity-css');
-ensureCss('/hero-fix.css?v=20260910h','hero-fix-css');
-ensureCss('/contact-fix.css?v=20260909a','contact-fix-css');
+ensureCss('/hero-fix.css?v=20260910i','hero-fix-css');
+ensureCss('/contact-fix.css?v=20260910c','contact-fix-css');
 
 const path=location.pathname.replace(/^\/+|\/+$/g,'');
 const page=path||'home';
@@ -231,7 +231,7 @@ addContactSocials();
 function addDock(){
   if(document.querySelector('.velocity-dock')||['impressum','datenschutz'].includes(page))return;
   const dock=document.createElement('div');dock.className='velocity-dock';dock.setAttribute('aria-label','Schnellkontakt');
-  dock.innerHTML=`<a data-action="call" href="tel:${PHONE}" aria-label="Anrufen" title="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.5.6.5 1.4.1 2l-1.3 1.8a15.5 15.5 0 0 0 6 6l1.8-1.3c.6-.4 1.4-.4 2 .1l3.2 2.8c.5.4.7 1.1.5 1.8l-.6 2.1c-.2.7-.8 1.2-1.5 1.3-4.4.6-9.2-1.6-12.9-5.3S.8 8.8 1.4 4.4c.1-.7.6-1.3 1.3-1.5l2.1-.6c.7-.2 1.4 0 1.8.5Z"/></svg></a><a data-action="whatsapp" href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z"/><path d="M8.3 7.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.7.9c-.2.2-.2.4 0 .7.6 1.1 1.6 2.1 2.7 2.7.3.2.5.2.7 0l.9-1c.2-.2.4-.3.7-.1l1.9.9c.3.1.4.3.4.5 0 .3-.1 1.5-.7 2-.6.5-1.4.8-2.2.6-1.3-.2-3-.9-5-2.7-1.5-1.5-2.4-3.2-2.7-4.5-.2-.8.1-1.7.6-2.2Z"/></svg></a><a data-action="instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a>`;
+  dock.innerHTML=`<a data-action="facebook" href="${FACEBOOK}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="M13.7 22v-9h3l.45-3.5H13.7V7.27c0-1.01.28-1.7 1.73-1.7h1.85V2.44c-.32-.04-1.42-.14-2.7-.14-2.67 0-4.5 1.63-4.5 4.63V9.5H7v3.5h3.08v9h3.62Z"/></svg></a><a data-action="instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a><a data-action="whatsapp" href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z"/><path d="M8.3 7.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.7.9c-.2.2-.2.4 0 .7.6 1.1 1.6 2.1 2.7 2.7.3.2.5.2.7 0l.9-1c.2-.2.4-.3.7-.1l1.9.9c.3.1.4.3.4.5 0 .3-.1 1.5-.7 2-.6.5-1.4.8-2.2.6-1.3-.2-3-.9-5-2.7-1.5-1.5-2.4-3.2-2.7-4.5-.2-.8.1-1.7.6-2.2Z"/></svg></a><a data-action="call" href="tel:${PHONE}" aria-label="Anrufen" title="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.5.6.5 1.4.1 2l-1.3 1.8a15.5 15.5 0 0 0 6 6l1.8-1.3c.6-.4 1.4-.4 2 .1l3.2 2.8c.5.4.7 1.1.5 1.8l-.6 2.1c-.2.7-.8 1.2-1.5 1.3-4.4.6-9.2-1.6-12.9-5.3S.8 8.8 1.4 4.4c.1-.7.6-1.3 1.3-1.5l2.1-.6c.7-.2 1.4 0 1.8.5Z"/></svg></a>`;
   document.body.append(dock);
 }
 addDock();
