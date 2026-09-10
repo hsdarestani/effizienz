@@ -101,7 +101,7 @@ function enhanceSeo(){
       telephone:[LANDLINE,PHONE],email:EMAIL,priceRange:'€€',
       address:{'@type':'PostalAddress',streetAddress:'In der Aue 22',postalCode:'63486',addressLocality:'Bruchköbel',addressCountry:'DE'},
       areaServed:[{'@type':'Place',name:'Rhein-Main-Gebiet'},{'@type':'Country',name:'Deutschland'}],
-      sameAs:[INSTAGRAM,FACEBOOK],
+      sameAs:[INSTAGRAM],
       contactPoint:[{'@type':'ContactPoint',telephone:LANDLINE,contactType:'customer service',availableLanguage:['de']},{'@type':'ContactPoint',telephone:PHONE,contactType:'mobile',availableLanguage:['de']},{'@type':'ContactPoint',url:WHATSAPP,contactType:'customer service',availableLanguage:['de']}],
       hasOfferCatalog:{'@type':'OfferCatalog',name:'Leistungen',itemListElement:['Umzug','Entrümpelung und Haushaltsauflösung','Hausmeister- und Gebäudeservice','Gartenpflege und Außenanlagen','Winterdienst','Abbrucharbeiten'].map(name=>({'@type':'Offer',itemOffered:{'@type':'Service',name}}))}
     });
@@ -220,7 +220,7 @@ makeServicePoster();
 function addContactSocials(){
   const panel=document.querySelector('.contact-panel');if(!panel||panel.querySelector('.social-quick'))return;
   const box=document.createElement('div');box.className='social-quick';
-  box.innerHTML=`<a href="tel:${PHONE}" aria-label="ES Effizienz Services anrufen">Anrufen</a><a href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="ES Effizienz Services über WhatsApp kontaktieren">WhatsApp</a><a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Instagram">Instagram</a><a href="${FACEBOOK}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Facebook">Facebook</a>`;
+  box.innerHTML=`<a href="tel:${PHONE}" aria-label="ES Effizienz Services anrufen">Anrufen</a><a href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="ES Effizienz Services über WhatsApp kontaktieren">WhatsApp</a><a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Instagram">Instagram</a>`;
   panel.querySelector('.contact-methods')?.after(box);
 }
 addContactSocials();
@@ -228,7 +228,7 @@ addContactSocials();
 function addDock(){
   if(document.querySelector('.velocity-dock')||['impressum','datenschutz'].includes(page))return;
   const dock=document.createElement('div');dock.className='velocity-dock';dock.setAttribute('aria-label','Schnellkontakt');
-  dock.innerHTML=`<a data-action="call" href="tel:${PHONE}" aria-label="Anrufen" title="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.5.6.5 1.4.1 2l-1.3 1.8a15.5 15.5 0 0 0 6 6l1.8-1.3c.6-.4 1.4-.4 2 .1l3.2 2.8c.5.4.7 1.1.5 1.8l-.6 2.1c-.2.7-.8 1.2-1.5 1.3-4.4.6-9.2-1.6-12.9-5.3S.8 8.8 1.4 4.4c.1-.7.6-1.3 1.3-1.5l2.1-.6c.7-.2 1.4 0 1.8.5Z"/></svg></a><a data-action="whatsapp" href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z"/><path d="M8.3 7.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.7.9c-.2.2-.2.4 0 .7.6 1.1 1.6 2.1 2.7 2.7.3.2.5.2.7 0l.9-1c.2-.2.4-.3.7-.1l1.9.9c.3.1.4.3.4.5 0 .3-.1 1.5-.7 2-.6.5-1.4.8-2.2.6-1.3-.2-3-.9-5-2.7-1.5-1.5-2.4-3.2-2.7-4.5-.2-.8.1-1.7.6-2.2Z"/></svg></a><a data-action="instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a><a data-action="facebook" href="${FACEBOOK}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4.5c-.5-.1-1.8-.2-3.4-.2-3.3 0-5.6 2-5.6 5.8V13H4v4h4v7h5v-7h3.4l.6-4H13v-2.5C13 9.3 13.3 8 14 8Z"/></svg></a>`;
+  dock.innerHTML=`<a data-action="call" href="tel:${PHONE}" aria-label="Anrufen" title="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.5.6.5 1.4.1 2l-1.3 1.8a15.5 15.5 0 0 0 6 6l1.8-1.3c.6-.4 1.4-.4 2 .1l3.2 2.8c.5.4.7 1.1.5 1.8l-.6 2.1c-.2.7-.8 1.2-1.5 1.3-4.4.6-9.2-1.6-12.9-5.3S.8 8.8 1.4 4.4c.1-.7.6-1.3 1.3-1.5l2.1-.6c.7-.2 1.4 0 1.8.5Z"/></svg></a><a data-action="whatsapp" href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3 20.6l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z"/><path d="M8.3 7.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.7.9c-.2.2-.2.4 0 .7.6 1.1 1.6 2.1 2.7 2.7.3.2.5.2.7 0l.9-1c.2-.2.4-.3.7-.1l1.9.9c.3.1.4.3.4.5 0 .3-.1 1.5-.7 2-.6.5-1.4.8-2.2.6-1.3-.2-3-.9-5-2.7-1.5-1.5-2.4-3.2-2.7-4.5-.2-.8.1-1.7.6-2.2Z"/></svg></a><a data-action="instagram" href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg></a>`;
   document.body.append(dock);
 }
 addDock();
@@ -296,6 +296,31 @@ function applyCustomerFeedback(){
   }
 }
 applyCustomerFeedback();
+
+function linkExistingFacebookPlaceholders(){
+  const setLink=a=>{
+    a.href=FACEBOOK;
+    a.target='_blank';
+    a.rel='noopener';
+    a.setAttribute('aria-label','ES Effizienz Services auf Facebook');
+    if(/link folgt/i.test(a.textContent||''))a.textContent='Facebook';
+  };
+  document.querySelectorAll('a').forEach(a=>{
+    const text=(a.textContent||'').trim();
+    const href=(a.getAttribute('href')||'').trim();
+    if(/facebook/i.test(text)&&(/link folgt/i.test(text)||!href||href==='#'||href.toLowerCase()==='javascript:void(0)'))setLink(a);
+  });
+  document.querySelectorAll('span,strong,p,div').forEach(el=>{
+    const text=(el.textContent||'').trim();
+    if(!/^facebook\s*[·|-]?\s*link folgt$/i.test(text)||el.querySelector('a')||el.children.length)return;
+    const a=document.createElement('a');
+    a.textContent='Facebook';
+    setLink(a);
+    el.replaceChildren(a);
+  });
+}
+linkExistingFacebookPlaceholders();
+requestAnimationFrame(linkExistingFacebookPlaceholders);
 
 function normalizeActions(){
   document.querySelectorAll(`a[href="tel:${PHONE}"],a[href="tel:+491622150164"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services mobil anrufen')});
