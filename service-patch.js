@@ -85,7 +85,15 @@
     img.srcset='';
     img.loading=cfg.src.startsWith('/')?'eager':'lazy';
     img.decoding='async';
-    if(cfg.src.startsWith('/')) img.fetchPriority='high';
+    if(cfg.src.startsWith('/')){
+      img.fetchPriority='high';
+      const media=img.closest('.service-media');
+      if(media){
+        media.style.setProperty('background-image',`url("${cfg.src}")`,'important');
+        media.style.setProperty('background-size','cover','important');
+        media.style.setProperty('background-position','center center','important');
+      }
+    }
   };
 
   const swapCard=(href,cfg)=>{
@@ -153,4 +161,23 @@
     }
   `;
   document.head.append(style);
+
+  if(document.body.dataset.page==='winterdienst' && !document.getElementById('winter-mobile-layout-20260910')){
+    const mobile=document.createElement('style');
+    mobile.id='winter-mobile-layout-20260910';
+    mobile.textContent=`
+      @media(max-width:680px){
+        body[data-page="winterdienst"] .page-hero{overflow:visible!important;background:#071011!important;}
+        body[data-page="winterdienst"] .page-hero .hero-shell{display:flex!important;flex-direction:column!important;padding:0!important;min-height:0!important;}
+        body[data-page="winterdienst"] .page-hero .hero-aside{order:1!important;position:relative!important;inset:auto!important;width:100%!important;height:42svh!important;min-height:320px!important;display:block!important;}
+        body[data-page="winterdienst"] .page-hero .hero-aside>.cinematic-media{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;clip-path:none!important;}
+        body[data-page="winterdienst"] .page-hero .cinematic-media img{display:block!important;opacity:1!important;visibility:visible!important;filter:saturate(.82) contrast(1.02) brightness(.9)!important;object-position:center center!important;}
+        body[data-page="winterdienst"] .page-hero .cinematic-media:after{background:linear-gradient(0deg,rgba(7,16,17,.25),transparent 55%)!important;}
+        body[data-page="winterdienst"] .page-hero .cinematic-media figcaption{display:none!important;}
+        body[data-page="winterdienst"] .page-hero .hero-copy{order:2!important;min-height:0!important;padding:42px 18px 54px!important;background:#071011!important;justify-content:flex-start!important;}
+        body[data-page="winterdienst"] .page-hero .hero-copy:before{display:none!important;}
+      }
+    `;
+    document.head.append(mobile);
+  }
 })();
