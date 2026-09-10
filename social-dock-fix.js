@@ -7,6 +7,24 @@
     facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.45-3.5H13.7V7.27c0-1.01.28-1.7 1.73-1.7h1.85V2.44c-.32-.04-1.42-.14-2.7-.14-2.67 0-4.5 1.63-4.5 4.63V9.5H7v3.5h3.08v9h3.62Z"/></svg>'
   };
 
+  const ensureStyle=()=>{
+    let style=document.getElementById('social-dock-four-actions');
+    if(!style){
+      style=document.createElement('style');
+      style.id='social-dock-four-actions';
+      document.head.append(style);
+    }
+    style.textContent=`
+      .velocity-dock a[data-action="facebook"] svg{fill:currentColor!important;stroke:none!important}
+      @media(max-width:680px){
+        .velocity-dock{display:grid!important;grid-template-columns:repeat(4,48px)!important;grid-auto-flow:column!important;grid-auto-columns:48px!important;gap:8px!important;width:216px!important;min-width:216px!important;left:auto!important;right:14px!important;overflow:visible!important}
+        .velocity-dock a{display:flex!important;width:48px!important;min-width:48px!important;max-width:48px!important;min-height:48px!important;visibility:visible!important;opacity:1!important}
+        .velocity-dock a[data-action="instagram"]{background:#9b6c4f!important}
+        .velocity-dock a[data-action="facebook"]{background:rgba(9,13,14,.94)!important}
+      }
+    `;
+  };
+
   const ensureSocial=(dock,action,href,label)=>{
     let a=dock.querySelector(`[data-action="${action}"]`);
     if(!a){
@@ -20,36 +38,30 @@
     a.setAttribute('aria-label',label);
     a.title=label;
     a.innerHTML=icons[action];
+    a.style.removeProperty('display');
+    a.style.removeProperty('visibility');
+    a.style.removeProperty('opacity');
     return a;
   };
 
+  let running=false;
   const apply=()=>{
-    const dock=document.querySelector('.velocity-dock');
-    if(!dock)return;
+    if(running)return;
+    running=true;
+    try{
+      ensureStyle();
+      const dock=document.querySelector('.velocity-dock');
+      if(!dock)return;
 
-    // Keep Instagram and Facebook as two separate actions. Do not replace one with the other.
-    ensureSocial(dock,'instagram',INSTAGRAM,'Instagram');
-    ensureSocial(dock,'facebook',FACEBOOK,'Facebook');
+      ensureSocial(dock,'instagram',INSTAGRAM,'Instagram');
+      ensureSocial(dock,'facebook',FACEBOOK,'Facebook');
 
-    // Stable order: phone, WhatsApp, Instagram, Facebook.
-    ['call','whatsapp','instagram','facebook'].forEach(action=>{
-      const item=dock.querySelector(`[data-action="${action}"]`);
-      if(item)dock.append(item);
-    });
-
-    if(!document.getElementById('social-dock-four-actions')){
-      const style=document.createElement('style');
-      style.id='social-dock-four-actions';
-      style.textContent=`
-        .velocity-dock a[data-action="facebook"] svg{fill:currentColor!important;stroke:none!important}
-        @media(max-width:680px){
-          .velocity-dock{display:grid!important;grid-template-columns:repeat(4,48px)!important;grid-auto-flow:column!important;gap:8px!important;width:auto!important;left:auto!important;right:14px!important}
-          .velocity-dock a{width:48px!important;min-width:48px!important;min-height:48px!important}
-          .velocity-dock a[data-action="instagram"]{background:#9b6c4f!important}
-          .velocity-dock a[data-action="facebook"]{background:rgba(9,13,14,.94)!important}
-        }
-      `;
-      document.head.append(style);
+      ['call','whatsapp','instagram','facebook'].forEach(action=>{
+        const item=dock.querySelector(`[data-action="${action}"]`);
+        if(item && item!==dock.lastElementChild)dock.append(item);
+      });
+    } finally {
+      running=false;
     }
   };
 
@@ -57,5 +69,10 @@
   requestAnimationFrame(apply);
   document.addEventListener('DOMContentLoaded',apply,{once:true});
   window.addEventListener('load',apply,{once:true});
-  setTimeout(apply,250);
+  setTimeout(apply,150);
+  setTimeout(apply,600);
+  setTimeout(apply,1500);
+
+  const observer=new MutationObserver(()=>requestAnimationFrame(apply));
+  observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-action','href','style','class']});
 })();
