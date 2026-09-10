@@ -2,7 +2,7 @@ const ensureCss=(href,id)=>{if(!document.getElementById(id)){const l=document.cr
 ensureCss('/editorial.css?v=20260907e','editorial-css');
 ensureCss('/signature.css?v=20260907d','signature-css');
 ensureCss('/velocity.css?v=20260907a','velocity-css');
-ensureCss('/hero-fix.css?v=20260910g','hero-fix-css');
+ensureCss('/hero-fix.css?v=20260910h','hero-fix-css');
 ensureCss('/contact-fix.css?v=20260909a','contact-fix-css');
 
 const path=location.pathname.replace(/^\/+|\/+$/g,'');
@@ -26,6 +26,7 @@ const IMG={
   workInterior:'/IMG_6835.JPG',
   workDemolition:'/IMG_6837.JPG',
   workGarden:'/IMG_6845.PNG',
+  aboutHero:'/ueber-uns.png',
   architecture:'https://images.unsplash.com/photo-1776655890108-b8b0a8f3b5cf?auto=format&fit=crop&q=88&w=2200',
   property:'https://images.unsplash.com/photo-1759355787286-f1c5fd456a0d?auto=format&fit=crop&q=88&w=2200',
   garden:'https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&q=88&w=2200',
@@ -51,7 +52,7 @@ const pageVisual={
   winterdienst:{hero:'winter',alt:'Winterdienst und Schneeräumung als Symbolbild'},
   umzug:{hero:'move',alt:'Umzug und Transport als Symbolbild'},
   'garten-landschaftsbau':{hero:'workGarden',alt:'Außenanlage aus einem Projekt von ES Effizienz Services'},
-  'ueber-uns':{hero:'workExterior',alt:'Projektaufnahme von ES Effizienz Services'},
+  'ueber-uns':{hero:'aboutHero',alt:'ES Effizienz Services vor der Frankfurter Skyline'},
   referenzen:{hero:'workInterior',alt:'Projektaufnahme von ES Effizienz Services'},
   faq:{hero:'architecture',alt:'Modernes Objekt als Symbolbild'},
   kontakt:{hero:'garden',alt:'Gepflegtes Objekt als Symbolbild'}
@@ -245,7 +246,7 @@ function applyCustomerFeedback(){
       section.content:not(.dark-section) .process-card{border-color:rgba(11,17,18,.16)!important}
       section.content:not(.dark-section) .process-card h3{color:#0b1112!important;font-weight:600!important}
       section.content:not(.dark-section) .process-card p{color:#424d4f!important;font-weight:500!important}
-      .service-name-one-line{white-space:nowrap!important;text-wrap:nowrap!important;font-size:clamp(3.25rem,6.4vw,7.6rem)!important;letter-spacing:-.07em!important}
+      .service-name-one-line{white-space:normal!important;text-wrap:balance!important;max-width:100%!important;font-size:clamp(3.05rem,5.4vw,6.4rem)!important;letter-spacing:-.07em!important}
       body[data-page="hausmeisterservice"] .service-name-one-line{font-size:clamp(2.8rem,5.25vw,6.2rem)!important}
       body[data-page="abriss-entruempelung"] .service-name-one-line{font-size:clamp(2.55rem,4.6vw,5.5rem)!important}
       .service-name-one-line .serif{margin-left:.06em}
@@ -265,7 +266,7 @@ function applyCustomerFeedback(){
 
   const serviceNames={
     winterdienst:'Winter<span class="serif">dienst.</span>',
-    hausmeisterservice:'Hausmeister<span class="serif">service.</span>',
+    hausmeisterservice:'Hausmeister<br><span class="serif">service.</span>',
     'abriss-entruempelung':'Abriss & <span class="serif">Entrümpelung.</span>'
   };
   const heroTitle=document.querySelector('.page-hero .hero-copy h1');
