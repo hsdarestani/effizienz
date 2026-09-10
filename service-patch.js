@@ -5,7 +5,7 @@
     author:'Vitaly Gariev'
   };
   const WINTER={
-    src:'/assets/winterdienst-rhein-main.png?v=20260910a',
+    src:'/assets/winterdienst-rhein-main.png?v=20260910b',
     source:'/winterdienst/',
     author:'Motiv · Rhein-Main'
   };
@@ -83,8 +83,9 @@
     if(!img)return;
     img.src=cfg.src;
     img.srcset='';
-    img.loading='lazy';
+    img.loading=cfg.src.startsWith('/')?'eager':'lazy';
     img.decoding='async';
+    if(cfg.src.startsWith('/')) img.fetchPriority='high';
   };
 
   const swapCard=(href,cfg)=>{
