@@ -234,6 +234,27 @@ html body[data-page="ueber-uns"] .page-hero .about-photo-panel:after{
 }
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel>.quote{z-index:5!important}
 
+/* Keep the branded About hero compact on desktop. */
+@media(min-width:1001px){
+  html body[data-page="ueber-uns"] .page-hero .hero-shell{
+    min-height:580px!important;
+    height:580px!important;
+    max-height:580px!important;
+  }
+  html body[data-page="ueber-uns"] .page-hero .hero-copy,
+  html body[data-page="ueber-uns"] .page-hero .hero-aside,
+  html body[data-page="ueber-uns"] .page-hero .cinematic-media,
+  html body[data-page="ueber-uns"] .page-hero .about-photo-panel{
+    min-height:580px!important;
+    height:580px!important;
+    max-height:580px!important;
+  }
+  html body[data-page="ueber-uns"] .page-hero .hero-copy{
+    padding-top:46px!important;
+    padding-bottom:46px!important;
+  }
+}
+
 /* ========================================================================
    Service visual de-duplication — 2026-09-10
    Hero and lower poster on each service page must be different.
