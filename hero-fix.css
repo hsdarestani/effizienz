@@ -221,3 +221,140 @@ html body header .nav nav a.nav-cta{
   html body main .detail-story__media{min-height:52svh!important}
   html body main .velocity-poster__media{min-height:42svh!important}
 }
+
+/* =========================================================
+   FINAL CUSTOMER FEEDBACK — 2026-09-10
+   Loaded globally through site.js, so the same rules apply on
+   home, Leistungen and every service/detail page.
+   ========================================================= */
+
+/* Customer supplied Hausmeisterservice photos: use two as a subtle slideshow. */
+@keyframes esHausmeisterSlides{
+  0%,45%{background-image:url('/IMG_6889.JPG')}
+  50%,95%{background-image:url('/IMG_6888.JPG')}
+  100%{background-image:url('/IMG_6889.JPG')}
+}
+body[data-page="hausmeisterservice"] .page-hero .cinematic-media,
+body[data-page="hausmeisterservice"] .velocity-poster__media{
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+  animation:esHausmeisterSlides 9s ease-in-out infinite!important;
+}
+body[data-page="hausmeisterservice"] .page-hero .cinematic-media>img,
+body[data-page="hausmeisterservice"] .velocity-poster__media>img{opacity:0!important}
+html body .cards.service-editorial .card[href="/hausmeisterservice/"] .service-media{
+  background:url('/IMG_6889.JPG') center/cover no-repeat!important;
+}
+html body .cards.service-editorial .card[href="/hausmeisterservice/"] .service-media>img{opacity:0!important}
+
+/* Entrümpelung: real home-clearing visual instead of unfinished construction imagery. */
+body[data-page="abriss-entruempelung"] .page-hero .cinematic-media,
+body[data-page="abriss-entruempelung"] .velocity-poster__media,
+html body .cards.service-editorial .card[href="/abriss-entruempelung/"] .service-media{
+  background-image:url('https://images.pexels.com/photos/4246119/pexels-photo-4246119.jpeg?auto=compress&dpr=1&h=1100&w=1800')!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+body[data-page="abriss-entruempelung"] .page-hero .cinematic-media>img,
+body[data-page="abriss-entruempelung"] .velocity-poster__media>img,
+html body .cards.service-editorial .card[href="/abriss-entruempelung/"] .service-media>img{opacity:0!important}
+/* Entrümpelung must sit below Abriss & even though site.js sets the service title dynamically. */
+body[data-page="abriss-entruempelung"] .page-hero .hero-copy h1.service-name-one-line{
+  white-space:normal!important;text-wrap:wrap!important;
+}
+body[data-page="abriss-entruempelung"] .page-hero .hero-copy h1.service-name-one-line .serif{
+  display:block!important;margin-left:0!important;
+}
+
+/* Gartenpflege: clearly European/German residential context, no tropical scenery. */
+body[data-page="garten-landschaftsbau"] .page-hero .cinematic-media,
+html body .cards.service-editorial .card[href="/garten-landschaftsbau/"] .service-media{
+  background-image:url('https://images.pexels.com/photos/37351066/pexels-photo-37351066.jpeg?auto=compress&dpr=1&h=1100&w=1800')!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+body[data-page="garten-landschaftsbau"] .velocity-poster__media{
+  background-image:url('https://images.pexels.com/photos/24595771/pexels-photo-24595771/free-photo-of-man-cutting-hedge-with-a-trimmer-in-the-garden.jpeg?auto=compress&dpr=1&h=1100&w=1800')!important;
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+body[data-page="garten-landschaftsbau"] .page-hero .cinematic-media>img,
+body[data-page="garten-landschaftsbau"] .velocity-poster__media>img,
+html body .cards.service-editorial .card[href="/garten-landschaftsbau/"] .service-media>img{opacity:0!important}
+
+/* Winterdienst: customer asked for a single line; keep current black/beige treatment. */
+body[data-page="winterdienst"] .page-hero .hero-copy h1.service-name-one-line{white-space:nowrap!important;text-wrap:nowrap!important}
+body[data-page="winterdienst"] .page-hero .hero-copy h1.service-name-one-line .serif{display:inline!important;margin-left:.04em!important}
+
+/* Umzug: remove the visible placeholder 'Beispiel' labels. */
+body[data-page="umzug"] .page-hero .info-list span:nth-child(1) em,
+body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em{font-size:0!important}
+body[data-page="umzug"] .page-hero .info-list span:nth-child(1) em:after{content:'Wohnung & Haus';font-size:.71rem!important}
+body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em:after{content:'Büro & Betrieb';font-size:.71rem!important}
+
+/* Replace generic brand/detail photo with a branded Frankfurt skyline composition. */
+html body .detail-story__media{
+  position:relative!important;
+  background:url('/IMG_6830.JPG') center/cover no-repeat!important;
+}
+html body .detail-story__media>img{opacity:0!important}
+html body .detail-story__media:before{
+  content:''!important;position:absolute!important;inset:0!important;z-index:1!important;
+  background:linear-gradient(135deg,rgba(6,12,13,.15),rgba(6,12,13,.62))!important;
+}
+html body .detail-story__media:after{
+  content:''!important;position:absolute!important;z-index:2!important;left:50%!important;top:50%!important;
+  width:min(36%,230px)!important;aspect-ratio:1/1!important;transform:translate(-50%,-50%)!important;
+  background:url('/Picture2.png') center/contain no-repeat!important;
+  filter:drop-shadow(0 12px 28px rgba(0,0,0,.3))!important;
+}
+
+/* About page: the requested static project image is now a real-project slideshow. */
+@keyframes esAboutProjectSlides{
+  0%,28%{background-image:url('/IMG_6831.JPG')}
+  34%,61%{background-image:url('/IMG_6835.JPG')}
+  67%,94%{background-image:url('/IMG_6842.JPG')}
+  100%{background-image:url('/IMG_6831.JPG')}
+}
+body[data-page="ueber-uns"] main>section.content:not(.dark-section) .about-photo-panel{
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+  animation:esAboutProjectSlides 14s ease-in-out infinite!important;
+}
+body[data-page="ueber-uns"] main>section.content:not(.dark-section) .about-photo-panel>.about-work-photo{opacity:0!important}
+
+/* References: hero cycles through their own project photos, not a single static image. */
+@keyframes esReferenceProjectSlides{
+  0%,20%{background-image:url('/IMG_6831.JPG')}
+  25%,45%{background-image:url('/IMG_6837.JPG')}
+  50%,70%{background-image:url('/IMG_6842.JPG')}
+  75%,95%{background-image:url('/IMG_6840.JPG')}
+  100%{background-image:url('/IMG_6831.JPG')}
+}
+body[data-page="referenzen"] .page-hero .cinematic-media{
+  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+  animation:esReferenceProjectSlides 16s ease-in-out infinite!important;
+}
+body[data-page="referenzen"] .page-hero .cinematic-media>img{opacity:0!important}
+
+/* FAQ: clean, professional customer-service image. */
+body[data-page="faq"] .page-hero .cinematic-media{
+  background:url('https://images.pexels.com/photos/8867425/pexels-photo-8867425.jpeg?auto=compress&dpr=1&h=1100&w=1800') center/cover no-repeat!important;
+}
+body[data-page="faq"] .page-hero .cinematic-media>img{opacity:0!important}
+
+/* Facebook placeholder is visible now; real URL can be inserted as soon as the client sends it. */
+body[data-page="kontakt"] .contact-methods:after{
+  content:'Facebook   ·   Link folgt';display:block;padding:18px 0;border-top:1px solid rgba(255,255,255,.14);
+  color:#d6b49f;font-size:.78rem;font-weight:700;letter-spacing:.02em;
+}
+body[data-page="kontakt"] .social-quick:after{
+  content:'Facebook · Link folgt';display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;
+  border:1px solid rgba(255,255,255,.16);color:#aeb7b8;font-size:.72rem;
+}
+
+@media (prefers-reduced-motion:reduce){
+  body[data-page="hausmeisterservice"] .page-hero .cinematic-media,
+  body[data-page="hausmeisterservice"] .velocity-poster__media,
+  body[data-page="ueber-uns"] main>section.content:not(.dark-section) .about-photo-panel,
+  body[data-page="referenzen"] .page-hero .cinematic-media{animation:none!important}
+  body[data-page="hausmeisterservice"] .page-hero .cinematic-media,
+  body[data-page="hausmeisterservice"] .velocity-poster__media{background-image:url('/IMG_6889.JPG')!important}
+  body[data-page="ueber-uns"] main>section.content:not(.dark-section) .about-photo-panel{background-image:url('/IMG_6831.JPG')!important}
+  body[data-page="referenzen"] .page-hero .cinematic-media{background-image:url('/IMG_6831.JPG')!important}
+}
