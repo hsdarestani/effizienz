@@ -1,0 +1,41 @@
+/* Customer visual feedback — 2026-09-10 */
+
+/* Abriss & Entrümpelung: keep the existing hero layout/card, only replace the photo. */
+html body[data-page="abriss-entruempelung"] .page-hero .cinematic-media{
+  background-image:url('/IMG_6841.JPG')!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+}
+html body[data-page="abriss-entruempelung"] .page-hero .cinematic-media>img{
+  opacity:0!important;
+}
+
+/* Gartenpflege: replace the full-person hedge image with the two client-supplied detail photos. */
+html body[data-page="garten-landschaftsbau"] .velocity-poster__media{
+  background-image:url('/IMG_6883.JPG'),url('/IMG_6885.JPG')!important;
+  background-size:50.1% 100%,50.1% 100%!important;
+  background-position:left center,right center!important;
+  background-repeat:no-repeat,no-repeat!important;
+  background-color:#d7d0c8!important;
+}
+html body[data-page="garten-landschaftsbau"] .velocity-poster__media>img{
+  opacity:0!important;
+}
+
+/* Instagram CTA requested in the Leistungen portfolio intro. */
+html body[data-page="leistungen"] .portfolio-instagram-button{
+  margin-top:22px!important;
+  width:max-content!important;
+  min-width:150px!important;
+}
+
+@media(max-width:680px){
+  html body[data-page="garten-landschaftsbau"] .velocity-poster__media{
+    background-size:100% 50.1%,100% 50.1%!important;
+    background-position:center top,center bottom!important;
+  }
+  html body[data-page="leistungen"] .portfolio-instagram-button{
+    width:100%!important;
+  }
+}
