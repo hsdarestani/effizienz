@@ -201,7 +201,9 @@ function makeManifesto(){
       ?{eye:'Wo Details Form annehmen',title:'Vom ersten Handgriff bis zum letzten.<br><em>Wir machen, was gemacht werden muss.</em>',p:'Von der ersten Abstimmung bis zum letzten Handgriff soll sich Zusammenarbeit einfach anfühlen. Dafür steht ES Effizienz Services: anpacken, sauber arbeiten, zuverlässig abschließen.'}
       :{eye:'Wo Details Form annehmen',title:'Ordnung ist kein Extra.<br><em>Sie ist der Standard.</em>',p:'Von der ersten Abstimmung bis zum letzten Handgriff soll sich Zusammenarbeit einfach anfühlen. Dafür steht ES Effizienz Services: anpacken, sauber arbeiten, zuverlässig abschließen.'};
   const sec=document.createElement('section');sec.className='detail-story reveal';
-  sec.innerHTML=`<div class="detail-story__grid"><figure class="detail-story__media"><img src="${IMG.signature}" alt="Architektonisches Detail und Materialität als Markenmotiv von ES Effizienz Services"></figure><div class="detail-story__copy"><div><div class="eyebrow">${copy.eye}</div><h2>${copy.title}</h2><p>${copy.p}</p></div><div class="detail-story__footer"><span>Rhein-Main · Deutschlandweit</span><span>Sie haben die Aufgabe. Wir die Lösung.</span></div></div></div>`;
+  const storyImage=page==='home'?'/IMG_6737.JPG':IMG.signature;
+  const storyAlt=page==='home'?'Innenausbau aus einem Projekt von ES Effizienz Services':'Architektonisches Detail und Materialität als Markenmotiv von ES Effizienz Services';
+  sec.innerHTML=`<div class="detail-story__grid"><figure class="detail-story__media"><img src="${storyImage}" alt="${storyAlt}"></figure><div class="detail-story__copy"><div><div class="eyebrow">${copy.eye}</div><h2>${copy.title}</h2><p>${copy.p}</p></div><div class="detail-story__footer"><span>Rhein-Main · Deutschlandweit</span><span>Sie haben die Aufgabe. Wir die Lösung.</span></div></div></div>`;
   target.before(sec);
 }
 makeManifesto();
@@ -220,7 +222,7 @@ makeServicePoster();
 function addContactSocials(){
   const panel=document.querySelector('.contact-panel');if(!panel||panel.querySelector('.social-quick'))return;
   const box=document.createElement('div');box.className='social-quick';
-  box.innerHTML=`<a href="tel:${PHONE}" aria-label="ES Effizienz Services anrufen">Anrufen</a><a href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="ES Effizienz Services über WhatsApp kontaktieren">WhatsApp</a><a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Instagram">Instagram</a>`;
+  box.innerHTML=`<a href="tel:${PHONE}" aria-label="ES Effizienz Services anrufen">Anrufen</a><a href="${WHATSAPP}" target="_blank" rel="noopener" aria-label="ES Effizienz Services über WhatsApp kontaktieren">WhatsApp</a><a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Instagram">Instagram</a><a href="${FACEBOOK}" target="_blank" rel="noopener" aria-label="ES Effizienz Services auf Facebook">Facebook</a>`;
   panel.querySelector('.contact-methods')?.after(box);
 }
 addContactSocials();
@@ -321,6 +323,31 @@ function linkExistingFacebookPlaceholders(){
 }
 linkExistingFacebookPlaceholders();
 requestAnimationFrame(linkExistingFacebookPlaceholders);
+
+function applyLatestScreenshotFeedback(){
+  if(page==='kontakt'){
+    const methods=document.querySelector('.contact-methods');
+    if(methods&&!methods.querySelector('a[href*="facebook.com"]')){
+      const row=document.createElement('div');row.className='contact-method';
+      row.innerHTML=`<span>Facebook</span><strong><a href="${FACEBOOK}" target="_blank" rel="noopener">Profil öffnen ↗</a></strong>`;
+      const address=[...methods.children].find(el=>el.querySelector('span')?.textContent.trim()==='Anschrift');
+      methods.insertBefore(row,address||null);
+    }
+  }
+  if(page==='referenzen'){
+    const intro=document.querySelector('.page-hero .hero-copy>p');
+    if(intro)intro.textContent='Einblicke in ausgewählte Arbeiten von ES Effizienz Services – direkt aus realisierten Projekten.';
+    const rows=document.querySelectorAll('.page-hero .info-list span');
+    if(rows[0])rows[0].innerHTML='<b>Innenbereiche</b><em>Projektaufnahmen</em>';
+    if(rows[1])rows[1].innerHTML='<b>Außenanlagen</b><em>Projektaufnahmen</em>';
+  }
+  if(page==='umzug'){
+    const rows=document.querySelectorAll('.page-hero .info-list span');
+    if(rows[0]?.querySelector('em'))rows[0].querySelector('em').textContent='Wohnung & Haus';
+    if(rows[1]?.querySelector('em'))rows[1].querySelector('em').textContent='Büro & Betrieb';
+  }
+}
+applyLatestScreenshotFeedback();
 
 function normalizeActions(){
   document.querySelectorAll(`a[href="tel:${PHONE}"],a[href="tel:+491622150164"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services mobil anrufen')});
