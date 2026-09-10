@@ -238,3 +238,61 @@ html body[data-page="ueber-uns"] .page-hero .about-photo-panel:after{
   filter:drop-shadow(0 12px 30px rgba(0,0,0,.30))!important;
 }
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel>.quote{z-index:5!important}
+
+/* ========================================================================
+   Service visual de-duplication — 2026-09-10
+   Hero and lower poster on each service page must be different.
+   Client/project photos are preferred when suitable; stock photography is
+   kept realistic, non-tropical and Germany-compatible.
+   ======================================================================== */
+
+/* Hausmeisterservice: two DIFFERENT client-supplied project photos. */
+html body[data-page="hausmeisterservice"] .page-hero .cinematic-media{
+  animation:none!important;
+  background:url('/IMG_6889.JPG') center 48%/cover no-repeat!important;
+}
+html body[data-page="hausmeisterservice"] .page-hero .cinematic-media>img{opacity:0!important}
+html body[data-page="hausmeisterservice"] .velocity-poster__media{
+  animation:none!important;
+  background:url('/IMG_6888.JPG') center 50%/cover no-repeat!important;
+}
+html body[data-page="hausmeisterservice"] .velocity-poster__media>img{opacity:0!important}
+
+/* Abriss & Entrümpelung: realistic clearing hero + separate REAL ES project photo below. */
+html body[data-page="abriss-entruempelung"] .velocity-poster__media{
+  background:url('/IMG_6835.JPG') center 48%/cover no-repeat!important;
+}
+html body[data-page="abriss-entruempelung"] .velocity-poster__media>img{opacity:0!important}
+
+/* Winterdienst: Rhein-Main hero + distinct Hamburg/Germany snow-clearing photo below. */
+html body[data-page="winterdienst"] .velocity-poster__media{
+  background:url('https://images.pexels.com/photos/35633252/pexels-photo-35633252.jpeg?auto=compress&cs=tinysrgb&w=1800') center 46%/cover no-repeat!important;
+}
+html body[data-page="winterdienst"] .velocity-poster__media>img{opacity:0!important}
+
+/* Umzug: existing hero + separate professional-moving scene below. */
+html body[data-page="umzug"] .velocity-poster__media{
+  background:url('https://images.pexels.com/photos/7464687/pexels-photo-7464687.jpeg?auto=compress&cs=tinysrgb&w=1800') center 46%/cover no-repeat!important;
+}
+html body[data-page="umzug"] .velocity-poster__media>img{opacity:0!important}
+
+html body[data-page="hausmeisterservice"] .velocity-poster__media,
+html body[data-page="abriss-entruempelung"] .velocity-poster__media,
+html body[data-page="winterdienst"] .velocity-poster__media,
+html body[data-page="umzug"] .velocity-poster__media{
+  background-color:#d7d0c8!important;
+  background-repeat:no-repeat!important;
+}
+
+@media(max-width:680px){
+  html body[data-page="hausmeisterservice"] .page-hero .cinematic-media{background-position:center 46%!important}
+  html body[data-page="hausmeisterservice"] .velocity-poster__media{background-position:center 48%!important}
+  html body[data-page="abriss-entruempelung"] .velocity-poster__media{background-position:center 48%!important}
+  html body[data-page="winterdienst"] .velocity-poster__media{background-position:center 44%!important}
+  html body[data-page="umzug"] .velocity-poster__media{background-position:center 44%!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html body[data-page="hausmeisterservice"] .page-hero .cinematic-media,
+  html body[data-page="hausmeisterservice"] .velocity-poster__media{animation:none!important}
+}
