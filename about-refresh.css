@@ -280,3 +280,13 @@ body[data-page="ueber-uns"] .cta p{
     height:100%!important;
   }
 }
+
+/* 2026-09-10: keep the new About hero artwork anchored to its top edge.
+   The logo must stay fully visible; any necessary crop happens at the bottom. */
+body[data-page="ueber-uns"] .page-hero .hero-aside .about-photo-panel .about-work-photo{
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+}
