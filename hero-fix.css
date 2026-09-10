@@ -246,12 +246,12 @@ html body .cards.service-editorial .card[href="/hausmeisterservice/"] .service-m
 }
 html body .cards.service-editorial .card[href="/hausmeisterservice/"] .service-media>img{opacity:0!important}
 
-/* Entrümpelung: real home-clearing visual instead of unfinished construction imagery. */
+/* Abriss & Entrümpelung: show actual decluttering/sorting instead of a generic moving scene. */
 body[data-page="abriss-entruempelung"] .page-hero .cinematic-media,
 body[data-page="abriss-entruempelung"] .velocity-poster__media,
 html body .cards.service-editorial .card[href="/abriss-entruempelung/"] .service-media{
-  background-image:url('https://images.pexels.com/photos/4246119/pexels-photo-4246119.jpeg?auto=compress&dpr=1&h=1100&w=1800')!important;
-  background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+  background-image:url('https://images.pexels.com/photos/8581372/pexels-photo-8581372.jpeg?auto=compress&cs=tinysrgb&w=1800')!important;
+  background-size:cover!important;background-position:center 56%!important;background-repeat:no-repeat!important;
 }
 body[data-page="abriss-entruempelung"] .page-hero .cinematic-media>img,
 body[data-page="abriss-entruempelung"] .velocity-poster__media>img,
