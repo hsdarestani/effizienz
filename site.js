@@ -325,6 +325,12 @@ linkExistingFacebookPlaceholders();
 requestAnimationFrame(linkExistingFacebookPlaceholders);
 
 function applyLatestScreenshotFeedback(){
+  if(page==='home'){
+    const people=document.querySelectorAll('.company-contact-grid>span');
+    if(people[0])people[0].textContent='Can Güler · Projektleiter & Vertrieb';
+    if(people[1])people[1].textContent='Niku Güler · Geschäftsführung';
+    if(people[2])people[2].textContent='Ahmet Tekin · Geschäftsführung';
+  }
   if(page==='kontakt'){
     const methods=document.querySelector('.contact-methods');
     if(methods&&!methods.querySelector('a[href*="facebook.com"]')){
