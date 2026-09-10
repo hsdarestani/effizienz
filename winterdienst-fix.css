@@ -1,11 +1,12 @@
-/* Winterdienst customer feedback: replace the logo panel with a real winter-service photo. */
+/* Winterdienst customer feedback: use the existing Rhein-Main/Germany winter-service asset here too.
+   This avoids the generic city photo and keeps the page visually consistent with the service hero. */
 body[data-page="winterdienst"] .abstract-panel{
   position:relative!important;
   overflow:hidden!important;
   min-height:590px!important;
   background:
-    linear-gradient(180deg,rgba(7,12,13,.04) 35%,rgba(7,12,13,.34) 100%),
-    url('https://images.unsplash.com/photo-1769955506606-7d6437f9c9d1?auto=format&fit=crop&q=90&w=2200') center 55%/cover no-repeat!important;
+    linear-gradient(180deg,rgba(7,12,13,.02) 42%,rgba(7,12,13,.30) 100%),
+    url('/assets/winterdienst-rhein-main.jpg?v=20260910a') center 48%/cover no-repeat!important;
   border:0!important;
 }
 
@@ -32,6 +33,6 @@ body[data-page="winterdienst"] .abstract-panel .quote{
 @media(max-width:680px){
   body[data-page="winterdienst"] .abstract-panel{
     min-height:440px!important;
-    background-position:center center!important;
+    background-position:center 50%!important;
   }
 }
