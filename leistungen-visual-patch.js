@@ -6,7 +6,14 @@
   const apply=()=>{
     if(document.body.dataset.page!=='leistungen')return;
 
-    // Use the first customer-supplied replacement image in the overview visual.
+    // Restore the two visual sections: the prior "remove both images" feedback
+    // meant replacing the images with the two newly supplied project photos.
+    const mosaic=document.querySelector('.visual-mosaic');
+    const detailStory=document.querySelector('.detail-story');
+    mosaic?.style.setProperty('display','block','important');
+    detailStory?.style.setProperty('display','block','important');
+
+    // First customer-supplied replacement image.
     const overview=document.querySelector('.visual-mosaic__main img');
     if(overview){
       overview.src=OVERVIEW_IMAGE;
@@ -18,7 +25,7 @@
       overview.style.objectPosition='center center';
     }
 
-    // Use the second customer-supplied replacement image in the following story section.
+    // Second customer-supplied replacement image.
     const story=document.querySelector('.detail-story__media');
     if(story){
       story.style.setProperty('background-image',`url("${STORY_IMAGE}")`,'important');
