@@ -1,0 +1,37 @@
+/* Winterdienst customer feedback: replace the logo panel with a real winter-service photo. */
+body[data-page="winterdienst"] .abstract-panel{
+  position:relative!important;
+  overflow:hidden!important;
+  min-height:590px!important;
+  background:
+    linear-gradient(180deg,rgba(7,12,13,.04) 35%,rgba(7,12,13,.34) 100%),
+    url('https://images.unsplash.com/photo-1769955506606-7d6437f9c9d1?auto=format&fit=crop&q=90&w=2200') center 55%/cover no-repeat!important;
+  border:0!important;
+}
+
+body[data-page="winterdienst"] .abstract-panel>img{
+  display:none!important;
+}
+
+body[data-page="winterdienst"] .abstract-panel:before,
+body[data-page="winterdienst"] .abstract-panel:after{
+  content:none!important;
+}
+
+body[data-page="winterdienst"] .abstract-panel .quote{
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  z-index:3!important;
+  background:rgba(11,17,18,.90)!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+}
+
+@media(max-width:680px){
+  body[data-page="winterdienst"] .abstract-panel{
+    min-height:440px!important;
+    background-position:center center!important;
+  }
+}
