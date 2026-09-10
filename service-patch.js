@@ -5,7 +5,7 @@
     author:'Vitaly Gariev'
   };
   const WINTER={
-    src:'/assets/winterdienst-rhein-main.png?v=20260910b',
+    src:'/assets/winterdienst-rhein-main.jpg?v=20260910a',
     source:'/winterdienst/',
     author:'Motiv · Rhein-Main'
   };
