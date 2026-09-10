@@ -2,7 +2,7 @@ const ensureCss=(href,id)=>{if(!document.getElementById(id)){const l=document.cr
 ensureCss('/editorial.css?v=20260907e','editorial-css');
 ensureCss('/signature.css?v=20260907d','signature-css');
 ensureCss('/velocity.css?v=20260907a','velocity-css');
-ensureCss('/hero-fix.css?v=20260910f','hero-fix-css');
+ensureCss('/hero-fix.css?v=20260910g','hero-fix-css');
 ensureCss('/contact-fix.css?v=20260909a','contact-fix-css');
 
 const path=location.pathname.replace(/^\/+|\/+$/g,'');
@@ -349,8 +349,8 @@ function applyLatestScreenshotFeedback(){
   }
   if(page==='umzug'){
     const rows=document.querySelectorAll('.page-hero .info-list span');
-    if(rows[0]?.querySelector('em'))rows[0].querySelector('em').textContent='Wohnung & Haus';
-    if(rows[1]?.querySelector('em'))rows[1].querySelector('em').textContent='Büro & Betrieb';
+    if(rows[0]?.querySelector('em'))rows[0].querySelector('em').textContent='Wohnung oder Haus';
+    if(rows[1]?.querySelector('em'))rows[1].querySelector('em').textContent='Büro oder Betrieb';
   }
 }
 applyLatestScreenshotFeedback();
