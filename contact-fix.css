@@ -219,23 +219,18 @@ html body .detail-story__media:after{content:none!important}
 html body[data-page="ueber-uns"] .page-hero .cinematic-media,
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel{
   position:relative!important;
-  background:url('/IMG_6830.JPG') center/cover no-repeat!important;
+  background:url('/ueber-uns.png') center/cover no-repeat!important;
   isolation:isolate!important;
 }
 html body[data-page="ueber-uns"] .page-hero .cinematic-media>img,
-html body[data-page="ueber-uns"] .page-hero .about-photo-panel>.about-work-photo{opacity:0!important}
+html body[data-page="ueber-uns"] .page-hero .about-photo-panel>.about-work-photo{opacity:1!important;object-fit:cover!important;object-position:center!important}
 html body[data-page="ueber-uns"] .page-hero .cinematic-media:before,
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel:before{
-  content:''!important;position:absolute!important;inset:0!important;z-index:1!important;
-  background:linear-gradient(135deg,rgba(7,13,14,.10),rgba(7,13,14,.58))!important;
-  border:0!important;transform:none!important;
+  content:none!important;display:none!important;
 }
 html body[data-page="ueber-uns"] .page-hero .cinematic-media:after,
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel:after{
-  content:''!important;position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
-  width:min(34%,220px)!important;aspect-ratio:1/1!important;z-index:3!important;transform:translate(-50%,-50%)!important;
-  background:url('/Picture2.png') center/contain no-repeat!important;border:0!important;
-  filter:drop-shadow(0 12px 30px rgba(0,0,0,.30))!important;
+  content:none!important;display:none!important;
 }
 html body[data-page="ueber-uns"] .page-hero .about-photo-panel>.quote{z-index:5!important}
 
