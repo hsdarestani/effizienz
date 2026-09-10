@@ -1,19 +1,16 @@
 (()=>{
-  const OVERVIEW_IMAGE='/IMG_6754.JPG?v=20260910b';
-  const STORY_IMAGE='/IMG_6737.JPG?v=20260910b';
+  const OVERVIEW_IMAGE='/IMG_6754.JPG?v=20260910c';
+  const STORY_IMAGE='/IMG_6737.JPG?v=20260910c';
   const INSTAGRAM='https://www.instagram.com/es_effizienz_services/';
 
   const apply=()=>{
     if(document.body.dataset.page!=='leistungen')return;
 
-    // Restore the two visual sections: the prior "remove both images" feedback
-    // meant replacing the images with the two newly supplied project photos.
     const mosaic=document.querySelector('.visual-mosaic');
     const detailStory=document.querySelector('.detail-story');
     mosaic?.style.setProperty('display','block','important');
     detailStory?.style.setProperty('display','block','important');
 
-    // First customer-supplied replacement image.
     const overview=document.querySelector('.visual-mosaic__main img');
     if(overview){
       overview.src=OVERVIEW_IMAGE;
@@ -22,19 +19,41 @@
       overview.loading='lazy';
       overview.decoding='async';
       overview.removeAttribute('referrerpolicy');
-      overview.style.objectPosition='center center';
+      overview.style.setProperty('object-position','center center','important');
     }
 
-    // Second customer-supplied replacement image.
+    // Force the second supplied project photo as an actual <img> so the global
+    // signature background rule can no longer show the old concrete image.
     const story=document.querySelector('.detail-story__media');
     if(story){
-      story.style.setProperty('background-image',`url("${STORY_IMAGE}")`,'important');
-      story.style.setProperty('background-position','center center','important');
-      story.style.setProperty('background-size','cover','important');
+      story.style.setProperty('background-image','none','important');
+      story.style.setProperty('background','none','important');
+      story.style.setProperty('overflow','hidden','important');
       story.removeAttribute('aria-label');
+
+      let img=story.querySelector('img');
+      if(!img){
+        img=document.createElement('img');
+        story.prepend(img);
+      }
+      img.src=STORY_IMAGE;
+      img.srcset='';
+      img.alt='Projektaufnahme von ES Effizienz Services';
+      img.loading='lazy';
+      img.decoding='async';
+      img.removeAttribute('referrerpolicy');
+      img.style.setProperty('display','block','important');
+      img.style.setProperty('opacity','1','important');
+      img.style.setProperty('visibility','visible','important');
+      img.style.setProperty('width','100%','important');
+      img.style.setProperty('height','100%','important');
+      img.style.setProperty('min-height','inherit','important');
+      img.style.setProperty('object-fit','cover','important');
+      img.style.setProperty('object-position','center center','important');
+      img.style.setProperty('position','absolute','important');
+      img.style.setProperty('inset','0','important');
     }
 
-    // Existing portfolio intro: keep only the requested Instagram button.
     const portfolioCopy=document.querySelector('main > section.content:not(.dark-section) .section-head > div:last-child');
     if(portfolioCopy&&!portfolioCopy.querySelector('.portfolio-instagram-button')){
       const a=document.createElement('a');
