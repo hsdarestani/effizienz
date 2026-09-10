@@ -144,7 +144,7 @@ function addTrustStrip(){
   const hero=document.querySelector('.page-hero');
   if(!hero||document.querySelector('.lux-strip')||['impressum','datenschutz'].includes(page))return;
   const strip=document.createElement('section');strip.className='lux-strip';
-  strip.innerHTML=`<div class="lux-strip__inner"><div class="lux-strip__item"><small>Einsatzgebiet</small><strong>Rhein-Main</strong></div><div class="lux-strip__item"><small>Aufträge</small><strong>Deutschlandweit</strong></div><div class="lux-strip__item"><small>Festnetz · Mobil</small><strong>${LANDLINE_LABEL}<br>${PHONE_LABEL}</strong></div><div class="lux-strip__item"><small>Prinzip</small><strong>Alles aus einer Hand</strong></div></div>`;
+  strip.innerHTML=`<div class="lux-strip__inner"><div class="lux-strip__item"><small>Einsatzgebiet</small><strong>Rhein-Main</strong></div><div class="lux-strip__item"><small>Aufträge</small><strong>Deutschlandweit</strong></div><div class="lux-strip__item"><small>Telefon · Mobil</small><strong>${LANDLINE_LABEL}<br>${PHONE_LABEL}</strong></div><div class="lux-strip__item"><small>Prinzip</small><strong>Alles aus einer Hand</strong></div></div>`;
   hero.after(strip);
 }
 addTrustStrip();
@@ -232,9 +232,73 @@ function addDock(){
 }
 addDock();
 
+function applyCustomerFeedback(){
+  if(!document.getElementById('customer-feedback-20260910')){
+    const style=document.createElement('style');
+    style.id='customer-feedback-20260910';
+    style.textContent=`
+      .company-contact-grid>span:nth-child(-n+3){font-weight:700!important}
+      section.content:not(.dark-section) .process-grid{border-color:rgba(11,17,18,.16)!important}
+      section.content:not(.dark-section) .process-card{border-color:rgba(11,17,18,.16)!important}
+      section.content:not(.dark-section) .process-card h3{color:#0b1112!important;font-weight:600!important}
+      section.content:not(.dark-section) .process-card p{color:#424d4f!important;font-weight:500!important}
+      .service-name-one-line{white-space:nowrap!important;text-wrap:nowrap!important;font-size:clamp(3.25rem,6.4vw,7.6rem)!important;letter-spacing:-.07em!important}
+      body[data-page="hausmeisterservice"] .service-name-one-line{font-size:clamp(2.8rem,5.25vw,6.2rem)!important}
+      body[data-page="abriss-entruempelung"] .service-name-one-line{font-size:clamp(2.55rem,4.6vw,5.5rem)!important}
+      .service-name-one-line .serif{margin-left:.06em}
+      .phone-choice-layer{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(4,9,10,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:.18s ease}
+      .phone-choice-layer.open{opacity:1;visibility:visible}
+      .phone-choice-card{width:min(430px,100%);background:#f2eee7;color:#0b1112;border:1px solid rgba(11,17,18,.18);padding:30px;box-shadow:0 30px 90px rgba(0,0,0,.28)}
+      .phone-choice-card small{display:block;margin-bottom:12px;color:#a97859;font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+      .phone-choice-card h3{margin:0 0 22px;font-size:1.55rem;font-weight:600}
+      .phone-choice-options{display:grid;border-top:1px solid rgba(11,17,18,.16)}
+      .phone-choice-options a{display:flex;justify-content:space-between;gap:18px;padding:17px 0;border-bottom:1px solid rgba(11,17,18,.16);font-weight:700}
+      .phone-choice-options a span{font-weight:500;color:#526063}
+      .phone-choice-close{width:100%;margin-top:18px;min-height:44px;border:1px solid #0b1112;background:#0b1112;color:#fff;cursor:pointer;font-weight:700}
+      @media(max-width:680px){.service-name-one-line{font-size:clamp(2.65rem,12.2vw,4.4rem)!important}.service-name-one-line .serif{margin-left:.03em}body[data-page="hausmeisterservice"] .service-name-one-line{font-size:clamp(2.25rem,10.6vw,3.8rem)!important}body[data-page="abriss-entruempelung"] .service-name-one-line{font-size:clamp(1.95rem,8.8vw,3.2rem)!important}}
+    `;
+    document.head.append(style);
+  }
+
+  const serviceNames={
+    winterdienst:'Winter<span class="serif">dienst.</span>',
+    hausmeisterservice:'Hausmeister<span class="serif">service.</span>',
+    'abriss-entruempelung':'Abriss & <span class="serif">Entrümpelung.</span>'
+  };
+  const heroTitle=document.querySelector('.page-hero .hero-copy h1');
+  if(heroTitle&&serviceNames[page]){heroTitle.classList.add('service-name-one-line');heroTitle.innerHTML=serviceNames[page]}
+
+  if(page==='leistungen'){
+    const formBtn=document.querySelector('.page-hero .hero-actions .btn.dark[href="/kontakt/"]');
+    if(formBtn)formBtn.textContent='Kontaktformular';
+  }
+
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const textNodes=[];while(walker.nextNode())textNodes.push(walker.currentNode);
+  textNodes.forEach(n=>{if(n.nodeValue.includes('Festnetz'))n.nodeValue=n.nodeValue.replace(/Festnetz/g,'Telefon')});
+
+  let layer=document.querySelector('.phone-choice-layer');
+  if(!layer){
+    layer=document.createElement('div');layer.className='phone-choice-layer';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label','Telefonnummer wählen');
+    layer.innerHTML=`<div class="phone-choice-card"><small>Direkt anrufen</small><h3>Telefonnummer wählen</h3><div class="phone-choice-options"><a href="tel:${LANDLINE}">Telefon <span>${LANDLINE_LABEL}</span></a><a href="tel:${PHONE}">Mobil <span>${PHONE_LABEL}</span></a></div><button class="phone-choice-close" type="button">Schließen</button></div>`;
+    document.body.append(layer);
+    layer.addEventListener('click',e=>{if(e.target===layer||e.target.closest('.phone-choice-close'))layer.classList.remove('open')});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')layer.classList.remove('open')});
+  }
+  const openPhoneChoice=e=>{e.preventDefault();layer.classList.add('open');layer.querySelector('.phone-choice-options a')?.focus()};
+  document.querySelectorAll('.hero-actions .btn[href^="tel:"],.cta .btn[href^="tel:"]').forEach(a=>{a.textContent='Telefon';a.removeAttribute('href');a.setAttribute('role','button');a.setAttribute('tabindex','0');a.classList.add('phone-choice-trigger');a.addEventListener('click',openPhoneChoice);a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();layer.classList.add('open')}})});
+  document.querySelectorAll('.velocity-dock [data-action="call"]').forEach(a=>{a.addEventListener('click',openPhoneChoice)});
+
+  const footerLinks=document.querySelector('.footer-links');
+  if(footerLinks){
+    footerLinks.innerHTML='<a href="/leistungen/">Leistungen</a><a href="/ueber-uns/">Über uns</a><a href="/kontakt/">Kontakt</a><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a>';
+  }
+}
+applyCustomerFeedback();
+
 function normalizeActions(){
   document.querySelectorAll(`a[href="tel:${PHONE}"],a[href="tel:+491622150164"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services mobil anrufen')});
-  document.querySelectorAll(`a[href="tel:${LANDLINE}"],a[href="tel:+4961815039675"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services Festnetz anrufen')});
+  document.querySelectorAll(`a[href="tel:${LANDLINE}"],a[href="tel:+4961815039675"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','ES Effizienz Services Telefon anrufen')});
   document.querySelectorAll(`a[href="mailto:${EMAIL}"]`).forEach(a=>{if(!a.getAttribute('aria-label'))a.setAttribute('aria-label','E-Mail an ES Effizienz Services senden')});
   document.querySelectorAll('a[target="_blank"]').forEach(a=>{const rel=new Set((a.getAttribute('rel')||'').split(/\s+/).filter(Boolean));rel.add('noopener');a.setAttribute('rel',[...rel].join(' '))});
 }
@@ -263,13 +327,6 @@ document.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListene
 
 document.querySelectorAll('.faq-q').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.faq-item')?.classList.toggle('open')));
 document.querySelector('#year')?.replaceChildren(String(new Date().getFullYear()));
-
-const footerLinks=document.querySelector('.footer-links');
-if(footerLinks){
-  [[`tel:${LANDLINE}`,`Festnetz ${LANDLINE_LABEL}`],[`tel:${PHONE}`,`Mobil ${PHONE_LABEL}`],[`mailto:${EMAIL}`,'E-Mail'],[WHATSAPP,'WhatsApp'],[INSTAGRAM,'Instagram']].forEach(([href,label])=>{
-    if(!footerLinks.querySelector(`a[href="${href}"]`)){const a=document.createElement('a');a.href=href;a.textContent=label;if(href.startsWith('http')){a.target='_blank';a.rel='noopener'}footerLinks.prepend(a)}
-  });
-}
 
 if(matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)').matches){
   document.querySelectorAll('.cinematic-media').forEach(box=>{
