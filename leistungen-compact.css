@@ -1,6 +1,12 @@
 /* Leistungen page — compact closing visual sections.
    Keep the end of the page editorial and premium without turning either block into another hero. */
 
+/* Customer feedback 2026-09-10: remove both image-led blocks from Leistungen only. */
+body[data-page="leistungen"] .visual-mosaic,
+body[data-page="leistungen"] .detail-story{
+  display:none!important;
+}
+
 body[data-page="leistungen"] .visual-mosaic{
   padding:0!important;
   background:#0b1011!important;
