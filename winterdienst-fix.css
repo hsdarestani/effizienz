@@ -1,12 +1,12 @@
-/* Winterdienst customer feedback: use the existing Rhein-Main/Germany winter-service asset here too.
-   This avoids the generic city photo and keeps the page visually consistent with the service hero. */
+/* Winterdienst customer feedback: use a second, different German Winterdienst photo in the detail panel.
+   The hero keeps the existing Rhein-Main image; this panel uses a Hamburg snow-clearing scene so the page is not repetitive. */
 body[data-page="winterdienst"] .abstract-panel{
   position:relative!important;
   overflow:hidden!important;
   min-height:590px!important;
   background:
     linear-gradient(180deg,rgba(7,12,13,.02) 42%,rgba(7,12,13,.30) 100%),
-    url('/assets/winterdienst-rhein-main.jpg?v=20260910a') center 48%/cover no-repeat!important;
+    url('https://images.pexels.com/photos/35540157/pexels-photo-35540157.jpeg?auto=compress&cs=tinysrgb&w=1800') center 48%/cover no-repeat!important;
   border:0!important;
 }
 
