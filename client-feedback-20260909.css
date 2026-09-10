@@ -44,7 +44,7 @@ h1,h2,h3,
     transform:scale(1.08)!important;
     transform-origin:center center!important;
   }
-  .company-portraits figure:nth-child(1) img{transform:scale(1.08) translateY(3px)!important}
+  .company-portraits figure:nth-child(1) img{transform:scale(1.08) translateY(8px)!important}
   .company-portraits figure:nth-child(2) img{transform:scale(1.08) translateY(-5px)!important}
   .company-portraits figure:nth-child(3) img{transform:scale(1.08) translateY(-17px)!important}
 }
@@ -160,7 +160,7 @@ body[data-page="ueber-uns"] .team-card:nth-child(3) .team-photo img{object-posit
   body[data-page="ueber-uns"] .team-card .team-photo{height:min(118vw,470px)!important}
   /* Mobile homepage still shows all three portraits; preserve the same visual head line. */
   .company-portraits img{transform:scale(1.1)!important;transform-origin:center center!important}
-  .company-portraits figure:nth-child(1) img{transform:scale(1.1) translateY(2px)!important}
+  .company-portraits figure:nth-child(1) img{transform:scale(1.1) translateY(7px)!important}
   .company-portraits figure:nth-child(2) img{transform:scale(1.1) translateY(-5px)!important}
   .company-portraits figure:nth-child(3) img{transform:scale(1.1) translateY(-17px)!important}
 }
