@@ -284,9 +284,9 @@ body[data-page="winterdienst"] .page-hero .hero-copy h1.service-name-one-line .s
 
 /* Umzug: remove the visible placeholder 'Beispiel' labels. */
 body[data-page="umzug"] .page-hero .info-list span:nth-child(1) em,
-body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em{font-size:0!important}
-body[data-page="umzug"] .page-hero .info-list span:nth-child(1) em:after{content:'Wohnung & Haus';font-size:.71rem!important}
-body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em:after{content:'Büro & Betrieb';font-size:.71rem!important}
+body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em{font-size:.71rem!important}
+body[data-page="umzug"] .page-hero .info-list span:nth-child(1) em:after,
+body[data-page="umzug"] .page-hero .info-list span:nth-child(2) em:after{content:none!important;display:none!important}
 
 /* Replace generic brand/detail photo with a branded Frankfurt skyline composition. */
 html body .detail-story__media{
