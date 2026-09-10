@@ -12,6 +12,46 @@ html body header .nav nav a.nav-cta{
   padding:0 22px!important;
 }
 
+/* Light cards stay readable on hover throughout all inner pages. */
+html body main section.content:not(.dark-section) .cards:not(.service-editorial) .card:hover{
+  background:#e8dfd5!important;
+  color:#0b1112!important;
+  border-color:rgba(11,17,18,.2)!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+html body main section.content:not(.dark-section) .cards:not(.service-editorial) .card:hover h3{
+  color:#0b1112!important;
+}
+html body main section.content:not(.dark-section) .cards:not(.service-editorial) .card:hover p{
+  color:#465052!important;
+}
+
+/* Keep every inner-page headline inside its text column instead of crossing onto the photo. */
+body:not([data-page="home"]) main .page-hero .hero-copy,
+body:not([data-page="home"]) main .page-hero .hero-copy h1{
+  min-width:0!important;
+  max-width:100%!important;
+}
+body:not([data-page="home"]) main .page-hero .hero-copy h1{
+  font-size:clamp(3rem,4.35vw,5.35rem)!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  text-wrap:balance!important;
+}
+
+/* About hero uses the supplied branded Frankfurt artwork. */
+body[data-page="ueber-uns"] .page-hero .cinematic-media{
+  background:url('/ueber-uns.png') center/cover no-repeat!important;
+}
+body[data-page="ueber-uns"] .page-hero .cinematic-media>img{
+  opacity:1!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+}
+
 @media (min-width:1001px){
   /* Dense first screen: no hidden copy, no giant blank image field */
   html body main .page-hero .hero-shell{
