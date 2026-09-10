@@ -112,6 +112,20 @@ body[data-page="ueber-uns"] .team-card:nth-child(1) .team-photo img{object-posit
 body[data-page="ueber-uns"] .team-card:nth-child(2) .team-photo img{object-position:center 17%!important}
 body[data-page="ueber-uns"] .team-card:nth-child(3) .team-photo img{object-position:center 17%!important}
 
+/* Desktop portrait alignment: these source portraits are almost square, so object-position alone
+   cannot move them vertically inside the taller crop. Add a small, equal zoom and offset each
+   portrait so the tops of all three heads sit on the same visual line. */
+@media (min-width:901px){
+  body[data-page="ueber-uns"] .team-card .team-photo img{
+    position:relative!important;
+    transform:scale(1.08)!important;
+    transform-origin:center center!important;
+  }
+  body[data-page="ueber-uns"] .team-card:nth-child(1) .team-photo img{top:14px!important}
+  body[data-page="ueber-uns"] .team-card:nth-child(2) .team-photo img{top:-12px!important}
+  body[data-page="ueber-uns"] .team-card:nth-child(3) .team-photo img{top:0!important}
+}
+
 @media (max-width:900px){
   .company-contact-showcase,.company-contact-overlay{min-height:720px}
   .company-portraits{grid-template-columns:repeat(3,1fr)}
