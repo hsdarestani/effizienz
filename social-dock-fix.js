@@ -15,10 +15,29 @@
       document.head.append(style);
     }
     style.textContent=`
+      .velocity-dock{visibility:visible!important;opacity:1!important;overflow:visible!important}
+      .velocity-dock a{display:flex!important;visibility:visible!important;opacity:1!important}
       .velocity-dock a[data-action="facebook"] svg{fill:currentColor!important;stroke:none!important}
       @media(max-width:680px){
-        .velocity-dock{display:grid!important;grid-template-columns:repeat(4,48px)!important;grid-auto-flow:column!important;grid-auto-columns:48px!important;gap:8px!important;width:216px!important;min-width:216px!important;left:auto!important;right:14px!important;overflow:visible!important}
-        .velocity-dock a{display:flex!important;width:48px!important;min-width:48px!important;max-width:48px!important;min-height:48px!important;visibility:visible!important;opacity:1!important}
+        .velocity-dock{
+          display:flex!important;
+          flex-direction:row!important;
+          align-items:center!important;
+          gap:8px!important;
+          width:auto!important;
+          min-width:0!important;
+          left:auto!important;
+          right:14px!important;
+          overflow:visible!important;
+        }
+        .velocity-dock a{
+          flex:0 0 48px!important;
+          width:48px!important;
+          min-width:48px!important;
+          max-width:48px!important;
+          min-height:48px!important;
+          position:relative!important;
+        }
         .velocity-dock a[data-action="instagram"]{background:#9b6c4f!important}
         .velocity-dock a[data-action="facebook"]{background:rgba(9,13,14,.94)!important}
       }
@@ -38,9 +57,9 @@
     a.setAttribute('aria-label',label);
     a.title=label;
     a.innerHTML=icons[action];
-    a.style.removeProperty('display');
-    a.style.removeProperty('visibility');
-    a.style.removeProperty('opacity');
+    a.style.setProperty('display','flex','important');
+    a.style.setProperty('visibility','visible','important');
+    a.style.setProperty('opacity','1','important');
     return a;
   };
 
@@ -56,9 +75,14 @@
       ensureSocial(dock,'instagram',INSTAGRAM,'Instagram');
       ensureSocial(dock,'facebook',FACEBOOK,'Facebook');
 
-      ['call','whatsapp','instagram','facebook'].forEach(action=>{
+      dock.style.setProperty('display',matchMedia('(max-width:680px)').matches?'flex':'flex','important');
+      dock.style.setProperty('visibility','visible','important');
+      dock.style.setProperty('opacity','1','important');
+
+      // Requested visible order: Facebook, Instagram, then the remaining actions.
+      ['facebook','instagram','whatsapp','call'].forEach(action=>{
         const item=dock.querySelector(`[data-action="${action}"]`);
-        if(item && item!==dock.lastElementChild)dock.append(item);
+        if(item)dock.append(item);
       });
     } finally {
       running=false;
@@ -69,9 +93,7 @@
   requestAnimationFrame(apply);
   document.addEventListener('DOMContentLoaded',apply,{once:true});
   window.addEventListener('load',apply,{once:true});
-  setTimeout(apply,150);
-  setTimeout(apply,600);
-  setTimeout(apply,1500);
+  [100,300,700,1500,3000].forEach(ms=>setTimeout(apply,ms));
 
   const observer=new MutationObserver(()=>requestAnimationFrame(apply));
   observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-action','href','style','class']});
