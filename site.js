@@ -3,7 +3,7 @@ ensureCss('/editorial.css?v=20260907e','editorial-css');
 ensureCss('/signature.css?v=20260907d','signature-css');
 ensureCss('/velocity.css?v=20260907a','velocity-css');
 ensureCss('/hero-fix.css?v=20260910i','hero-fix-css');
-ensureCss('/contact-fix.css?v=20260910c','contact-fix-css');
+ensureCss('/contact-fix.css?v=20260910d','contact-fix-css');
 
 const path=location.pathname.replace(/^\/+|\/+$/g,'');
 const page=path||'home';
