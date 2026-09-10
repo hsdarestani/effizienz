@@ -250,7 +250,7 @@ html body .cards.service-editorial .card[href="/hausmeisterservice/"] .service-m
 body[data-page="abriss-entruempelung"] .page-hero .cinematic-media,
 body[data-page="abriss-entruempelung"] .velocity-poster__media,
 html body .cards.service-editorial .card[href="/abriss-entruempelung/"] .service-media{
-  background-image:url('https://images.pexels.com/photos/8581372/pexels-photo-8581372.jpeg?auto=compress&cs=tinysrgb&w=1800')!important;
+  background-image:url('/IMG_6841.JPG')!important;
   background-size:cover!important;background-position:center 56%!important;background-repeat:no-repeat!important;
 }
 body[data-page="abriss-entruempelung"] .page-hero .cinematic-media>img,
@@ -338,15 +338,28 @@ body[data-page="faq"] .page-hero .cinematic-media{
 }
 body[data-page="faq"] .page-hero .cinematic-media>img{opacity:0!important}
 
-/* Facebook placeholder is visible now; real URL can be inserted as soon as the client sends it. */
-body[data-page="kontakt"] .contact-methods:after{
-  content:'Facebook   ·   Link folgt';display:block;padding:18px 0;border-top:1px solid rgba(255,255,255,.14);
-  color:#d6b49f;font-size:.78rem;font-weight:700;letter-spacing:.02em;
+/* Facebook is rendered as a real link, never as a placeholder. */
+body[data-page="kontakt"] .contact-methods:after,
+body[data-page="kontakt"] .social-quick:after{content:none!important;display:none!important}
+
+/* Keep the supplied About image visible when the editorial layers load asynchronously. */
+body[data-page="ueber-uns"] main>section.content:not(.dark-section) .about-photo-panel>.about-work-photo{
+  display:block!important;width:100%!important;height:100%!important;max-width:none!important;
+  object-fit:cover!important;object-position:center!important;opacity:1!important;visibility:visible!important;
 }
-body[data-page="kontakt"] .social-quick:after{
-  content:'Facebook · Link folgt';display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;
-  border:1px solid rgba(255,255,255,.16);color:#aeb7b8;font-size:.72rem;
+
+/* These cards already contain their small sequence number. */
+body[data-page="abriss-entruempelung"] main .cards .card:before,
+body[data-page="abriss-entruempelung"] main .cards .card:after{content:none!important;display:none!important}
+
+/* Use a real project photo on the homepage instead of the former texture motif. */
+body[data-page="home"] .detail-story__media{background:none!important}
+body[data-page="home"] .detail-story__media>img{
+  display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  max-width:none!important;object-fit:cover!important;object-position:center!important;opacity:1!important;visibility:visible!important;
 }
+body[data-page="home"] .detail-story__media:before,
+body[data-page="home"] .detail-story__media:after{content:none!important;display:none!important}
 
 @media (prefers-reduced-motion:reduce){
   body[data-page="hausmeisterservice"] .page-hero .cinematic-media,
