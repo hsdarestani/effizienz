@@ -98,3 +98,27 @@
   const observer=new MutationObserver(()=>requestAnimationFrame(apply));
   observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-action','href','style','class']});
 })();
+
+// Keep the homepage overview image in sync with the Leistungen page.
+(()=>{
+  const HOME_OVERVIEW_IMAGE='/IMG_6754.JPG?v=20260911b';
+
+  const applyHomeOverview=()=>{
+    if(document.body.dataset.page!=='home')return;
+    const overview=document.querySelector('.visual-mosaic__main img');
+    if(!overview)return;
+
+    overview.src=HOME_OVERVIEW_IMAGE;
+    overview.srcset='';
+    overview.alt='Projektaufnahme von ES Effizienz Services';
+    overview.loading='lazy';
+    overview.decoding='async';
+    overview.removeAttribute('referrerpolicy');
+    overview.style.setProperty('object-position','center center','important');
+  };
+
+  applyHomeOverview();
+  requestAnimationFrame(applyHomeOverview);
+  document.addEventListener('DOMContentLoaded',applyHomeOverview,{once:true});
+  window.addEventListener('load',applyHomeOverview,{once:true});
+})();
