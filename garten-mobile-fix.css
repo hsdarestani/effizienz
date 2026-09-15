@@ -1,0 +1,44 @@
+/* Gartenpflege mobile media fix — prevent Safari from rendering the fallback <img>
+   alongside the intended background image and preserve a natural crop. */
+@media (max-width: 680px){
+  body[data-page="garten-landschaftsbau"] .velocity-poster{
+    display:block!important;
+    min-height:0!important;
+  }
+
+  body[data-page="garten-landschaftsbau"] .velocity-poster__media{
+    position:relative!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:4 / 3!important;
+    overflow:hidden!important;
+    background-size:cover!important;
+    background-position:center center!important;
+    background-repeat:no-repeat!important;
+  }
+
+  /* The poster already uses a dedicated background image for Gartenpflege.
+     Removing the generated fallback image from layout avoids the doubled /
+     vertically compressed image Safari was showing. */
+  body[data-page="garten-landschaftsbau"] .velocity-poster__media > img{
+    display:none!important;
+    width:0!important;
+    height:0!important;
+  }
+
+  /* Keep the hero and service-card artwork cropped, never stretched. */
+  body[data-page="garten-landschaftsbau"] .page-hero .cinematic-media,
+  html body .cards.service-editorial .card[href="/garten-landschaftsbau/"] .service-media{
+    background-size:cover!important;
+    background-position:center center!important;
+    background-repeat:no-repeat!important;
+  }
+
+  body[data-page="garten-landschaftsbau"] .page-hero .cinematic-media > img,
+  html body .cards.service-editorial .card[href="/garten-landschaftsbau/"] .service-media > img{
+    object-fit:cover!important;
+    object-position:center center!important;
+  }
+}
