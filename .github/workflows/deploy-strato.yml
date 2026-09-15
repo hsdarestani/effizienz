@@ -18,30 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare SSH key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.STRATO_SSH_KEY }}
-          STRATO_HOST: ${{ secrets.STRATO_HOST }}
-          STRATO_PORT: ${{ secrets.STRATO_PORT }}
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          python3 - <<'PY'
-          import os
-          from pathlib import Path
-
-          key = os.environ['SSH_PRIVATE_KEY'].strip().replace('\r', '')
-          if '\\n' in key and '\n' not in key:
-              key = key.replace('\\n', '\n')
-          Path.home().joinpath('.ssh/effizienz_strato').write_text(key + '\n')
-          PY
-          chmod 600 ~/.ssh/effizienz_strato
-          ssh-keygen -y -f ~/.ssh/effizienz_strato > ~/.ssh/effizienz_strato.pub
-          PORT="${STRATO_PORT:-22}"
-          ssh-keyscan -p "$PORT" -H "$STRATO_HOST" >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-
-      - name: Build production copy
+      - name: Prepare production build
         run: |
           set -euo pipefail
           mkdir -p dist
@@ -62,34 +39,39 @@ jobs:
             exit 1
           fi
 
-      - name: Bootstrap Strato server
+      - name: Prepare SSH transport
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
         run: |
           set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq sshpass
+          mkdir -p ~/.ssh
           PORT="${STRATO_PORT:-22}"
-          SSH="ssh -i ~/.ssh/effizienz_strato -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes"
-          SCP="scp -i ~/.ssh/effizienz_strato -P $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes"
+          ssh-keyscan -p "$PORT" -H "$STRATO_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
-          $SCP ~/.ssh/effizienz_strato.pub "root@$STRATO_HOST:/tmp/effizienz-deploy.pub"
-
-          $SSH "root@$STRATO_HOST" 'bash -s' <<'REMOTE'
+      - name: Bootstrap Strato server
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT }}
+          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
+        run: |
+          set -euo pipefail
+          PORT="${STRATO_PORT:-22}"
+          sshpass -e ssh -p "$PORT" \
+            -o PreferredAuthentications=password \
+            -o PubkeyAuthentication=no \
+            -o StrictHostKeyChecking=yes \
+            "root@$STRATO_HOST" 'bash -s' <<'REMOTE'
           set -euo pipefail
           export DEBIAN_FRONTEND=noninteractive
 
           apt-get update
           apt-get install -y nginx rsync curl ca-certificates certbot python3-certbot-nginx
 
-          if ! id deploy >/dev/null 2>&1; then
-            useradd --create-home --shell /bin/bash deploy
-          fi
-
-          install -d -m 700 -o deploy -g deploy /home/deploy/.ssh
-          install -m 600 -o deploy -g deploy /tmp/effizienz-deploy.pub /home/deploy/.ssh/authorized_keys
-          rm -f /tmp/effizienz-deploy.pub
-
-          install -d -m 755 -o deploy -g www-data /var/www/effizienz
+          install -d -m 755 -o root -g www-data /var/www/effizienz
 
           cat > /etc/nginx/sites-available/effizienz <<'NGINX'
           server {
@@ -130,21 +112,26 @@ jobs:
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
+          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
-          rsync -az --delete \
-            -e "ssh -i ~/.ssh/effizienz_strato -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes" \
-            dist/ "deploy@$STRATO_HOST:/var/www/effizienz/"
+          sshpass -e rsync -az --delete \
+            -e "ssh -p $PORT -o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=yes" \
+            dist/ "root@$STRATO_HOST:/var/www/effizienz/"
 
-      - name: Verify nginx and enable HTTPS when DNS is ready
+      - name: Configure HTTPS and verify server
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
+          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
-          ssh -i ~/.ssh/effizienz_strato -p "$PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+          sshpass -e ssh -p "$PORT" \
+            -o PreferredAuthentications=password \
+            -o PubkeyAuthentication=no \
+            -o StrictHostKeyChecking=yes \
             "root@$STRATO_HOST" "STRATO_HOST='$STRATO_HOST' bash -s" <<'REMOTE'
           set -euo pipefail
 
@@ -165,20 +152,20 @@ jobs:
               --agree-tos \
               --register-unsafely-without-email \
               --redirect \
-              "${DOMAINS[@]}" || echo 'HTTPS provisioning was not completed yet; HTTP deployment is healthy.'
+              "${DOMAINS[@]}" || echo 'HTTPS provisioning is pending; HTTP deployment remains available.'
           else
-            echo "DNS not propagated to this server yet (current apex IPv4: ${APEX_IP:-none}). HTTPS will be retried on the next deploy."
+            echo "DNS is not on the Strato server yet (apex IPv4: ${APEX_IP:-none}). SSL will be retried on the next deployment."
           fi
 
           curl -fsS -H 'Host: es-effizienz.de' http://127.0.0.1/ >/dev/null
           REMOTE
 
-      - name: Production smoke test
+      - name: Production smoke tests
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
         run: |
           set -euo pipefail
-          for path in / /leistungen/ /winterdienst/ /kontakt/ /impressum/ /datenschutz/; do
+          for path in / /leistungen/ /hausmeisterservice/ /abriss-entruempelung/ /winterdienst/ /umzug/ /garten-landschaftsbau/ /ueber-uns/ /referenzen/ /faq/ /kontakt/ /impressum/ /datenschutz/; do
             curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null
           done
-          echo 'Effizienz production deployment passed smoke tests.'
+          echo 'Effizienz production deployment passed all smoke tests.'
