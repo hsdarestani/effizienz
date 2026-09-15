@@ -1,0 +1,178 @@
+name: Deploy Effizienz to Strato
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: effizienz-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.STRATO_SSH_KEY }}
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/effizienz_strato
+          chmod 600 ~/.ssh/effizienz_strato
+          ssh-keygen -y -f ~/.ssh/effizienz_strato > ~/.ssh/effizienz_strato.pub
+          PORT="${STRATO_PORT:-22}"
+          ssh-keyscan -p "$PORT" -H "$STRATO_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Build production copy
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='dist/' \
+            ./ dist/
+
+          # Production SEO must point to the real domain, never the old Pages preview.
+          while IFS= read -r -d '' file; do
+            sed -i 's#https://effizienz.pages.dev#https://es-effizienz.de#g' "$file"
+          done < <(grep -rlZ 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' || true)
+
+          # Cloudflare Pages consumes this file; nginx headers are configured server-side.
+          rm -f dist/_headers
+
+          if grep -R 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt'; then
+            echo 'Old Cloudflare production URLs remain in deploy output.' >&2
+            exit 1
+          fi
+
+      - name: Bootstrap Strato server
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT }}
+        run: |
+          set -euo pipefail
+          PORT="${STRATO_PORT:-22}"
+          SSH="ssh -i ~/.ssh/effizienz_strato -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes"
+          SCP="scp -i ~/.ssh/effizienz_strato -P $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes"
+
+          $SCP ~/.ssh/effizienz_strato.pub "root@$STRATO_HOST:/tmp/effizienz-deploy.pub"
+
+          $SSH "root@$STRATO_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+
+          apt-get update
+          apt-get install -y nginx rsync curl ca-certificates certbot python3-certbot-nginx
+
+          if ! id deploy >/dev/null 2>&1; then
+            useradd --create-home --shell /bin/bash deploy
+          fi
+
+          install -d -m 700 -o deploy -g deploy /home/deploy/.ssh
+          install -m 600 -o deploy -g deploy /tmp/effizienz-deploy.pub /home/deploy/.ssh/authorized_keys
+          rm -f /tmp/effizienz-deploy.pub
+
+          install -d -m 755 -o deploy -g www-data /var/www/effizienz
+
+          cat > /etc/nginx/sites-available/effizienz <<'NGINX'
+          server {
+              listen 80;
+              listen [::]:80;
+              server_name es-effizienz.de www.es-effizienz.de;
+
+              root /var/www/effizienz;
+              index index.html;
+
+              location / {
+                  try_files $uri $uri/ $uri/index.html =404;
+              }
+
+              location ~ /\.git {
+                  deny all;
+              }
+
+              add_header X-Content-Type-Options "nosniff" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+              add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Content-Security-Policy "default-src 'self' data:; img-src 'self' data: https://images.unsplash.com https://images.pexels.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; frame-ancestors 'self'" always;
+
+              client_max_body_size 10m;
+          }
+          NGINX
+
+          ln -sfn /etc/nginx/sites-available/effizienz /etc/nginx/sites-enabled/effizienz
+          rm -f /etc/nginx/sites-enabled/default
+
+          nginx -t
+          systemctl enable nginx
+          systemctl restart nginx
+          REMOTE
+
+      - name: Deploy site files
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT }}
+        run: |
+          set -euo pipefail
+          PORT="${STRATO_PORT:-22}"
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/effizienz_strato -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes" \
+            dist/ "deploy@$STRATO_HOST:/var/www/effizienz/"
+
+      - name: Verify nginx and enable HTTPS when DNS is ready
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          STRATO_PORT: ${{ secrets.STRATO_PORT }}
+        run: |
+          set -euo pipefail
+          PORT="${STRATO_PORT:-22}"
+          ssh -i ~/.ssh/effizienz_strato -p "$PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "root@$STRATO_HOST" "STRATO_HOST='$STRATO_HOST' bash -s" <<'REMOTE'
+          set -euo pipefail
+
+          nginx -t
+          systemctl reload nginx
+
+          APEX_IP="$(getent ahostsv4 es-effizienz.de | awk 'NR==1 {print $1}' || true)"
+          WWW_IP="$(getent ahostsv4 www.es-effizienz.de | awk 'NR==1 {print $1}' || true)"
+
+          if [ "$APEX_IP" = "$STRATO_HOST" ]; then
+            DOMAINS=(-d es-effizienz.de)
+            if [ "$WWW_IP" = "$STRATO_HOST" ]; then
+              DOMAINS+=(-d www.es-effizienz.de)
+            fi
+
+            certbot --nginx \
+              --non-interactive \
+              --agree-tos \
+              --register-unsafely-without-email \
+              --redirect \
+              "${DOMAINS[@]}" || echo 'HTTPS provisioning was not completed yet; HTTP deployment is healthy.'
+          else
+            echo "DNS not propagated to this server yet (current apex IPv4: ${APEX_IP:-none}). HTTPS will be retried on the next deploy."
+          fi
+
+          curl -fsS -H 'Host: es-effizienz.de' http://127.0.0.1/ >/dev/null
+          REMOTE
+
+      - name: Production smoke test
+        env:
+          STRATO_HOST: ${{ secrets.STRATO_HOST }}
+        run: |
+          set -euo pipefail
+          for path in / /leistungen/ /winterdienst/ /kontakt/ /impressum/ /datenschutz/; do
+            curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null
+          done
+          echo 'Effizienz production deployment passed smoke tests.'
