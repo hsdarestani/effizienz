@@ -1,35 +1,92 @@
-/* Gartenpflege mobile media: keep both approved photos at their natural ratio.
-   Do not blank the original poster until JavaScript has successfully loaded
-   and inserted both local images. */
-@media (max-width: 680px){
-  body[data-page="garten-landschaftsbau"] .velocity-poster__media[data-garden-mobile-duo="1"]{
-    position:relative!important;
-    display:flex!important;
-    flex-direction:column!important;
-    width:100%!important;
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    aspect-ratio:auto!important;
-    overflow:hidden!important;
-    background:none!important;
+/* Stable Gartenpflege mobile poster.
+   Desktop keeps the existing JS-generated velocity poster. On phones we hide
+   that dynamic version and render a static two-photo composition from HTML so
+   Safari/Chrome cannot leave an empty black media container. */
+
+.garten-mobile-static{display:none;}
+
+@media (max-width:680px){
+  body[data-page="garten-landschaftsbau"] .velocity-poster{
+    display:none!important;
   }
 
-  body[data-page="garten-landschaftsbau"] .velocity-poster__media[data-garden-mobile-duo="1"] .garten-mobile-photo{
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static{
     display:block!important;
-    width:100%!important;
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    object-fit:contain!important;
-    object-position:center center!important;
-    margin:0!important;
-    padding:0!important;
-    border:0!important;
-    flex:0 0 auto!important;
+    width:100%;
+    background:#070b0b;
+    color:#fff;
+    overflow:hidden;
   }
 
-  /* Keep the hero and service-card artwork cropped cleanly, never stretched. */
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__photos{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    background:#070b0b;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__photos img{
+    display:block;
+    width:100%;
+    height:auto;
+    min-height:0;
+    max-height:none;
+    margin:0;
+    padding:0;
+    border:0;
+    object-fit:contain;
+    object-position:center center;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__copy{
+    padding:34px 26px 30px;
+    background:#070b0b;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__eyebrow{
+    margin:0 0 22px;
+    color:#d6aa8d;
+    font-size:11px;
+    line-height:1.3;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__copy h2{
+    margin:0 0 34px;
+    color:#fff;
+    font-size:clamp(42px,12vw,62px);
+    line-height:.92;
+    font-weight:400;
+    letter-spacing:-.055em;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__copy h2 em{
+    display:block;
+    color:#d6aa8d;
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:400;
+    font-style:italic;
+    letter-spacing:-.04em;
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__facts{
+    border-top:1px solid rgba(255,255,255,.16);
+  }
+
+  body[data-page="garten-landschaftsbau"] .garten-mobile-static__facts span{
+    display:block;
+    padding:16px 0;
+    border-bottom:1px solid rgba(255,255,255,.16);
+    color:#fff;
+    font-size:12px;
+    line-height:1.35;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  /* Keep other Garten artwork cropped naturally, never stretched. */
   body[data-page="garten-landschaftsbau"] .page-hero .cinematic-media,
   html body .cards.service-editorial .card[href="/garten-landschaftsbau/"] .service-media{
     background-size:cover!important;
