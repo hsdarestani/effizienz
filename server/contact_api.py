@@ -125,7 +125,7 @@ def send_mail(config, payload):
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'EffizienzContact/1.1'
+    server_version = 'EffizienzContact/1.2'
 
     def log_message(self, fmt, *args):
         print(f'{self.address_string()} - {fmt % args}', flush=True)
@@ -175,8 +175,13 @@ class Handler(BaseHTTPRequestHandler):
         name = clean(payload.get('name'), 120)
         email = clean(payload.get('email'), 200)
         message = clean(payload.get('message'), 5000)
-        if len(name) < 2 or not EMAIL_RE.match(email) or len(message) < 5:
-            return self.json_response(422, {'ok': False, 'message': 'Bitte prüfen Sie Name, E-Mail-Adresse und Nachricht.'})
+
+        if len(name) < 2:
+            return self.json_response(422, {'ok': False, 'field': 'name', 'message': 'Bitte geben Sie einen Namen mit mindestens 2 Zeichen ein.'})
+        if not EMAIL_RE.match(email):
+            return self.json_response(422, {'ok': False, 'field': 'email', 'message': 'Bitte geben Sie eine gültige E-Mail-Adresse ein.'})
+        if not message:
+            return self.json_response(422, {'ok': False, 'field': 'message', 'message': 'Bitte schreiben Sie eine kurze Nachricht.'})
 
         try:
             send_mail(load_config(), payload)
