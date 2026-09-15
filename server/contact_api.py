@@ -33,6 +33,12 @@ def load_config():
     return data
 
 
+def verify_smtp(config):
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(config['smtp_host'], int(config['smtp_port']), timeout=20, context=context) as smtp:
+        smtp.login(config['smtp_user'], config['smtp_password'])
+
+
 def clean(value, max_len):
     value = str(value or '').replace('\x00', '').strip()
     return value[:max_len]
@@ -119,7 +125,7 @@ def send_mail(config, payload):
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'EffizienzContact/1.0'
+    server_version = 'EffizienzContact/1.1'
 
     def log_message(self, fmt, *args):
         print(f'{self.address_string()} - {fmt % args}', flush=True)
@@ -182,6 +188,9 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    config = load_config()
+    verify_smtp(config)
+    print(f'SMTP authentication OK for {config["smtp_user"]}', flush=True)
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f'Effizienz contact API listening on {HOST}:{PORT}', flush=True)
     httpd.serve_forever()
