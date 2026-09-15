@@ -26,7 +26,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/effizienz_strato
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          key = os.environ['SSH_PRIVATE_KEY'].strip().replace('\r', '')
+          if '\\n' in key and '\n' not in key:
+              key = key.replace('\\n', '\n')
+          Path.home().joinpath('.ssh/effizienz_strato').write_text(key + '\n')
+          PY
           chmod 600 ~/.ssh/effizienz_strato
           ssh-keygen -y -f ~/.ssh/effizienz_strato > ~/.ssh/effizienz_strato.pub
           PORT="${STRATO_PORT:-22}"
@@ -43,12 +51,10 @@ jobs:
             --exclude='dist/' \
             ./ dist/
 
-          # Production SEO must point to the real domain, never the old Pages preview.
           while IFS= read -r -d '' file; do
             sed -i 's#https://effizienz.pages.dev#https://es-effizienz.de#g' "$file"
           done < <(grep -rlZ 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' || true)
 
-          # Cloudflare Pages consumes this file; nginx headers are configured server-side.
           rm -f dist/_headers
 
           if grep -R 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt'; then
