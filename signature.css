@@ -8,6 +8,7 @@
 @import url('/density-fix.css?v=20260909a');
 @import url('/about-refresh.css?v=20260909a');
 @import url('/client-feedback-20260910b.css?v=20260910b');
+@import url('/mobile-nav.css?v=20260915a');
 
 /* Use the original client-supplied high-resolution image instead of the compressed preview. */
 .detail-story__media{
