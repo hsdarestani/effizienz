@@ -1,35 +1,63 @@
 (()=>{
   const GARDEN_PAGE='garten-landschaftsbau';
-  const POSTER_BG='https://images.pexels.com/photos/24595771/pexels-photo-24595771/free-photo-of-man-cutting-hedge-with-a-trimmer-in-the-garden.jpeg?auto=compress&dpr=1&h=1100&w=1800';
+  const MOBILE_QUERY='(max-width: 680px)';
+
+  // These are the two photos the client approved in the mobile layout.
+  const PHOTOS=[
+    {
+      src:'https://images.pexels.com/photos/37351066/pexels-photo-37351066.jpeg?auto=compress&dpr=1&h=1100&w=1800',
+      alt:'Gepflegte Gartenanlage mit Bäumen und weißen Blüten'
+    },
+    {
+      src:'https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&q=88&w=2200',
+      alt:'Modernes Wohnhaus mit gepflegter Außenanlage'
+    }
+  ];
+
+  function buildMobileDuo(media){
+    if(media.dataset.gardenMobileDuo==='1') return;
+
+    // Replace the dynamically generated poster artwork with the two intended
+    // photos as real <img> elements. width:100% + height:auto preserves each
+    // source image's intrinsic ratio, so Safari cannot stretch either image.
+    media.replaceChildren();
+    media.style.setProperty('background','none','important');
+    media.style.setProperty('display','flex','important');
+    media.style.setProperty('flex-direction','column','important');
+    media.style.setProperty('height','auto','important');
+    media.style.setProperty('min-height','0','important');
+    media.style.setProperty('max-height','none','important');
+    media.style.setProperty('aspect-ratio','auto','important');
+    media.style.setProperty('overflow','hidden','important');
+
+    PHOTOS.forEach(({src,alt})=>{
+      const img=document.createElement('img');
+      img.className='garten-mobile-photo';
+      img.src=src;
+      img.alt=alt;
+      img.loading='lazy';
+      img.decoding='async';
+      img.style.setProperty('display','block','important');
+      img.style.setProperty('width','100%','important');
+      img.style.setProperty('height','auto','important');
+      img.style.setProperty('min-height','0','important');
+      img.style.setProperty('max-height','none','important');
+      img.style.setProperty('object-fit','contain','important');
+      media.appendChild(img);
+    });
+
+    media.dataset.gardenMobileDuo='1';
+  }
 
   function fixGardenMedia(){
     if(document.body?.dataset?.page!==GARDEN_PAGE) return;
+    if(!window.matchMedia(MOBILE_QUERY).matches) return;
 
     const media=document.querySelector('.velocity-poster__media');
     if(!media) return;
-
-    // The poster image is already supplied as a CSS background. Remove the
-    // generated fallback <img> completely so iOS/Safari cannot lay it out as
-    // a second, compressed image underneath the intended artwork.
-    media.querySelectorAll('img').forEach(img=>img.remove());
-
-    media.style.setProperty('background-image',`url("${POSTER_BG}")`,'important');
-    media.style.setProperty('background-size','cover','important');
-    media.style.setProperty('background-position','center center','important');
-    media.style.setProperty('background-repeat','no-repeat','important');
-    media.style.setProperty('overflow','hidden','important');
-
-    if(window.matchMedia('(max-width: 680px)').matches){
-      media.style.setProperty('width','100%','important');
-      media.style.setProperty('height','auto','important');
-      media.style.setProperty('min-height','0','important');
-      media.style.setProperty('aspect-ratio','4 / 3','important');
-    }
+    buildMobileDuo(media);
   }
 
-  // site.js creates the poster during deferred execution; this file is loaded
-  // immediately after it, and these extra passes also guard against late DOM
-  // mutations and Safari's delayed image/layout work.
   fixGardenMedia();
   requestAnimationFrame(fixGardenMedia);
   window.addEventListener('load',fixGardenMedia,{once:true});
