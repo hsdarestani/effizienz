@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://effizienz.pages.dev/sitemap.xml
+Sitemap: https://es-effizienz.de/sitemap.xml
