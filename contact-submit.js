@@ -4,6 +4,7 @@
 
   const status=document.querySelector('#formStatus');
   const submit=form.querySelector('button[type="submit"]');
+  const EMAIL='info@es-effizienz.de';
 
   if(!form.querySelector('input[name="website"]')){
     const trap=document.createElement('input');
@@ -18,6 +19,13 @@
     status.textContent=text;
     status.dataset.state=type;
     status.style.color=type==='error'?'#9d2f2f':type==='success'?'#2d6a4f':'var(--bronze)';
+  };
+
+  const fallbackToMailClient=data=>{
+    const subject=`Projektanfrage – ${data.service||'Effizienz Services'}`;
+    const body=[`Name: ${data.name||''}`,`Firma / Objekt: ${data.company||''}`,`E-Mail: ${data.email||''}`,`Telefon: ${data.phone||''}`,`Leistung: ${data.service||''}`,`Ort / PLZ: ${data.location||''}`,'','Nachricht:',data.message||''].join('\n');
+    setState('Der direkte Versand ist gerade nicht verfügbar. Ihr E-Mail-Programm wird als Alternative geöffnet.');
+    window.location.href=`mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   form.addEventListener('submit',async e=>{
@@ -37,10 +45,14 @@
         credentials:'same-origin'
       });
       const result=await response.json().catch(()=>({}));
-      if(!response.ok)throw new Error(result.message||'Die Nachricht konnte nicht gesendet werden.');
+      if(!response.ok){
+        if(response.status>=500){fallbackToMailClient(data);return;}
+        throw new Error(result.message||'Die Nachricht konnte nicht gesendet werden.');
+      }
       form.reset();
       setState(result.message||'Vielen Dank! Ihre Anfrage wurde erfolgreich gesendet.','success');
     }catch(error){
+      if(error instanceof TypeError){fallbackToMailClient(data);return;}
       setState(error.message||'Die Nachricht konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie direkt an info@es-effizienz.de.','error');
     }finally{
       submit?.removeAttribute('disabled');
