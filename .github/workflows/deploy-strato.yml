@@ -36,6 +36,19 @@ jobs:
             sed -i 's#https://effizienz.pages.dev#https://es-effizienz.de#g' "$file"
           done < <(grep -rlZ 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' --include='*.js' || true)
 
+          # Vendor the two approved Gartenpflege mobile photos into the build.
+          # The site serves these from Strato, so Safari/iOS never depends on
+          # third-party hotlinking at runtime.
+          mkdir -p dist/assets
+          curl -fL --retry 3 --retry-delay 2 -A 'Mozilla/5.0' \
+            'https://images.pexels.com/photos/37351066/pexels-photo-37351066.jpeg?auto=compress&dpr=1&h=1100&w=1800' \
+            -o dist/assets/garten-mobile-1.jpg
+          curl -fL --retry 3 --retry-delay 2 -A 'Mozilla/5.0' \
+            'https://images.unsplash.com/photo-1766603636671-484c4911a84b?auto=format&fit=crop&q=88&w=2200' \
+            -o dist/assets/garten-mobile-2.jpg
+          test -s dist/assets/garten-mobile-1.jpg
+          test -s dist/assets/garten-mobile-2.jpg
+
           rm -f dist/_headers
 
           if grep -R 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' --include='*.js'; then
@@ -305,6 +318,10 @@ jobs:
             curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null || \
             curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de${path}" >/dev/null
           done
+
+          # The two mobile Gartenpflege photos must be present on the Strato host.
+          curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de/assets/garten-mobile-1.jpg" >/dev/null
+          curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de/assets/garten-mobile-2.jpg" >/dev/null
 
           if [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASSWORD:-}" ]; then
             curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de/api/contact/health" >/dev/null
