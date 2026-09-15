@@ -1,6 +1,6 @@
 /* Gartenpflege poster — fully static photo composition.
-   The two approved local images are rendered as CSS backgrounds so runtime JS
-   cannot replace, hide or stretch them. */
+   Use the two approved repository originals directly so they cannot drift to
+   generated/replacement assets. */
 
 .garten-mobile-static{display:none!important;}
 
@@ -30,11 +30,11 @@ body[data-page="garten-landschaftsbau"] .garten-poster__photo{
 }
 
 body[data-page="garten-landschaftsbau"] .garten-poster__photo--one{
-  background-image:url('/assets/garten-mobile-1.jpg?v=20260915j')!important;
+  background-image:url('/IMG_6885.JPG?v=20260915k')!important;
 }
 
 body[data-page="garten-landschaftsbau"] .garten-poster__photo--two{
-  background-image:url('/assets/garten-mobile-2.jpg?v=20260915j')!important;
+  background-image:url('/IMG_6883.JPG?v=20260915k')!important;
 }
 
 body[data-page="garten-landschaftsbau"] .garten-poster .garten-poster__media:after{
