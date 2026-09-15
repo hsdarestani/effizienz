@@ -220,8 +220,19 @@ jobs:
           if [ -f /etc/effizienz-mail.json ]; then
             systemctl enable effizienz-mail
             systemctl restart effizienz-mail
-            sleep 1
-            curl -fsS http://127.0.0.1:8765/health >/dev/null
+            ready=0
+            for attempt in $(seq 1 20); do
+              if curl -fsS http://127.0.0.1:8765/health >/dev/null 2>&1; then
+                ready=1
+                break
+              fi
+              sleep 1
+            done
+            if [ "$ready" -ne 1 ]; then
+              systemctl status effizienz-mail --no-pager || true
+              journalctl -u effizienz-mail -n 40 --no-pager || true
+              exit 1
+            fi
           fi
 
           nginx -t
