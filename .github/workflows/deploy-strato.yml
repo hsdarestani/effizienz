@@ -29,15 +29,16 @@ jobs:
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='dist/' \
+            --exclude='server/' \
             ./ dist/
 
           while IFS= read -r -d '' file; do
             sed -i 's#https://effizienz.pages.dev#https://es-effizienz.de#g' "$file"
-          done < <(grep -rlZ 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' || true)
+          done < <(grep -rlZ 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' --include='*.js' || true)
 
           rm -f dist/_headers
 
-          if grep -R 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt'; then
+          if grep -R 'https://effizienz.pages.dev' dist --include='*.html' --include='*.xml' --include='*.txt' --include='*.js'; then
             echo 'Old Cloudflare production URLs remain in deploy output.' >&2
             exit 1
           fi
@@ -73,10 +74,12 @@ jobs:
             -o StrictHostKeyChecking=yes \
             "root@$STRATO_HOST" 'echo SSH key authentication OK'
 
-      - name: Bootstrap Strato server
+      - name: Bootstrap Strato server and contact mail service
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
@@ -85,6 +88,33 @@ jobs:
             -o BatchMode=yes -o StrictHostKeyChecking=yes \
             ~/.ssh/effizienz_strato.pub "root@$STRATO_HOST:/tmp/effizienz-deploy.pub"
 
+          scp -i ~/.ssh/effizienz_strato -P "$PORT" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            server/contact_api.py "root@$STRATO_HOST:/tmp/contact_api.py"
+
+          if [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASSWORD:-}" ]; then
+            python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          config = {
+              'smtp_host': 'smtps.udag.de',
+              'smtp_port': 465,
+              'smtp_user': os.environ['SMTP_USER'],
+              'smtp_password': os.environ['SMTP_PASSWORD'],
+              'mail_from': os.environ['SMTP_USER'],
+              'mail_to': 'info@es-effizienz.de',
+          }
+          Path('/tmp/effizienz-mail.json').write_text(json.dumps(config), encoding='utf-8')
+          PY
+            chmod 600 /tmp/effizienz-mail.json
+            scp -i ~/.ssh/effizienz_strato -P "$PORT" \
+              -o BatchMode=yes -o StrictHostKeyChecking=yes \
+              /tmp/effizienz-mail.json "root@$STRATO_HOST:/tmp/effizienz-mail.json"
+            rm -f /tmp/effizienz-mail.json
+          else
+            echo 'SMTP_USER / SMTP_PASSWORD are not configured yet. Website will deploy, but server-side mail remains inactive.'
+          fi
+
           ssh -i ~/.ssh/effizienz_strato -p "$PORT" \
             -o BatchMode=yes -o StrictHostKeyChecking=yes \
             "root@$STRATO_HOST" 'bash -s' <<'REMOTE'
@@ -92,7 +122,7 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
 
           apt-get update
-          apt-get install -y nginx rsync curl ca-certificates certbot python3-certbot-nginx
+          apt-get install -y nginx rsync curl ca-certificates certbot python3 python3-certbot-nginx
 
           if ! id deploy >/dev/null 2>&1; then
             useradd --create-home --shell /bin/bash deploy
@@ -105,6 +135,45 @@ jobs:
           install -d -m 755 -o deploy -g www-data /var/www/effizienz
           chown -R deploy:www-data /var/www/effizienz
 
+          if ! id effizienz-mail >/dev/null 2>&1; then
+            useradd --system --home /opt/effizienz-mail --shell /usr/sbin/nologin effizienz-mail
+          fi
+          install -d -m 755 -o root -g root /opt/effizienz-mail
+          install -m 755 -o root -g root /tmp/contact_api.py /opt/effizienz-mail/contact_api.py
+          rm -f /tmp/contact_api.py
+
+          if [ -f /tmp/effizienz-mail.json ]; then
+            install -m 640 -o root -g effizienz-mail /tmp/effizienz-mail.json /etc/effizienz-mail.json
+            rm -f /tmp/effizienz-mail.json
+          fi
+
+          cat > /etc/systemd/system/effizienz-mail.service <<'SERVICE'
+          [Unit]
+          Description=ES Effizienz contact form mail service
+          After=network-online.target
+          Wants=network-online.target
+
+          [Service]
+          Type=simple
+          User=effizienz-mail
+          Group=effizienz-mail
+          WorkingDirectory=/opt/effizienz-mail
+          ExecStart=/usr/bin/python3 /opt/effizienz-mail/contact_api.py
+          Restart=on-failure
+          RestartSec=3
+          NoNewPrivileges=true
+          PrivateTmp=true
+          ProtectSystem=strict
+          ProtectHome=true
+          ProtectKernelTunables=true
+          ProtectKernelModules=true
+          ProtectControlGroups=true
+          RestrictAddressFamilies=AF_INET AF_INET6
+
+          [Install]
+          WantedBy=multi-user.target
+          SERVICE
+
           cat > /etc/nginx/sites-available/effizienz <<'NGINX'
           server {
               listen 80;
@@ -113,6 +182,18 @@ jobs:
 
               root /var/www/effizienz;
               index index.html;
+
+              location ^~ /api/contact/ {
+                  proxy_pass http://127.0.0.1:8765/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_connect_timeout 5s;
+                  proxy_read_timeout 30s;
+                  proxy_send_timeout 30s;
+              }
 
               location / {
                   try_files $uri $uri/ $uri/index.html =404;
@@ -134,6 +215,14 @@ jobs:
 
           ln -sfn /etc/nginx/sites-available/effizienz /etc/nginx/sites-enabled/effizienz
           rm -f /etc/nginx/sites-enabled/default
+
+          systemctl daemon-reload
+          if [ -f /etc/effizienz-mail.json ]; then
+            systemctl enable effizienz-mail
+            systemctl restart effizienz-mail
+            sleep 1
+            curl -fsS http://127.0.0.1:8765/health >/dev/null
+          fi
 
           nginx -t
           systemctl enable nginx
@@ -196,6 +285,8 @@ jobs:
       - name: Production smoke tests
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
         run: |
           set -euo pipefail
 
@@ -203,5 +294,9 @@ jobs:
             curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null || \
             curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de${path}" >/dev/null
           done
+
+          if [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASSWORD:-}" ]; then
+            curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de/api/contact/health" >/dev/null
+          fi
 
           echo 'Effizienz production deployment passed all smoke tests.'
