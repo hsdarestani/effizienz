@@ -336,7 +336,7 @@ function applyLatestScreenshotFeedback(){
     const methods=document.querySelector('.contact-methods');
     if(methods&&!methods.querySelector('a[href*="facebook.com"]')){
       const row=document.createElement('div');row.className='contact-method';
-      row.innerHTML=`<span>Facebook</span><strong><a href="${FACEBOOK}" target="_blank" rel="noopener">Profil öffnen ↗</a></strong>`;
+      row.innerHTML=`<span>Facebook</span><strong><a href="${FACEBOOK}" target="_blank" rel="noopener">Profil öffnen</a></strong>`;
       const address=[...methods.children].find(el=>el.querySelector('span')?.textContent.trim()==='Anschrift');
       methods.insertBefore(row,address||null);
     }

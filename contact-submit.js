@@ -56,7 +56,7 @@
       setState(error.message||'Die Nachricht konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie direkt an info@es-effizienz.de.','error');
     }finally{
       submit?.removeAttribute('disabled');
-      if(submit)submit.textContent='Anfrage senden ↗';
+      if(submit)submit.textContent='Anfrage senden';
     }
   },true);
 })();

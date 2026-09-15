@@ -62,7 +62,7 @@
       a.target='_blank';
       a.rel='noopener';
       a.setAttribute('aria-label','ES Effizienz Services auf Instagram');
-      a.textContent='Instagram ↗';
+      a.textContent='Instagram';
       a.style.setProperty('display','inline-flex','important');
       a.style.setProperty('width','fit-content','important');
       a.style.setProperty('margin-top','24px','important');
