@@ -1,12 +1,8 @@
-/* Gartenpflege mobile media: keep the two intended photos, preserve their natural ratio,
-   and never stretch them on iOS/Safari. */
+/* Gartenpflege mobile media: keep both approved photos at their natural ratio.
+   Do not blank the original poster until JavaScript has successfully loaded
+   and inserted both local images. */
 @media (max-width: 680px){
-  body[data-page="garten-landschaftsbau"] .velocity-poster{
-    display:block!important;
-    min-height:0!important;
-  }
-
-  body[data-page="garten-landschaftsbau"] .velocity-poster__media{
+  body[data-page="garten-landschaftsbau"] .velocity-poster__media[data-garden-mobile-duo="1"]{
     position:relative!important;
     display:flex!important;
     flex-direction:column!important;
@@ -19,7 +15,7 @@
     background:none!important;
   }
 
-  body[data-page="garten-landschaftsbau"] .velocity-poster__media .garten-mobile-photo{
+  body[data-page="garten-landschaftsbau"] .velocity-poster__media[data-garden-mobile-duo="1"] .garten-mobile-photo{
     display:block!important;
     width:100%!important;
     height:auto!important;
