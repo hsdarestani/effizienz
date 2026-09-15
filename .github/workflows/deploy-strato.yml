@@ -9,10 +9,13 @@ concurrency:
   group: effizienz-production
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -39,31 +42,51 @@ jobs:
             exit 1
           fi
 
-      - name: Prepare SSH transport
+      - name: Prepare SSH key
         env:
+          SSH_PRIVATE_KEY: ${{ secrets.STRATO_SSH_KEY }}
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
         run: |
           set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq sshpass
           mkdir -p ~/.ssh
+
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          key = os.environ['SSH_PRIVATE_KEY'].strip().replace('\r', '')
+          if '\\n' in key and '\n' not in key:
+              key = key.replace('\\n', '\n')
+          Path.home().joinpath('.ssh/effizienz_strato').write_text(key + '\n')
+          PY
+
+          chmod 600 ~/.ssh/effizienz_strato
+          ssh-keygen -y -f ~/.ssh/effizienz_strato > ~/.ssh/effizienz_strato.pub
+
           PORT="${STRATO_PORT:-22}"
           ssh-keyscan -p "$PORT" -H "$STRATO_HOST" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/effizienz_strato -p "$PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "root@$STRATO_HOST" 'echo SSH key authentication OK'
 
       - name: Bootstrap Strato server
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
-          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
-          sshpass -e ssh -p "$PORT" \
-            -o PreferredAuthentications=password \
-            -o PubkeyAuthentication=no \
-            -o StrictHostKeyChecking=yes \
+
+          scp -i ~/.ssh/effizienz_strato -P "$PORT" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            ~/.ssh/effizienz_strato.pub "root@$STRATO_HOST:/tmp/effizienz-deploy.pub"
+
+          ssh -i ~/.ssh/effizienz_strato -p "$PORT" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
             "root@$STRATO_HOST" 'bash -s' <<'REMOTE'
           set -euo pipefail
           export DEBIAN_FRONTEND=noninteractive
@@ -71,7 +94,16 @@ jobs:
           apt-get update
           apt-get install -y nginx rsync curl ca-certificates certbot python3-certbot-nginx
 
-          install -d -m 755 -o root -g www-data /var/www/effizienz
+          if ! id deploy >/dev/null 2>&1; then
+            useradd --create-home --shell /bin/bash deploy
+          fi
+
+          install -d -m 700 -o deploy -g deploy /home/deploy/.ssh
+          install -m 600 -o deploy -g deploy /tmp/effizienz-deploy.pub /home/deploy/.ssh/authorized_keys
+          rm -f /tmp/effizienz-deploy.pub
+
+          install -d -m 755 -o deploy -g www-data /var/www/effizienz
+          chown -R deploy:www-data /var/www/effizienz
 
           cat > /etc/nginx/sites-available/effizienz <<'NGINX'
           server {
@@ -112,26 +144,23 @@ jobs:
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
-          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
-          sshpass -e rsync -az --delete \
-            -e "ssh -p $PORT -o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=yes" \
-            dist/ "root@$STRATO_HOST:/var/www/effizienz/"
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/effizienz_strato -p $PORT -o BatchMode=yes -o StrictHostKeyChecking=yes" \
+            dist/ "deploy@$STRATO_HOST:/var/www/effizienz/"
 
       - name: Configure HTTPS and verify server
         env:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
           STRATO_PORT: ${{ secrets.STRATO_PORT }}
-          SSHPASS: ${{ secrets.STRATO_PASSWORD }}
         run: |
           set -euo pipefail
           PORT="${STRATO_PORT:-22}"
-          sshpass -e ssh -p "$PORT" \
-            -o PreferredAuthentications=password \
-            -o PubkeyAuthentication=no \
-            -o StrictHostKeyChecking=yes \
+
+          ssh -i ~/.ssh/effizienz_strato -p "$PORT" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes \
             "root@$STRATO_HOST" "STRATO_HOST='$STRATO_HOST' bash -s" <<'REMOTE'
           set -euo pipefail
 
@@ -140,6 +169,9 @@ jobs:
 
           APEX_IP="$(getent ahostsv4 es-effizienz.de | awk 'NR==1 {print $1}' || true)"
           WWW_IP="$(getent ahostsv4 www.es-effizienz.de | awk 'NR==1 {print $1}' || true)"
+
+          echo "Apex IPv4: ${APEX_IP:-none}"
+          echo "WWW IPv4: ${WWW_IP:-none}"
 
           if [ "$APEX_IP" = "$STRATO_HOST" ]; then
             DOMAINS=(-d es-effizienz.de)
@@ -152,12 +184,13 @@ jobs:
               --agree-tos \
               --register-unsafely-without-email \
               --redirect \
-              "${DOMAINS[@]}" || echo 'HTTPS provisioning is pending; HTTP deployment remains available.'
+              "${DOMAINS[@]}"
           else
-            echo "DNS is not on the Strato server yet (apex IPv4: ${APEX_IP:-none}). SSL will be retried on the next deployment."
+            echo "DNS is not on this Strato server yet. HTTP is deployed; SSL will be retried on the next deployment."
           fi
 
-          curl -fsS -H 'Host: es-effizienz.de' http://127.0.0.1/ >/dev/null
+          curl -fsS -H 'Host: es-effizienz.de' http://127.0.0.1/ >/dev/null || \
+            curl -kfsS -H 'Host: es-effizienz.de' https://127.0.0.1/ >/dev/null
           REMOTE
 
       - name: Production smoke tests
@@ -165,7 +198,10 @@ jobs:
           STRATO_HOST: ${{ secrets.STRATO_HOST }}
         run: |
           set -euo pipefail
+
           for path in / /leistungen/ /hausmeisterservice/ /abriss-entruempelung/ /winterdienst/ /umzug/ /garten-landschaftsbau/ /ueber-uns/ /referenzen/ /faq/ /kontakt/ /impressum/ /datenschutz/; do
-            curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null
+            curl -fsS --resolve "es-effizienz.de:80:$STRATO_HOST" "http://es-effizienz.de${path}" >/dev/null || \
+            curl -kfsS --resolve "es-effizienz.de:443:$STRATO_HOST" "https://es-effizienz.de${path}" >/dev/null
           done
+
           echo 'Effizienz production deployment passed all smoke tests.'
