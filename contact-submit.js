@@ -21,6 +21,11 @@
     status.style.color=type==='error'?'#9d2f2f':type==='success'?'#2d6a4f':'var(--bronze)';
   };
 
+  const focusField=(name)=>{
+    const field=form.elements.namedItem(name);
+    if(field&&typeof field.focus==='function')field.focus();
+  };
+
   const fallbackToMailClient=data=>{
     const subject=`Projektanfrage – ${data.service||'Effizienz Services'}`;
     const body=[`Name: ${data.name||''}`,`Firma / Objekt: ${data.company||''}`,`E-Mail: ${data.email||''}`,`Telefon: ${data.phone||''}`,`Leistung: ${data.service||''}`,`Ort / PLZ: ${data.location||''}`,'','Nachricht:',data.message||''].join('\n');
@@ -33,6 +38,26 @@
     e.stopImmediatePropagation();
 
     const data=Object.fromEntries(new FormData(form).entries());
+    data.name=String(data.name||'').trim();
+    data.email=String(data.email||'').trim();
+    data.message=String(data.message||'').trim();
+
+    if(data.name.length<2){
+      setState('Bitte geben Sie einen Namen mit mindestens 2 Zeichen ein.','error');
+      focusField('name');
+      return;
+    }
+    if(!/^\S+@\S+\.\S+$/.test(data.email)){
+      setState('Bitte geben Sie eine gültige E-Mail-Adresse ein.','error');
+      focusField('email');
+      return;
+    }
+    if(!data.message){
+      setState('Bitte schreiben Sie eine kurze Nachricht.','error');
+      focusField('message');
+      return;
+    }
+
     submit?.setAttribute('disabled','disabled');
     if(submit)submit.textContent='Wird gesendet …';
     setState('Ihre Anfrage wird sicher gesendet …');
@@ -47,6 +72,7 @@
       const result=await response.json().catch(()=>({}));
       if(!response.ok){
         if(response.status>=500){fallbackToMailClient(data);return;}
+        if(result.field)focusField(result.field);
         throw new Error(result.message||'Die Nachricht konnte nicht gesendet werden.');
       }
       form.reset();
