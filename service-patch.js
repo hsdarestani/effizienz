@@ -2,12 +2,12 @@
   const MOVE={
     src:'https://images.unsplash.com/photo-1758523670991-ee93bc48d81d?auto=format&fit=crop&q=84&w=2200',
     source:'https://unsplash.com/photos/couple-carrying-moving-boxes-into-a-new-home-vV5iOAidkQE',
-    author:'Vitaly Gariev'
+    credit:'Foto · Vitaly Gariev / Unsplash'
   };
   const WINTER={
     src:'/assets/winterdienst-rhein-main.jpg?v=20260910a',
-    source:'/winterdienst/',
-    author:'Motiv · Rhein-Main'
+    source:null,
+    credit:'KI-generiertes Bild'
   };
 
   if(!document.getElementById('service-compact-v2')){
@@ -105,9 +105,15 @@
     document.querySelectorAll('.page-hero .cinematic-media img,.velocity-poster__media img').forEach(img=>setImg(img,cfg));
     const credit=document.querySelector('.page-hero .cinematic-media figcaption');
     if(credit){
-      let link=credit.querySelector('a');
-      if(!link){link=document.createElement('a');credit.append(link)}
-      link.href=cfg.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent=`Foto · ${cfg.author} / Unsplash`;
+      credit.replaceChildren();
+      const item=document.createElement(cfg.source?'a':'span');
+      item.textContent=cfg.credit;
+      if(cfg.source){
+        item.href=cfg.source;
+        item.target='_blank';
+        item.rel='noopener noreferrer';
+      }
+      credit.append(item);
     }
   };
 
