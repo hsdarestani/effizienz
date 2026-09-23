@@ -2,12 +2,12 @@
   const MOVE={
     src:'https://images.unsplash.com/photo-1758523670991-ee93bc48d81d?auto=format&fit=crop&q=84&w=2200',
     source:'https://unsplash.com/photos/couple-carrying-moving-boxes-into-a-new-home-vV5iOAidkQE',
-    credit:'Foto · Vitaly Gariev / Unsplash'
+    credit:'Foto: Vitaly Gariev · Unsplash'
   };
   const WINTER={
     src:'/assets/winterdienst-rhein-main.jpg?v=20260910a',
     source:null,
-    credit:'KI-generiertes Bild'
+    credit:'KI-generiert · ES Effizienz Services'
   };
 
   if(!document.getElementById('service-compact-v2')){
