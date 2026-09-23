@@ -404,3 +404,11 @@ form?.addEventListener('submit',e=>{
   const status=document.querySelector('#formStatus');if(status)status.textContent=`Ihr E-Mail-Programm wird geöffnet. Die Nachricht wird an ${EMAIL} vorbereitet.`;
   window.location.href=`mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
+
+if(!document.getElementById('image-credits-script')){
+  const imageCreditsScript=document.createElement('script');
+  imageCreditsScript.id='image-credits-script';
+  imageCreditsScript.src='/image-credits.js?v=20260923a';
+  imageCreditsScript.async=false;
+  document.head.append(imageCreditsScript);
+}
