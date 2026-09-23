@@ -50,13 +50,13 @@
   }
 
   const STOCK_RULES=[
-    {needle:'photo-1776655890108-b8b0a8f3b5cf',label:'Foto · Ellen Qin / Unsplash',href:'https://unsplash.com/photos/modern-white-house-with-minimalist-landscaping-and-clean-design-GEkHoBMJxjs'},
-    {needle:'photo-1759355787286-f1c5fd456a0d',label:'Foto · ubeyonroad / Unsplash',href:'https://unsplash.com/photos/modern-house-with-manicured-hedges-and-gate-4b25Ic2VjiQ'},
-    {needle:'photo-1766603636671-484c4911a84b',label:'Foto · Alef Morais / Unsplash',href:'https://unsplash.com/photos/modern-house-with-palm-trees-and-green-lawn-BnRBFRv2WZA'},
-    {needle:'photo-1780932564199-1bcb4d9e6571',label:'Foto · Jimmy Liu / Unsplash',href:'https://unsplash.com/photos/cardboard-boxes-on-wheels-moving-past-apartment-buildings-J5KT6e4YLfA'},
-    {needle:'photo-1769955506606-7d6437f9c9d1',label:'Foto · Eugeniya Belova / Unsplash',href:'https://unsplash.com/photos/snow-plow-clearing-street-in-warm-winter-sunlight-4pv8-2E_q3g'},
-    {needle:'photo-1768321917661-d4f1a89d2185',label:'Foto · Olek Buzunov / Unsplash',href:'https://unsplash.com/photos/interior-of-building-under-renovation-with-exposed-framing-J2AdfKkDY5s'},
-    {needle:'photo-1758523670991-ee93bc48d81d',label:'Foto · Vitaly Gariev / Unsplash',href:'https://unsplash.com/photos/couple-carrying-moving-boxes-into-a-new-home-vV5iOAidkQE'}
+    {needle:'photo-1776655890108-b8b0a8f3b5cf',label:'Foto: Ellen Qin · Unsplash',href:'https://unsplash.com/photos/modern-white-house-with-minimalist-landscaping-and-clean-design-GEkHoBMJxjs'},
+    {needle:'photo-1759355787286-f1c5fd456a0d',label:'Foto: ubeyonroad · Unsplash',href:'https://unsplash.com/photos/modern-house-with-manicured-hedges-and-gate-4b25Ic2VjiQ'},
+    {needle:'photo-1766603636671-484c4911a84b',label:'Foto: Alef Morais · Unsplash',href:'https://unsplash.com/photos/modern-house-with-palm-trees-and-green-lawn-BnRBFRv2WZA'},
+    {needle:'photo-1780932564199-1bcb4d9e6571',label:'Foto: Jimmy Liu · Unsplash',href:'https://unsplash.com/photos/cardboard-boxes-on-wheels-moving-past-apartment-buildings-J5KT6e4YLfA'},
+    {needle:'photo-1769955506606-7d6437f9c9d1',label:'Foto: Eugeniya Belova · Unsplash',href:'https://unsplash.com/photos/snow-plow-clearing-street-in-warm-winter-sunlight-4pv8-2E_q3g'},
+    {needle:'photo-1768321917661-d4f1a89d2185',label:'Foto: Olek Buzunov · Unsplash',href:'https://unsplash.com/photos/interior-of-building-under-renovation-with-exposed-framing-J2AdfKkDY5s'},
+    {needle:'photo-1758523670991-ee93bc48d81d',label:'Foto: Vitaly Gariev · Unsplash',href:'https://unsplash.com/photos/couple-carrying-moving-boxes-into-a-new-home-vV5iOAidkQE'}
   ];
 
   const urlObject=raw=>{
@@ -72,17 +72,17 @@
     if(/(?:^|\/)(?:Picture2\.png|logo-transparent\.jpg|detail-shape\.webp)$/i.test(decodedPath))return null;
 
     if(/\/assets\/winterdienst-rhein-main\.(?:png|jpe?g)$/i.test(decodedPath)){
-      return {label:'KI-generiertes Bild',href:null};
+      return {label:'KI-generiert · ES Effizienz Services',href:null};
     }
 
     if(u.hostname==='images.unsplash.com'){
       const rule=STOCK_RULES.find(item=>u.href.includes(item.needle));
-      return rule||{label:'Foto · Unsplash',href:'https://unsplash.com/'};
+      return rule||{label:'Quelle: Unsplash',href:'https://unsplash.com/'};
     }
 
     if(u.hostname==='images.pexels.com'){
       return {
-        label:'Foto · Pexels',
+        label:'Quelle: Pexels',
         href:/35540157/.test(decodedPath)?'https://www.pexels.com/photo/35540157/':'https://www.pexels.com/'
       };
     }
@@ -91,7 +91,7 @@
       u.origin===location.origin &&
       /(?:^|\/)(?:IMG_\d+\.(?:jpe?g|png|webp)|ueber-uns(?:-new)?\.png|SAVE_20260907_190136\.jpg|WhatsApp Image .*\.jpe?g)$/i.test(decodedPath)
     ){
-      return {label:'Bild · ES Effizienz Services',href:null};
+      return {label:'Bildnachweis: ES Effizienz Services',href:null};
     }
 
     return null;
